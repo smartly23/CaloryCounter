@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,7 +25,10 @@ public class AuthUser implements Serializable {
     private String name;
     private String gender;
     private int age;
+    
+    @Column(unique = true)
     private String username;
+    
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
     
