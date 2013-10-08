@@ -27,7 +27,8 @@ public interface Dao<T> {
     void update(T entity);
     
     /*
-     * @throws IllegalArgumentException if parameter is null or invalid
+     * @throws IllegalArgumentException if parameter is null or invalid. Does not throw this exception if
+     * parameter is valid but given entity is nonexistent. 
      */
     void remove(T entity);
 }

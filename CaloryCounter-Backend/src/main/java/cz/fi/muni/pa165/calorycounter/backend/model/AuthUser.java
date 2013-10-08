@@ -27,7 +27,7 @@ public class AuthUser implements Serializable {
     private String gender;
     private int age;
     
-    @Column(unique = true)
+    @Column(unique = true, columnDefinition = "varchar(20)", nullable = false)
     private String username;
     
     @Enumerated(EnumType.STRING)
