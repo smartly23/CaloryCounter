@@ -63,7 +63,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
             // log: User not in DB
         }
         em.getTransaction().begin();
-        em.remove(record);                    // em.find je nutne, remove zmaze iba manazovanu entitu
+        em.remove(record);                    
         em.getTransaction().commit();
         // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
