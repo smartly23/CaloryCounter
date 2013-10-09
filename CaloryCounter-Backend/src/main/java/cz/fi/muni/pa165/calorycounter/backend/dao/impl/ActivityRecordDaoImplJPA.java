@@ -1,18 +1,24 @@
 package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
+import static cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA.log;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JPA/Hibernate DAO implementation - for operations on the persistence layer on
- * User entities.
+ * ActivityRecord entities.
  *
- * @author Martin Pasko (smartly23)
+ * @author Zdenek Lastuvka
  */
 public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
+    final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
+    
+    
     @PersistenceContext(name = "PU1")
     private EntityManager em;
 
@@ -60,7 +66,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
         }
         ActivityRecord activityRecord = em.find(ActivityRecord.class, record.getId());
         if (activityRecord == null) {
-            // log: User not in DB
+            log.error("Calories is not in DB");
         }
         em.getTransaction().begin();
         em.remove(record);                    

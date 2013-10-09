@@ -9,4 +9,5 @@ import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
  * @author Zdenek Lastuvka
  */
 public interface ActivityRecordDao extends Dao<ActivityRecord> {
+    
 }
