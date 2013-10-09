@@ -1,41 +1,100 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
-import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.SportActivity;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-
+/**
+ * JPA/Hibernate DAO implementation - for operations on the persistence layer on
+ * Calories entities.
+ *
+ * @author Jan Kucera (Greld)
+ */
 public class CaloriesDaoImplJPA implements CaloriesDao {
+    
+    
+    @PersistenceContext(name = "PU1")
+    private EntityManager em;
 
     @Override
     public Calories getByActivityWeightCat(SportActivity activity, WeightCategory weightCat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (activity == null || activity.getId() == null) {
+            throw new IllegalArgumentException("Invalid activity: null or id is null");
+        }
+        if (weightCat == null) {
+            throw new IllegalArgumentException("Invalid weightCat: null");
+        }
+        TypedQuery<Calories> query;
+        try {
+            query = em.createQuery("SELECT tbl FROM Calories tbl "
+                    + "WHERE tbl.activity = :activity and tbl.weightCat = :weightCat", Calories.class);
+            query.setParameter("activity", activity);
+            query.setParameter("weightCat", weightCat);
+        } catch (NoResultException nrex) {
+            throw new IllegalArgumentException("Invalid activity or weightCat: Calories nonexistent");
+        }
+        return query.getSingleResult();
     }
 
     @Override
-    public void create(AuthUser entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void create(Calories calories) {
+        if (validate(calories)) {
+            throw new IllegalArgumentException("Invalid user: null or null username of user");
+        }
+        em.getTransaction().begin();
+        em.merge(calories);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
+        // vyhradenych CRUD operacii - to nechceme
+        em.getTransaction().commit();
     }
 
     @Override
-    public AuthUser get(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Calories get(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Invalid id: null");
+        } else if (em.createQuery("SELECT tbl.id FROM Calories tbl WHERE tbl.id = "
+                + ":givenId", Long.class).setParameter("givenId", id).getResultList().size() < 1) {
+            throw new IllegalArgumentException("Invalid id: nonexistent");
+        }
+        return em.createQuery("SELECT tbl FROM Calories tbl"
+                + "WHERE tbl.id = :givenId", Calories.class).setParameter("givenId", id).getSingleResult();
+        // nechceme vracat manazovanu entitu (return em.find(AuthUser.class, id)), treba vyuzivat CRUD metody
     }
 
     @Override
-    public void update(AuthUser entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void update(Calories calories) {
+        if (validate(calories) || calories.getId() == null) {
+            throw new IllegalArgumentException("Invalid calories: null or with no id.");
+        } else if (em.createQuery("SELECT tbl.id FROM Calories tbl WHERE tbl.id = "
+                + ":givenId", Long.class).setParameter("givenId", calories.getId()).getResultList().size() < 1) {
+            throw new IllegalArgumentException("Invalid calories: nonexistent");
+        }
+        em.getTransaction().begin();
+        em.merge(calories);
+        em.getTransaction().commit();
     }
 
     @Override
-    public void remove(AuthUser entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void remove(Calories calories) {
+        if (validate(calories) || calories.getId() == null) {
+            throw new IllegalArgumentException("Invalid calories: null or with no id.");
+        }
+        Calories foundCalories = em.find(Calories.class, calories.getId());
+        if(foundCalories == null) {
+            // log: User not in DB
+        }
+        em.getTransaction().begin();
+        em.remove(calories);                    // em.find je nutne, remove zmaze iba manazovanu entitu
+        em.getTransaction().commit();
+        // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
+
     
+    private boolean validate(Calories calories) {
+        return (calories == null || calories.getWeightCat() == null || calories.getActivity() == null);
+    }
 }
