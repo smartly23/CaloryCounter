@@ -8,6 +8,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JPA/Hibernate DAO implementation - for operations on the persistence layer on
@@ -17,6 +19,7 @@ import javax.persistence.TypedQuery;
  */
 public class CaloriesDaoImplJPA implements CaloriesDao {
     
+    final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
     
     @PersistenceContext(name = "PU1")
     private EntityManager em;
@@ -85,7 +88,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
         }
         Calories foundCalories = em.find(Calories.class, calories.getId());
         if(foundCalories == null) {
-            // log: User not in DB
+            log.error("Calories is not in DB");
         }
         em.getTransaction().begin();
         em.remove(calories);                    // em.find je nutne, remove zmaze iba manazovanu entitu
