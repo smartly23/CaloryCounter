@@ -14,7 +14,7 @@ public interface Dao<T> {
     /*
      * @throws IllegalArgumentException if parameter is null or invalid
      */
-    void create(T entity);
+    Long create(T entity);
     
     /*
      * @throws IllegalArgumentException if parameter is null or invalid

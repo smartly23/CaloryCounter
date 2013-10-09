@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JPA/Hibernate DAO implementation - for operations on the persistence layer on
@@ -15,6 +17,7 @@ import javax.persistence.TypedQuery;
  */
 public class UserDaoImplJPA implements UserDao {
 
+    final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     @PersistenceContext(name = "PU1")
     private EntityManager em;
 
@@ -35,14 +38,14 @@ public class UserDaoImplJPA implements UserDao {
     }
 
     @Override
-    public void create(AuthUser user) {
+    public Long create(AuthUser user) {
         if (validate(user) || user.getUsername() == null) {
             throw new IllegalArgumentException("Invalid user: null or null username of user");
         }
-        em.getTransaction().begin();
-        em.merge(user);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
-        // vyhradenych CRUD operacii - to nechceme
-        em.getTransaction().commit();
+        AuthUser createdUser = em.merge(user);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
+                                                   // vyhradenych CRUD operacii - to nechceme
+        return createdUser.getId();
+        
     }
 
     @Override
@@ -66,9 +69,7 @@ public class UserDaoImplJPA implements UserDao {
                 + ":givenId", Long.class).setParameter("givenId", user.getId()).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid user: nonexistent");
         }
-        em.getTransaction().begin();
         em.merge(user);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -78,15 +79,13 @@ public class UserDaoImplJPA implements UserDao {
         }
         AuthUser authUser = em.find(AuthUser.class, user.getId());
         if(authUser == null) {
-            // log: User not in DB
+            log.error("Given user" + user + "is not in DB.");
         }
-        em.getTransaction().begin();
         em.remove(user);                    // em.find je nutne, remove zmaze iba manazovanu entitu
-        em.getTransaction().commit();
         // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
 
     private boolean validate(Object obj) {
-        return !(obj == null);
+        return obj == null;
     }
 }
