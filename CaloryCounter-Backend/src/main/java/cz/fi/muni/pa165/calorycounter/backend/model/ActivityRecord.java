@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.fi.muni.pa165.calorycounter.backend.model;
 
 import java.io.Serializable;
@@ -23,12 +19,11 @@ public class ActivityRecord implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;    
-    
+    private Long id;
     private int duration; //duration unit is minute
     private Date activityDate; //date is reserved by sql
     private int caloriesBurnt;
-
+    
     @ManyToOne
     private AuthUser authUser;
     
@@ -109,7 +104,4 @@ public class ActivityRecord implements Serializable {
     public String toString() {
         return "ActivityRecord{" + "id=" + id + ", duration=" + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + ", authUser=" + authUser + ", calories=" + calories + '}';
     }
-    
-    
-    
 }
