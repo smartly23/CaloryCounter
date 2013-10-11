@@ -21,7 +21,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     @Override
     public Long create(ActivityRecord record) {
-        if (record == null) {
+        if (validate(record)) {
             throw new IllegalArgumentException("Invalid record: null");
         }
         ActivityRecord createdRecord = em.merge(record);
@@ -43,7 +43,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     @Override
     public void update(ActivityRecord record) {
-        if (record == null || record.getId() == null) {
+        if (validate(record) || record.getId() == null) {
             throw new IllegalArgumentException("Invalid record: null or with no id.");
         } else if (em.createQuery("SELECT tbl.id FROM ActivityRecord tbl WHERE tbl.id = "
                 + ":givenId", Long.class).setParameter("givenId", record.getId()).getResultList().size() < 1) {
@@ -54,7 +54,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     @Override
     public void remove(ActivityRecord record) {
-        if (record == null || record.getId() == null) {
+        if (validate(record) || record.getId() == null) {
             throw new IllegalArgumentException("Invalid record: null or with no id.");
         }
         ActivityRecord activityRecord = em.find(ActivityRecord.class, record.getId());
@@ -63,5 +63,9 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
         }
 
         em.remove(record);
+    }
+
+    private boolean validate(ActivityRecord record) {
+        return (record == null || record.getAuthUser()== null || record.getCalories() == null);
     }
 }
