@@ -20,8 +20,11 @@ import org.slf4j.LoggerFactory;
 public class ActivityDaoImplJPA implements ActivityDao {
 
     final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
-    @PersistenceContext(name = "PU1")
     private EntityManager em;
+
+    public ActivityDaoImplJPA(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public Long create(Activity entity) {

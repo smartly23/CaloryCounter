@@ -3,7 +3,9 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
@@ -18,9 +20,12 @@ import org.slf4j.LoggerFactory;
 public class UserDaoImplJPA implements UserDao {
 
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
-    @PersistenceContext(name = "PU1")
     private EntityManager em;
 
+    public UserDaoImplJPA(EntityManager em) {
+        this.em = em;
+    }
+    
     @Override
     public AuthUser getByUsername(String username) {
         if (validate(username)) {
@@ -28,8 +33,8 @@ public class UserDaoImplJPA implements UserDao {
         }
         TypedQuery<AuthUser> query;
         try {
-            query = em.createQuery("SELECT tbl FROM AuthUser tbl"
-                    + "WHERE tbl.username = :uname", AuthUser.class);
+            query = em.createQuery("SELECT tbl FROM AuthUser tbl "
+                    + " WHERE tbl.username = :uname", AuthUser.class);
             query.setParameter("uname", username);
         } catch (NoResultException nrex) {
             throw new IllegalArgumentException("Invalid username: nonexistent");
@@ -56,7 +61,7 @@ public class UserDaoImplJPA implements UserDao {
                 + ":givenId", Long.class).setParameter("givenId", id).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid id: nonexistent");
         }
-        return em.createQuery("SELECT tbl FROM AuthUser tbl"
+        return em.createQuery("SELECT tbl FROM AuthUser tbl "
                 + "WHERE tbl.id = :givenId", AuthUser.class).setParameter("givenId", id).getSingleResult();
         // nechceme vracat manazovanu entitu (return em.find(AuthUser.class, id)), treba vyuzivat CRUD metody
     }

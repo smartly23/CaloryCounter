@@ -21,8 +21,11 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
     
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
     
-    @PersistenceContext(name = "PU1")
     private EntityManager em;
+
+    public CaloriesDaoImplJPA(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public Calories getByActivityWeightCat(Activity activity, WeightCategory weightCat) {
@@ -62,7 +65,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
                 + ":givenId", Long.class).setParameter("givenId", id).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid id: nonexistent");
         }
-        return em.createQuery("SELECT tbl FROM Calories tbl"
+        return em.createQuery("SELECT tbl FROM Calories tbl "
                 + "WHERE tbl.id = :givenId", Calories.class).setParameter("givenId", id).getSingleResult();
         // nechceme vracat manazovanu entitu (return em.find(AuthUser.class, id)), treba vyuzivat CRUD metody
     }

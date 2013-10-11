@@ -3,9 +3,6 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +15,10 @@ import org.slf4j.LoggerFactory;
 public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
-    @PersistenceContext(name = "PU1")
     private EntityManager em;
 
-    public ActivityRecordDaoImplJPA() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU1");
-        em = emf.createEntityManager();
+    public ActivityRecordDaoImplJPA(EntityManager em) {
+        this.em = em;
     }
 
     @Override
@@ -32,7 +27,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
             throw new IllegalArgumentException("Invalid record: null");
         }
         ActivityRecord createdRecord = em.merge(record);
-        return record.getId();
+        return createdRecord.getId();
     }
 
     @Override
@@ -43,7 +38,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
                 + ":givenId", Long.class).setParameter("givenId", id).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid id: nonexistent");
         }
-        return em.createQuery("SELECT tbl FROM ActivityRecord tbl"
+        return em.createQuery("SELECT tbl FROM ActivityRecord tbl "
                 + "WHERE tbl.id = :givenId", ActivityRecord.class).setParameter("givenId", id).getSingleResult();
         // nechceme vracat manazovanu entitu (return em.find(AuthUser.class, id)), treba vyuzivat CRUD metody
     }
