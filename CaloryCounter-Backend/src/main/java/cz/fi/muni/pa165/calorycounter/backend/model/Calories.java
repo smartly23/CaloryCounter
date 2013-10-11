@@ -28,7 +28,7 @@ public class Calories implements Serializable{
     private WeightCategory weightCat;
     
     @ManyToOne
-    private SportActivity activity;
+    private Activity activity;
 
     public Long getId() {
         return id;
@@ -54,11 +54,11 @@ public class Calories implements Serializable{
         this.weightCat = weightCat;
     }
 
-    public SportActivity getActivity() {
+    public Activity getActivity() {
         return activity;
     }
 
-    public void setActivity(SportActivity activity) {
+    public void setActivity(Activity activity) {
         this.activity = activity;
     }
 

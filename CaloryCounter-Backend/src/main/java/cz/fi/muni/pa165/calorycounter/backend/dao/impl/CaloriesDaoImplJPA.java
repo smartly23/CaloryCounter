@@ -2,7 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.backend.model.SportActivity;
+import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -25,7 +25,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
     private EntityManager em;
 
     @Override
-    public Calories getByActivityWeightCat(SportActivity activity, WeightCategory weightCat) {
+    public Calories getByActivityWeightCat(Activity activity, WeightCategory weightCat) {
         if (activity == null || activity.getId() == null) {
             throw new IllegalArgumentException("Invalid activity: null or id is null");
         }

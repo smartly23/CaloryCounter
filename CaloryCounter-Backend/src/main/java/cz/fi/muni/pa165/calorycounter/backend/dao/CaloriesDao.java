@@ -2,7 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao;
 
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.backend.model.SportActivity;
+import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
 
 /**
@@ -20,5 +20,5 @@ public interface CaloriesDao extends Dao<Calories>{
      * @return Calories for given sport activity and weight category.
      * @throws IllegalArgumentException if parameter is null or invalid
      */
-    Calories getByActivityWeightCat(SportActivity activity, WeightCategory weightCat);
+    Calories getByActivityWeightCat(Activity activity, WeightCategory weightCat);
 }

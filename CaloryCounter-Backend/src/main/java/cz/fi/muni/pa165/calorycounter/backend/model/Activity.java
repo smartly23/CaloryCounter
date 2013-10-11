@@ -14,7 +14,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class SportActivity implements Serializable {
+public class Activity implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -52,7 +52,7 @@ public class SportActivity implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final SportActivity other = (SportActivity) obj;
+        final Activity other = (Activity) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }

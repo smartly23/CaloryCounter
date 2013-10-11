@@ -102,6 +102,8 @@ public class ActivityRecord implements Serializable {
 
     @Override
     public String toString() {
-        return "ActivityRecord{" + "id=" + id + ", duration=" + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + ", authUser=" + authUser + ", calories=" + calories + '}';
+        return "ActivityRecord{" + "duration=" + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + ", authUser=" + authUser + ", calories=" + calories + '}';
     }
+
+
 }

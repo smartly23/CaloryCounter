@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
-import static cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA.log;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,20 +16,16 @@ import org.slf4j.LoggerFactory;
 public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
-    
-    
     @PersistenceContext(name = "PU1")
     private EntityManager em;
 
     @Override
-    public void create(ActivityRecord record) {
+    public Long create(ActivityRecord record) {
         if (record == null) {
             throw new IllegalArgumentException("Invalid record: null");
         }
-        em.getTransaction().begin();
-        em.merge(record);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
-        // vyhradenych CRUD operacii - to nechceme
-        em.getTransaction().commit();
+        ActivityRecord createdRecord = em.merge(record);
+        return record.getId();
     }
 
     @Override
@@ -54,9 +49,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
                 + ":givenId", Long.class).setParameter("givenId", record.getId()).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid user: nonexistent");
         }
-        em.getTransaction().begin();
         em.merge(record);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -68,9 +61,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
         if (activityRecord == null) {
             log.error("Calories is not in DB");
         }
-        em.getTransaction().begin();
-        em.remove(record);                    
-        em.getTransaction().commit();
-        // je potrebne pri inverznej zavislosti osetrit pre-removal
+
+        em.remove(record);
     }
 }
