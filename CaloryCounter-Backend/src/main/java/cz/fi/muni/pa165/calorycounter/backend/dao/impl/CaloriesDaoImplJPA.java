@@ -45,14 +45,13 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
     }
 
     @Override
-    public void create(Calories calories) {
+    public Long create(Calories calories) {
         if (validate(calories)) {
             throw new IllegalArgumentException("Invalid user: null or null username of user");
         }
-        em.getTransaction().begin();
-        em.merge(calories);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
+        Calories createdCalories = em.merge(calories);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
         // vyhradenych CRUD operacii - to nechceme
-        em.getTransaction().commit();
+        return createdCalories.getId();
     }
 
     @Override
@@ -76,9 +75,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
                 + ":givenId", Long.class).setParameter("givenId", calories.getId()).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid calories: nonexistent");
         }
-        em.getTransaction().begin();
         em.merge(calories);
-        em.getTransaction().commit();
     }
 
     @Override
@@ -90,9 +87,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
         if(foundCalories == null) {
             log.error("Calories is not in DB");
         }
-        em.getTransaction().begin();
         em.remove(calories);                    // em.find je nutne, remove zmaze iba manazovanu entitu
-        em.getTransaction().commit();
         // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
 
