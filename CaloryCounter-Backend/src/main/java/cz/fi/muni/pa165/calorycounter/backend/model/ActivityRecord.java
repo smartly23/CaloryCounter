@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 public class ActivityRecord implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int duration; //duration unit is minute
     private Date activityDate; //date is reserved by sql

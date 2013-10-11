@@ -3,6 +3,8 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,11 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
     @PersistenceContext(name = "PU1")
     private EntityManager em;
+
+    public ActivityRecordDaoImplJPA() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU1");
+        em = emf.createEntityManager();
+    }
 
     @Override
     public Long create(ActivityRecord record) {
@@ -66,6 +73,6 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
     }
 
     private boolean validate(ActivityRecord record) {
-        return (record == null || record.getAuthUser()== null || record.getCalories() == null);
+        return (record == null || record.getAuthUser() == null || record.getCalories() == null);
     }
 }
