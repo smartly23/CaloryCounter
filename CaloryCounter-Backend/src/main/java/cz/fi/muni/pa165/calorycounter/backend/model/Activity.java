@@ -61,7 +61,7 @@ public class Activity implements Serializable {
     
     @Override
     public String toString() {
-        return "SportActivity{ id= " + id + ", name= " + name + " }";
+        return "SportActivity{ name= " + name + " }";
     }
     
     

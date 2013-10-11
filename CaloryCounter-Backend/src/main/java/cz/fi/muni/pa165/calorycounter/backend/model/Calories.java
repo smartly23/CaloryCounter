@@ -86,7 +86,7 @@ public class Calories implements Serializable{
 
     @Override
     public String toString() {
-        return "Calories{" + "id=" + id + ", amount=" + amount + ", weightCat=" + weightCat + ", activity=" + activity + '}';
+        return "Calories{ amount=" + amount + ", weightCat=" + weightCat + ", activity=" + activity + '}';
     }
     
     
