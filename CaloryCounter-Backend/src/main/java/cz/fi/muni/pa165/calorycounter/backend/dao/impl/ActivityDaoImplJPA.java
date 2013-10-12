@@ -64,6 +64,8 @@ public class ActivityDaoImplJPA implements ActivityDao {
         if (activity == null) {
             LOG.error("Given activity" + entity + "is not in DB.");
         }
+        em.getTransaction().begin();
         em.remove(entity);
+        em.getTransaction().commit();
     }
 }
