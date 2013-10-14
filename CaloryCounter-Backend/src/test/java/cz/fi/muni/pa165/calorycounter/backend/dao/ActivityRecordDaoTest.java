@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.fi.muni.pa165.calorycounter.backend.dao;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
@@ -17,10 +13,10 @@ import java.sql.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transaction;
 import static org.junit.Assert.*;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 /**
  *
  * @author Jan Kucera (Greld)
@@ -42,8 +38,15 @@ public class ActivityRecordDaoTest {
     private CaloriesDao caloriesDao;
     private ActivityDao activityDao;
     
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    
+    /**
+     *  Test of CRUD methods
+     */
     @Test
-    public void testCreate() {
+    public void testCRUD() {
         
         ActivityRecord activityRecord = new ActivityRecord();
         activityRecord.setDuration(60*20);
@@ -89,6 +92,8 @@ public class ActivityRecordDaoTest {
         
         activityRecord.setCaloriesBurnt(createdCalories.getAmount());
         
+        
+        /***** Create ***/
         em.getTransaction().begin();
         Long actRecId = activityRecordDao.create(activityRecord);
         em.getTransaction().commit();
@@ -96,17 +101,53 @@ public class ActivityRecordDaoTest {
         assertNotNull("ID is null", actRecId);
         assertFalse("ID is 0", actRecId == 0);
         
+        
+        /***** Get ***/
         ActivityRecord createdActRec = activityRecordDao.get(actRecId); 
         assertNotNull("ActivityRecord was not received by id", createdActRec);
         
-        /* vycistime DB ? 
-            em.getTransaction().begin();
-            activityDao.remove(createdActivity);
-            caloriesDao.remove(createdCalories);
-            userDao.remove(createdUser);
-            activityRecordDao.remove(createdActRec);
-            em.getTransaction().commit();
-        */
+        
+        /**** Update ****/
+        activityRecord.setId(actRecId);
+        activityRecord.setDuration(60*10);
+        em.getTransaction().begin();
+        activityRecordDao.update(activityRecord);
+        em.getTransaction().commit();
+        ActivityRecord updatedActRec = activityRecordDao.get(actRecId); 
+        assertNotNull("ActivityRecord was not received by id after update", updatedActRec);
+        assertEquals(60*10, updatedActRec.getDuration());
+        
+        
+        /****** Remove  *****/
+        em.getTransaction().begin();
+        activityRecordDao.remove(createdActRec);
+        em.getTransaction().commit();
+        exception.expect(IllegalArgumentException.class);
+        activityDao.get(actRecId);
+        exception = ExpectedException.none();
+        
+        em.getTransaction().begin();
+        userDao.remove(createdUser);
+        em.getTransaction().commit();
+        exception.expect(IllegalArgumentException.class);
+        activityDao.get(userId);
+        exception = ExpectedException.none();
+        
+        em.getTransaction().begin();
+        caloriesDao.remove(createdCalories);
+        em.getTransaction().commit();
+        exception.expect(IllegalArgumentException.class);
+        activityDao.get(caloriesId);
+        exception = ExpectedException.none();
+        
+        em.getTransaction().begin();
+        activityDao.remove(createdActivity);
+        em.getTransaction().commit();
+        exception.expect(IllegalArgumentException.class);
+        activityDao.get(activityId);
+        exception = ExpectedException.none();
+                
+                
     }
     
 }
