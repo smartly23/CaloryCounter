@@ -1,38 +1,24 @@
-package cz.fi.muni.pa165.calorycounter.backend.model;
+package cz.fi.muni.pa165.calorycounter.backend.dto;
 
-import java.io.Serializable;
+import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
- * This entity represents registered, logged and authenticated user.
+ * DTO for AuthUser entity.
  *
  * @author Martin Pasko (smartly23)
  */
-@Entity
-public class AuthUser implements Serializable {
+public class AuthUserDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Long userId; // null if first created
     private String name;
     private String gender;
     private int age;
-    @Column(unique = true, columnDefinition = "varchar(20)", nullable = false)
     private String username;
-    @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
-    @OneToMany(mappedBy = "authUser", cascade = CascadeType.ALL)
-    private List<ActivityRecord> records;
+    private List<ActivityRecordDto> records;
 
     public Long getId() {
         return id;
@@ -82,18 +68,26 @@ public class AuthUser implements Serializable {
         this.weightCat = weightCat;
     }
 
-    public List<ActivityRecord> getRecords() {
+    public List<ActivityRecordDto> getRecords() {
         return records;
     }
 
-    public void setRecords(List<ActivityRecord> records) {
+    public void setRecords(List<ActivityRecordDto> records) {
         this.records = records;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.id);
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -105,7 +99,7 @@ public class AuthUser implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AuthUser other = (AuthUser) obj;
+        final AuthUserDto other = (AuthUserDto) obj;
         if (!Objects.equals(this.id, other.id)) {
             return false;
         }
@@ -114,6 +108,7 @@ public class AuthUser implements Serializable {
 
     @Override
     public String toString() {
-        return "AuthUser{ name= " + name + ", gender= " + gender + ", age= " + age + " }";
+        return "AuthUserDto{" + "name=" + name + ", gender=" + gender + ", age=" + age + ", username="
+                + username + ", weightCat=" + weightCat + '}';
     }
 }
