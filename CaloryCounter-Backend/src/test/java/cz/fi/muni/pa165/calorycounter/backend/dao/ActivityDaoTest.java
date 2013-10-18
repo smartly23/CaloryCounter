@@ -54,9 +54,6 @@ public class ActivityDaoTest {
 
     @After
     public void tearDown() {
-
-        // vycistit DB?
-
         em.close();
         if (em2 != null && em2.isOpen()) {
             em2.close();
