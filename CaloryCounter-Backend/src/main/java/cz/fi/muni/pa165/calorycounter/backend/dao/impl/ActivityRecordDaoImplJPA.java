@@ -61,7 +61,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
         }
         ActivityRecord activityRecord = em.find(ActivityRecord.class, record.getId());
         if (activityRecord == null) {
-            log.error("Calories is not in DB");
+            log.error("ActivityRecord is not in DB");
         }
 
         em.remove(record);
