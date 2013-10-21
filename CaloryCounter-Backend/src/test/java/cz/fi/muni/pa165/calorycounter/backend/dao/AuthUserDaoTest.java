@@ -156,6 +156,7 @@ public class AuthUserDaoTest {
 
     @Test
     public void testGetByUsername() {
+        System.out.println(""+luke.getUsername());
         AuthUser userByUsername = authUserDao.getByUsername(luke.getUsername());
         assertTrue("User was not found by username", userByUsername != null);
         assertTrue("Username of the user returned is not correct", userByUsername.getUsername().equals(luke.getUsername()));

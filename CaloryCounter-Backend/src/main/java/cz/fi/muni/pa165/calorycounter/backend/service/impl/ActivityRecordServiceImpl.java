@@ -24,7 +24,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
     @Override
     public Long create(ActivityRecordDto dto) {
         ActivityRecordConvert convert = new ActivityRecordConvert();
-        ActivityRecord entity = convert.fromDtoToEntity(dto);
+        ActivityRecord entity = convert.fromDtoToEntity(dto, em);
         if (entity.getId() != null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot create activity record that"
                     + " already exists. Use update instead.");

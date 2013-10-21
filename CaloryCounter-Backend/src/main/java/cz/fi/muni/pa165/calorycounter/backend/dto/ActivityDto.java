@@ -1,5 +1,8 @@
 package cz.fi.muni.pa165.calorycounter.backend.dto;
 
+import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
+import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -9,58 +12,28 @@ import java.util.Objects;
  */
 public class ActivityDto {
 
-    private Long id;
-    private Long activityId; // null if first created
-    private String name;
+    private String activityName;
+    private Map<WeightCategory, Calories> weightCalories;
 
-    public Long getId() {
-        return id;
+    public String getActivityName() {
+        return activityName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 
-    public String getName() {
-        return name;
+    public Map<WeightCategory, Calories> getWeightCalories() {
+        return weightCalories;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Long activityId) {
-        this.activityId = activityId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 43 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ActivityDto other = (ActivityDto) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+    public void setWeightCalories(Map<WeightCategory, Calories> weightCalories) {
+        this.weightCalories = weightCalories;
     }
 
     @Override
     public String toString() {
-        return "ActivityDto{" + "name=" + name + '}';
+        return "ActivityDto{" + "activityName=" + activityName + ", weightCalories=" + weightCalories + '}';
     }
+
 }
