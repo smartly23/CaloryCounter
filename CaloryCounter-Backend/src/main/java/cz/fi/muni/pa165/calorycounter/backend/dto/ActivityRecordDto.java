@@ -11,7 +11,7 @@ import java.util.Objects;
 public class ActivityRecordDto {
 
     private Long activityRecordId;
-    private Long userId;
+    private Long userId;    // MUST be in every object
     private String activityName;
     private int weightCatNum;   // According to the ordering in the enum, starting from 1!!!
     private int duration; //duration unit is minute
@@ -76,9 +76,8 @@ public class ActivityRecordDto {
 
     @Override
     public String toString() {
-        return "ActivityRecordDto{" + "activityRecordId=" + activityRecordId + ", userId=" + userId + 
-                ", activityName=" + activityName + ", weightCatNum=" + weightCatNum + ", duration=" 
+        return "ActivityRecordDto{" + "activityRecordId=" + activityRecordId + ", userId=" + userId
+                + ", activityName=" + activityName + ", weightCatNum=" + weightCatNum + ", duration="
                 + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + '}';
     }
-
 }
