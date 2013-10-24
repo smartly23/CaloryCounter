@@ -18,10 +18,12 @@ import org.slf4j.LoggerFactory;
  * @author Jan Kucera (Greld)
  */
 public class CaloriesDaoImplJPA implements CaloriesDao {
-    
+
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
-    
     private EntityManager em;
+
+    public CaloriesDaoImplJPA() {
+    }
 
     public CaloriesDaoImplJPA(EntityManager em) {
         this.em = em;
@@ -87,14 +89,13 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
             throw new IllegalArgumentException("Invalid calories: null or with no id.");
         }
         Calories foundCalories = em.find(Calories.class, calories.getId());
-        if(foundCalories == null) {
+        if (foundCalories == null) {
             log.error("Calories is not in DB");
         }
         em.remove(calories);                    // em.find je nutne, remove zmaze iba manazovanu entitu
         // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
 
-    
     private boolean validate(Calories calories) {
         return (calories == null || calories.getWeightCat() == null || calories.getActivity() == null);
     }

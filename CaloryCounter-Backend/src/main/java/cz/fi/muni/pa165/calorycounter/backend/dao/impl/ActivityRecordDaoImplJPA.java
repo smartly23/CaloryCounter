@@ -17,6 +17,9 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
     private EntityManager em;
 
+    public ActivityRecordDaoImplJPA() {
+    }
+
     public ActivityRecordDaoImplJPA(EntityManager em) {
         this.em = em;
     }

@@ -19,6 +19,9 @@ public class UserDaoImplJPA implements UserDao {
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     private EntityManager em;
 
+    public UserDaoImplJPA() {
+    }
+
     public UserDaoImplJPA(EntityManager em) {
         this.em = em;
     }

@@ -5,7 +5,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
+//import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
@@ -26,11 +26,12 @@ import org.slf4j.LoggerFactory;
 public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRecordDto> {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
+    ActivityRecordDao activityRecordDao; //= new ActivityRecordDaoImplJPA(em);
 
     @Override
     public ActivityRecord fromDtoToEntity(ActivityRecordDto dto, EntityManager em) {
         ActivityRecord entity;
-        ActivityRecordDao activityRecordDao = new ActivityRecordDaoImplJPA(em);
+        //ActivityRecordDao activityRecordDao = new ActivityRecordDaoImplJPA(em);
 
         if (dto.getActivityRecordId() != null) {
             entity = activityRecordDao.get(dto.getActivityRecordId());
