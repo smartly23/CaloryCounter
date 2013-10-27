@@ -22,6 +22,9 @@ public class ActivityDaoImplJPA implements ActivityDao {
     final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
     private EntityManager em;
 
+    public ActivityDaoImplJPA() {
+    }
+
     public ActivityDaoImplJPA(EntityManager em) {
         this.em = em;
     }

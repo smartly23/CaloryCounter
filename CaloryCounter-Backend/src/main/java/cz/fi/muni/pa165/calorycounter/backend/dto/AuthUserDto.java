@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.calorycounter.backend.dto;
 
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -11,21 +10,18 @@ import java.util.Objects;
  */
 public class AuthUserDto {
 
-    private Long id;
-    private Long userId; // null if first created
+    private Long userId;
     private String name;
-    private String gender;
+    private String sex;
     private int age;
-    private String username;
-    private WeightCategory weightCat;
-    private List<ActivityRecordDto> records;
+    private WeightCategory weightCatNum;
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -36,12 +32,12 @@ public class AuthUserDto {
         this.name = name;
     }
 
-    public String getGender() {
-        return gender;
+    public String getSex() {
+        return sex;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public int getAge() {
@@ -52,63 +48,19 @@ public class AuthUserDto {
         this.age = age;
     }
 
-    public String getUsername() {
-        return username;
+    public WeightCategory getWeightCatNum() {
+        return weightCatNum;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public WeightCategory getWeightCat() {
-        return weightCat;
-    }
-
-    public void setWeightCat(WeightCategory weightCat) {
-        this.weightCat = weightCat;
-    }
-
-    public List<ActivityRecordDto> getRecords() {
-        return records;
-    }
-
-    public void setRecords(List<ActivityRecordDto> records) {
-        this.records = records;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 59 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AuthUserDto other = (AuthUserDto) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
+    public void setWeightCatNum(WeightCategory weightCatNum) {
+        this.weightCatNum = weightCatNum;
     }
 
     @Override
     public String toString() {
-        return "AuthUserDto{" + "name=" + name + ", gender=" + gender + ", age=" + age + ", username="
-                + username + ", weightCat=" + weightCat + '}';
+        return "AuthUserDto{" + "userId=" + userId + ", name=" + name + ", sex=" + sex + ", age=" 
+                + age + ", weightCatNum=" + weightCatNum + '}';
     }
+
+
 }

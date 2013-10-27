@@ -19,24 +19,29 @@ public class UserDaoImplJPA implements UserDao {
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     private EntityManager em;
 
+    public UserDaoImplJPA() {
+    }
+
     public UserDaoImplJPA(EntityManager em) {
         this.em = em;
     }
-    
+
     @Override
     public AuthUser getByUsername(String username) {
         if (validate(username)) {
             throw new IllegalArgumentException("Invalid username: null");
         }
         TypedQuery<AuthUser> query;
+        AuthUser returnedUser;
         try {
             query = em.createQuery("SELECT tbl FROM AuthUser tbl "
                     + " WHERE tbl.username = :uname", AuthUser.class);
             query.setParameter("uname", username);
+            returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
         } catch (NoResultException nrex) {
             throw new IllegalArgumentException("Invalid username: nonexistent");
         }
-        return query.getSingleResult();
+        return returnedUser;
     }
 
     @Override
@@ -45,9 +50,9 @@ public class UserDaoImplJPA implements UserDao {
             throw new IllegalArgumentException("Invalid user: null or null username of user");
         }
         AuthUser createdUser = em.merge(user);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
-                                                   // vyhradenych CRUD operacii - to nechceme
+        // vyhradenych CRUD operacii - to nechceme
         return createdUser.getId();
-        
+
     }
 
     @Override
@@ -80,7 +85,7 @@ public class UserDaoImplJPA implements UserDao {
             throw new IllegalArgumentException("Invalid user: null or with no id.");
         }
         AuthUser authUser = em.find(AuthUser.class, user.getId());
-        if(authUser == null) {
+        if (authUser == null) {
             log.error("Given user" + user + "is not in DB.");
         }
         em.remove(user);                    // em.find je nutne, remove zmaze iba manazovanu entitu

@@ -1,37 +1,51 @@
 package cz.fi.muni.pa165.calorycounter.backend.service.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
+//import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.service.ActivityRecordService;
 import javax.persistence.EntityManager;
+//import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.dao.DataAccessException;
+//import org.springframework.stereotype.Service;
 
 /**
  * User service for all operations on ActivityRecord DTO.
  *
  * @author Martin Pasko (smartly23)
  */
+//@Service
+@Transactional(readOnly = true)
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    // injektovat zo Springu
+    //@PersistenceContext
     private EntityManager em;
+    private ActivityRecordConvert convert = new ActivityRecordConvert();
+    private ActivityRecordDao activityRecordDao; //= new ActivityRecordDaoImplJPA(em);
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
+    // to Propagation.REQUIRED je tam aj defaultne, ak nechceme nastavit inu tak to tam neni nutne
+    // rollbackFor - automaticky sa spusti rollback pre vsetky RuntimeException, ale NIE pre checked Ex-s
+    // DataAccessException je runtime, teda to tam neni nutne deklarovat
     public Long create(ActivityRecordDto dto) {
-        ActivityRecordConvert convert = new ActivityRecordConvert();
-        ActivityRecord entity = convert.fromDtoToEntity(dto);
-        if (entity.getId() != null) {
+        if (dto.getActivityRecordId() != null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot create activity record that"
                     + " already exists. Use update instead.");
             log.error("ActivityRecordServiceImpl.create() called on existing entity", iaex);
             throw iaex;
         } else {
-            ActivityRecordDao activityRecordDao = new ActivityRecordDaoImplJPA(em);
+            em.getTransaction().begin();
+            ActivityRecord entity = convert.fromDtoToEntity(dto, em);
+            em.getTransaction().commit();   // must commit SEPARATELY to have Activity and Calories objects' id set up
+
             em.getTransaction().begin();        // ak budeme robit fasadu, tak transakcie posunut az tam hore
             activityRecordDao.create(entity);
             em.getTransaction().commit();
@@ -41,17 +55,36 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     @Override
     public ActivityRecordDto get(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ActivityRecord entity = activityRecordDao.get(id);
+        ActivityRecordDto dto = convert.fromEntityToDto(entity);
+        return dto;
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void update(ActivityRecordDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (dto.getActivityRecordId() == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot update activity record that"
+                    + " doesn't exist. Use create instead.");
+            log.error("ActivityRecordServiceImpl.update() called on non-existent entity", iaex);
+            throw iaex;
+        } else {
+            ActivityRecord entity = convert.fromDtoToEntity(dto, em);
+            activityRecordDao.update(entity);
+        }
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void remove(ActivityRecordDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (dto.getActivityRecordId() == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove activity record that"
+                    + " doesn't exist.");
+            log.error("ActivityRecordServiceImpl.remove() called on non-existent entity", iaex);
+            throw iaex;
+        } else {
+            activityRecordDao.remove(activityRecordDao.get(dto.getActivityRecordId()));
+        }
     }
 
     public void setEm(EntityManager em) {

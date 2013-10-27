@@ -10,20 +10,44 @@ import java.util.Objects;
  */
 public class ActivityRecordDto {
 
-    private Long id;
-    private Long activityRecordId; // null if it was first created
+    private Long activityRecordId;
+    private Long userId;    // MUST be in every object
+    private String activityName;
+    private int weightCatNum;   // According to the ordering in the enum, starting from 1!!!
     private int duration; //duration unit is minute
     private Date activityDate; // na prezentacnej vrstve bude util.Date = treba konvertovat medzi DTO a DAO
     private int caloriesBurnt;
-    private AuthUserDto authUser;
-    private CaloriesDto calories;
 
-    public Long getId() {
-        return id;
+    public Long getActivityRecordId() {
+        return activityRecordId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setActivityRecordId(Long activityRecordId) {
+        this.activityRecordId = activityRecordId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getActivityName() {
+        return activityName;
+    }
+
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
+    public int getWeightCatNum() {
+        return weightCatNum;
+    }
+
+    public void setWeightCatNum(int weightCatNum) {
+        this.weightCatNum = weightCatNum;
     }
 
     public int getDuration() {
@@ -50,55 +74,10 @@ public class ActivityRecordDto {
         this.caloriesBurnt = caloriesBurnt;
     }
 
-    public AuthUserDto getAuthUser() {
-        return authUser;
-    }
-
-    public void setAuthUser(AuthUserDto authUser) {
-        this.authUser = authUser;
-    }
-
-    public CaloriesDto getCalories() {
-        return calories;
-    }
-
-    public void setCalories(CaloriesDto calories) {
-        this.calories = calories;
-    }
-
-    public Long getActivityRecordId() {
-        return activityRecordId;
-    }
-
-    public void setActivityRecordId(Long activityRecordId) {
-        this.activityRecordId = activityRecordId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final ActivityRecordDto other = (ActivityRecordDto) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public String toString() {
-        return "ActivityRecordDto{" + "duration=" + duration + ", activityDate=" + activityDate + ", caloriesBurnt="
-                + caloriesBurnt + ", authUser=" + authUser + ", calories=" + calories + '}';
+        return "ActivityRecordDto{" + "activityRecordId=" + activityRecordId + ", userId=" + userId
+                + ", activityName=" + activityName + ", weightCatNum=" + weightCatNum + ", duration="
+                + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + '}';
     }
 }
