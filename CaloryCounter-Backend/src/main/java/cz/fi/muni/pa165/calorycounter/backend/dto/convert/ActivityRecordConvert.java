@@ -4,7 +4,6 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
@@ -25,6 +24,8 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     private ActivityRecordDao activityRecordDao; // concrete implementation in Spring config file
     private ActivityDao activityDao; // concrete implementation in Spring config file
     private CaloriesDao caloriesDao; // concrete implementation in Spring config file
+    private UserDao userDao; // concrete implementation in Spring config file
+
 
     /*
      * Converts ActivityRecord DTO to appropriate entity.
@@ -52,9 +53,6 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
-            //activityDao = new ActivityDaoImplJPA();
-            System.out.println("activity dao: "+activityDao);
-            System.out.println("activity: "+activity);
             activityDao.create(activity);
             calories.setActivity(activity);
             for (WeightCategory cat : WeightCategory.values()) {
@@ -69,7 +67,7 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
         }
 
         if (dto.getUserId() != null) {
-            UserDao userDao = new UserDaoImplJPA();
+            //UserDao userDao = new UserDaoImplJPA();
             entity.setAuthUser((AuthUser) userDao.get(dto.getUserId()));
             // conversion method is not responsible for checking any data consistence
         } else {
@@ -120,5 +118,9 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
 
     public void setCaloriesDao(CaloriesDao caloriesDao) {
         this.caloriesDao = caloriesDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }

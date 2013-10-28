@@ -21,11 +21,9 @@ public class ToDo {
      * 1. checkpoint assignment: "API of backend will use dedicated transfer objects, not entities" - mame
      * to teraz dobre? Ak nie, ako inak by sme mohli pracovat s DAO bez toho aby sme si konvertli DTO na DAO
      * niekde v business vrstve?
-     * 2. to injektovanie - ci injektuje singleton, a ak to nastavime ako prototype, ci je to stale ta ista
-     * instancia
      * 3. DataAccessException - ktoru podtriedu mame vyhadzovat?
-     * 4. ako dostat EntityManager do toho persistence-contextu?
-     * 5. preco nefunguju tie bean-injection?
+     * 4. ako dostat EntityManager do toho persistence-contextu: staci LocalEntityManagerFactoryBean?
+     * (Shared EntityManager proxy for target factory [org.springframework.orm.jpa.LocalEntityManagerFactoryBean@5e4b530d])
 
      */
 }

@@ -21,7 +21,7 @@ public class ActivityDaoImplJPA implements ActivityDao {
 
     final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
-    @PersistenceContext(unitName = "PU1")
+    @PersistenceContext
     private EntityManager em;
 
     public ActivityDaoImplJPA() {
@@ -37,7 +37,6 @@ public class ActivityDaoImplJPA implements ActivityDao {
         if (entity == null) {
             throw new IllegalArgumentException("Invalid entity (Activity): " + entity);
         }
-        System.out.println("em: "+em);
         Activity activity = em.merge(entity);
         return activity.getId();
     }

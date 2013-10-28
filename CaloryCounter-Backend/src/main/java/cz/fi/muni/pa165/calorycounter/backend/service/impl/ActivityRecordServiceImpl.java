@@ -9,7 +9,6 @@ import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessException
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataAccessException;
@@ -25,9 +24,9 @@ import org.springframework.stereotype.Service;
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    private ActivityRecordConvert convert = new ActivityRecordConvert();
-    // concrete implementation injected from Spring
-    @Autowired
+    // injected by setter from Spring
+    private ActivityRecordConvert convert;
+    // concrete implementation injected by setter from Spring
     private ActivityRecordDao activityRecordDao;
 
     /*
@@ -50,6 +49,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                 @Override
                 public Long doMethod() {
                     ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
+                    System.out.println("activityRecordDao inside ServiceImpl: "+activityRecordDao);
                     activityRecordDao.create(entity);
                     return entity.getId();
                 }
@@ -141,6 +141,10 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {
         this.activityRecordDao = activityRecordDao;
+    }
+
+    public void setConvert(ActivityRecordConvert convert) {
+        this.convert = convert;
     }
     
 }

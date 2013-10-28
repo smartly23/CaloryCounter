@@ -4,43 +4,42 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
 import java.util.Date;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-//import org.junit.runner.RunWith;
-import static org.mockito.Mockito.*;
+import org.junit.runner.RunWith;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.test.context.ContextConfiguration;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Propagation;
 
 /**
  * Unit Tests using Mockito to mock DAO objects.
  *
  * @author Martin Pasko (smartly23)
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {
-//    "classpath:applicationContext.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {
+    "classpath:applicationContext.xml"})
+@TransactionConfiguration(defaultRollback = true)
+@Transactional
 public class ActivityRecordServiceTest {
 
     private static AuthUser user;
-    //@Autowired
     private static ActivityRecordService activityRecordService;
+    @PersistenceContext
+    private EntityManager em;
     
     @BeforeClass
     public static void setUpOnce() {
-        user = mock(AuthUser.class);
-        user.setAge(35);
-        user.setGender("female");
-        user.setId(new Long(1));
-        user.setName("Edita Papeky");
-        user.setWeightCat(WeightCategory._180_);
-        
         ApplicationContext context = new ClassPathXmlApplicationContext(
                 "applicationContext.xml");
         activityRecordService = (ActivityRecordService) context.getBean("activityRecordService");
@@ -51,11 +50,21 @@ public class ActivityRecordServiceTest {
     }
 
     @Before
-    public void setUp() {  
+    public void setUp() {
+        user = new AuthUser();
+        user.setAge(35);
+        user.setGender("female");
+        user.setName("Edita Papeky");
+        user.setWeightCat(WeightCategory._180_);
+        em.persist(user);
     }
 
     @After
     public void tearDown() {
+        //if (em != null) {
+        //    em.close();
+        //}
+        user = null;
     }
 
     @Test
@@ -70,7 +79,8 @@ public class ActivityRecordServiceTest {
         dto.setUserId(user.getId());
         
         // test create():
-        Long id = activityRecordService.create(dto);
+        //Long id = activityRecordService.create(dto);
+        Long id = temp(dto);
         assertNotNull(id);
         System.out.println("Id is: "+id);
     }
@@ -83,4 +93,10 @@ public class ActivityRecordServiceTest {
     
     @Test
     public void testRemove() {}
+    
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    private Long temp(ActivityRecordDto dto) {
+        Long id = activityRecordService.create(dto);
+        return id;
+    }
 }
