@@ -11,8 +11,18 @@ public class ToDo {
      * 4. DataAccessException
      * 5. ten AOP na opakujuce sa casti kodu
      * 6. ActivityRecordConvert: issue na r. 41
-     * 7. Testy!
+     * 7. Testy! + Javadoc!
      * 8. Neskor: logovanie tiez robit cez Spring Aspect, a nie priamo v business kode. Detto vsetky URL typu
      * jdbc:derby://localhost:1527/CaloryDB nastavit v samostatnom properties subore a cez PropertyPlaceholderConfigurer.
+     */
+    
+    /*
+     * Co sa ho chcem spytat:
+     * 1. checkpoint assignment: "API of backend will use dedicated transfer objects, not entities" - mame
+     * to teraz dobre? Ak nie, ako inak by sme mohli pracovat s DAO bez toho aby sme si konvertli DTO na DAO
+     * niekde v business vrstve?
+     * 2. to injektovanie - ci injektuje singleton, a ak to nastavime ako prototype, ci je to stale ta ista
+     * instancia
+
      */
 }

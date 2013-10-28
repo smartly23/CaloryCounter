@@ -5,7 +5,6 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
-//import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
@@ -14,7 +13,6 @@ import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
-import cz.fi.muni.pa165.calorycounter.backend.service.ActivityRecordService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +26,12 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
     private ActivityRecordDao activityRecordDao; // concrete implementation in Spring config file
 
+    /*
+     * Converts ActivityRecord DTO to appropriate entity.
+     * @param dto DTO sent from service layer
+     * @return ActivityRecord entity
+     * @throws IllegalArgumentException if user id in parameter "dto" is null 
+     */
     @Override
     public ActivityRecord fromDtoToEntity(ActivityRecordDto dto) {
         ActivityRecord entity;
@@ -79,6 +83,12 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
         return entity;
     }
 
+    /*
+     * Converts ActivityRecord entity to appropriate DTO.
+     * @param entity ActivityRecord entity to be converted to DTO
+     * @return ActivityRecord DTO
+     * @throws IllegalArgumentException if entity id in parameter "entity" is null 
+     */
     @Override
     public ActivityRecordDto fromEntityToDto(ActivityRecord entity) {
         ActivityRecordDto dto = new ActivityRecordDto();
