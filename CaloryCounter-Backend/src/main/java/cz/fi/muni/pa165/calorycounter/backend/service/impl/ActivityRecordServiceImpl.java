@@ -1,34 +1,30 @@
 package cz.fi.muni.pa165.calorycounter.backend.service.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
-//import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.service.ActivityRecordService;
-import javax.persistence.EntityManager;
-//import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataAccessException;
-//import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 
 /**
  * User service for all operations on ActivityRecord DTO.
  *
  * @author Martin Pasko (smartly23)
  */
-//@Service
+@Service
 @Transactional(readOnly = true)
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    //@PersistenceContext
-    private EntityManager em;
     private ActivityRecordConvert convert = new ActivityRecordConvert();
-    private ActivityRecordDao activityRecordDao; //= new ActivityRecordDaoImplJPA(em);
+    // concrete implementation injected from Spring
+    private ActivityRecordDao activityRecordDao;
 
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
@@ -42,13 +38,9 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             log.error("ActivityRecordServiceImpl.create() called on existing entity", iaex);
             throw iaex;
         } else {
-            em.getTransaction().begin();
-            ActivityRecord entity = convert.fromDtoToEntity(dto, em);
-            em.getTransaction().commit();   // must commit SEPARATELY to have Activity and Calories objects' id set up
+            ActivityRecord entity = convert.fromDtoToEntity(dto);
 
-            em.getTransaction().begin();        // ak budeme robit fasadu, tak transakcie posunut az tam hore
             activityRecordDao.create(entity);
-            em.getTransaction().commit();
             return entity.getId();
         }
     }
@@ -69,7 +61,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             log.error("ActivityRecordServiceImpl.update() called on non-existent entity", iaex);
             throw iaex;
         } else {
-            ActivityRecord entity = convert.fromDtoToEntity(dto, em);
+            ActivityRecord entity = convert.fromDtoToEntity(dto);
             activityRecordDao.update(entity);
         }
     }
@@ -87,7 +79,4 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
         }
     }
 
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
 }

@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 public class ActivityConvert implements Convert<Activity, ActivityDto> {
 
     @Override
-    public Activity fromDtoToEntity(ActivityDto dto, EntityManager em) {
+    public Activity fromDtoToEntity(ActivityDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

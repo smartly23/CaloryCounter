@@ -17,11 +17,13 @@ import org.slf4j.LoggerFactory;
 public class UserDaoImplJPA implements UserDao {
 
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
+    // injected from Spring
     private EntityManager em;
 
     public UserDaoImplJPA() {
     }
-
+    
+    // this is only for legacy compatibility with some old tests
     public UserDaoImplJPA(EntityManager em) {
         this.em = em;
     }

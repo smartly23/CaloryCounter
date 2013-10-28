@@ -20,11 +20,13 @@ import org.slf4j.LoggerFactory;
 public class CaloriesDaoImplJPA implements CaloriesDao {
 
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
+    // injected from Spring
     private EntityManager em;
 
     public CaloriesDaoImplJPA() {
     }
 
+    // this is only for legacy compatibility with some old tests
     public CaloriesDaoImplJPA(EntityManager em) {
         this.em = em;
     }

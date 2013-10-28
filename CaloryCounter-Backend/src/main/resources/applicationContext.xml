@@ -10,14 +10,11 @@
     <tx:annotation-driven transaction-manager="txManager"/>
 
     <bean id="txManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-        <!--<property name="dataSource" ref="dataSource" />-->
-        <!--<property name="sessionFactory" ref="sessionFactory" /> budeme implementovat sessions? -->
     </bean>
 
     <bean name="activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ctivityRecordServiceImpl">
         <property name="activityRecordDao" ref="activityRecordDaoJPA"/>
-        <property name="em" ref="entityManager"/>
-        <property name="convert" ref="activityRecordConvert"/>
+        <!--<property name="convert" ref="activityRecordConvert"/>-->
     </bean>
 
     <!-- bude to stale ta ista instancia ARDJ, alebo ak nie, tak ako to docielit-->
@@ -30,7 +27,9 @@
         <!--<property name="dataSource" ref="dataSource"/>-->
     </bean>
 
+    <!--
     <bean name="activityRecordConvert" class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert">
         <property name="activityRecordDao" ref="activityRecordDaoJPA"/>
     </bean>
+    -->
 </beans>
