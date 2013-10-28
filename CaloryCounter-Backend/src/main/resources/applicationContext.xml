@@ -24,21 +24,13 @@
     </bean>
 
     <bean name="activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl">
-        <property name="activityRecordDao">
-            <ref local="activityRecordDaoJPA"/>
-        </property> 
+       <property name="activityRecordDao" ref="activityRecordDaoJPA"/>
     </bean>
 
     <bean name="activityRecordConvert" class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert">
-        <property name="activityRecordDao">
-            <ref local="activityRecordDaoJPA"/>
-        </property>
-        <property name="activityDao">
-            <ref local="activityDaoJPA"/>
-        </property>
-        <property name="caloriesDao">
-            <ref local="caloriesDaoJPA"/>
-        </property>
+        <property name="activityRecordDao" ref="activityRecordDaoJPA"/>
+        <property name="activityDao" ref="activityDaoJPA"/>
+        <property name="caloriesDao" ref="caloriesDaoJPA"/>
     </bean>
     
     <!-- bude to stale ta ista instancia ARDJ, alebo ak nie, tak ako to docielit-->
