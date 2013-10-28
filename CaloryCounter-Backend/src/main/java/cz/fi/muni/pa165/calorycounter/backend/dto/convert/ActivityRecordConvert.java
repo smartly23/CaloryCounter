@@ -4,8 +4,6 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
@@ -25,6 +23,8 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
     private ActivityRecordDao activityRecordDao; // concrete implementation in Spring config file
+    private ActivityDao activityDao; // concrete implementation in Spring config file
+    private CaloriesDao caloriesDao; // concrete implementation in Spring config file
 
     /*
      * Converts ActivityRecord DTO to appropriate entity.
@@ -52,7 +52,9 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
-            ActivityDao activityDao = new ActivityDaoImplJPA();
+            //activityDao = new ActivityDaoImplJPA();
+            System.out.println("activity dao: "+activityDao);
+            System.out.println("activity: "+activity);
             activityDao.create(activity);
             calories.setActivity(activity);
             for (WeightCategory cat : WeightCategory.values()) {
@@ -62,7 +64,6 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
                     log.warn("ActivityRecord DTO-to-DAO conversion: unknown weight category number in DTO.");
                 }
             }
-            CaloriesDao caloriesDao = new CaloriesDaoImplJPA();
             caloriesDao.create(calories);
             entity.setCalories(calories);
         }
@@ -107,5 +108,17 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             dto.setActivityRecordId(entity.getId());
         }
         return dto;
+    }
+
+    public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {
+        this.activityRecordDao = activityRecordDao;
+    }
+
+    public void setActivityDao(ActivityDao activityDao) {
+        this.activityDao = activityDao;
+    }
+
+    public void setCaloriesDao(CaloriesDao caloriesDao) {
+        this.caloriesDao = caloriesDao;
     }
 }

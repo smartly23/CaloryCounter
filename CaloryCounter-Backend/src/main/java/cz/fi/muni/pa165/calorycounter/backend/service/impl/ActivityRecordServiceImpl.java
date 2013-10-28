@@ -9,6 +9,7 @@ import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessException
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataAccessException;
@@ -26,6 +27,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
     private ActivityRecordConvert convert = new ActivityRecordConvert();
     // concrete implementation injected from Spring
+    @Autowired
     private ActivityRecordDao activityRecordDao;
 
     /*
@@ -136,4 +138,9 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             //activityRecordDao.remove(activityRecordDao.get(dto.getActivityRecordId()));
         }
     }
+
+    public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {
+        this.activityRecordDao = activityRecordDao;
+    }
+    
 }

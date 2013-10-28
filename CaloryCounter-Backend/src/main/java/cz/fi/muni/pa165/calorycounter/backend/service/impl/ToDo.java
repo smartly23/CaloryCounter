@@ -23,6 +23,9 @@ public class ToDo {
      * niekde v business vrstve?
      * 2. to injektovanie - ci injektuje singleton, a ak to nastavime ako prototype, ci je to stale ta ista
      * instancia
+     * 3. DataAccessException - ktoru podtriedu mame vyhadzovat?
+     * 4. ako dostat EntityManager do toho persistence-contextu?
+     * 5. preco nefunguju tie bean-injection?
 
      */
 }

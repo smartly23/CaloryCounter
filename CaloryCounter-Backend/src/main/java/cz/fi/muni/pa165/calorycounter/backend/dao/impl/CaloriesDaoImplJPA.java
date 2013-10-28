@@ -21,6 +21,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
 
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
     // injected from Spring
+    @PersistenceContext
     private EntityManager em;
 
     public CaloriesDaoImplJPA() {

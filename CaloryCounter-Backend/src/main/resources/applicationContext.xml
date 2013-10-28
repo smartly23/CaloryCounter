@@ -3,32 +3,47 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <!--<tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:jta-transaction-manager/>
+    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+    </bean>
+    <tx:annotation-driven/>
+    -->
+    
+    <jdbc:embedded-database id="dataSource" type="DERBY">
+    </jdbc:embedded-database>
 
-    <bean id="txManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <constructor-arg ref="dataSource" />
     </bean>
 
-    <bean name="activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ctivityRecordServiceImpl">
-        <property name="activityRecordDao" ref="activityRecordDaoJPA"/>
-        <!--<property name="convert" ref="activityRecordConvert"/>-->
-    </bean>
-
-    <!-- bude to stale ta ista instancia ARDJ, alebo ak nie, tak ako to docielit-->
-    <bean name="activityRecordDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA">
-        <property name="em" ref="entityManager"/>
-    </bean>
-
-    <!-- bude to stale ta ista instancia entity managera, alebo ak nie, tak ako to docielit-->
-    <bean name="entityManager" class="javax.persistence.EntityManager">
-        <!--<property name="dataSource" ref="dataSource"/>-->
+    <bean name="activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl">
+        <property name="activityRecordDao">
+            <ref local="activityRecordDaoJPA"/>
+        </property> 
     </bean>
 
     <bean name="activityRecordConvert" class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert">
-        <property name="activityRecordDao" ref="activityRecordDaoJPA"/>
+        <property name="activityRecordDao">
+            <ref local="activityRecordDaoJPA"/>
+        </property>
+        <property name="activityDao">
+            <ref local="activityDaoJPA"/>
+        </property>
+        <property name="caloriesDao">
+            <ref local="caloriesDaoJPA"/>
+        </property>
     </bean>
+    
+    <!-- bude to stale ta ista instancia ARDJ, alebo ak nie, tak ako to docielit-->
+    <bean name="activityRecordDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA"/>
+    <bean name="activityDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA"/>
+    <bean name="caloriesDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA"/>
     
 </beans>
