@@ -11,11 +11,8 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
-    <!--<tx:annotation-driven transaction-manager="transactionManager"/>
-    <tx:jta-transaction-manager/>
-    <bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
-    </bean>
-    <tx:annotation-driven/>
+    <!--
+        Na testy DAO vrstvy by sme mali pouzivat embedded DB: <jdbc:embedded-database id="dataSource" type="DERBY"/>
     -->
     <tx:annotation-driven/>
     <context:annotation-config/><!-- kvoli @PersistenceContext-->
