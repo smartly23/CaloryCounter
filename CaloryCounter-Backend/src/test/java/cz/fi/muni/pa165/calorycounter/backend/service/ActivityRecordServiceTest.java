@@ -1,68 +1,90 @@
 package cz.fi.muni.pa165.calorycounter.backend.service;
 
-import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
+import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
+import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
+import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
+import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
-import cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl;
-import java.util.Date;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.*;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
- * Unit Tests using Mockito to mock DAO objects.
+ * Unit Tests using Mockito to mock DAO layer and thus avoid real DB operations.
  *
  * @author Martin Pasko (smartly23)
  */
-@TransactionConfiguration(defaultRollback = true)
-@Transactional
+@RunWith(MockitoJUnitRunner.class) // aby sme nemuseli v SetUp pisat MockitoAnnotations.initMocks( this );
+// vid http://eclipsesource.com/blogs/2011/09/29/effective-mockito-part-2/
 public class ActivityRecordServiceTest {
 
-    private static AuthUser user;
+    @InjectMocks
     private static ActivityRecordService activityRecordService;
-    private static UserDao userDao;
+    @Mock
+    private ActivityRecordDao activityRecordDao;
+    @Mock
+    private ActivityRecordConvert activityRecordConvert;
+    @Mock
+    private Calories caloriesMock;
+    
+    private AuthUser user;
+    private ActivityRecordDto activityRecordDto;
+    private ActivityRecord activityRecord;
+    
+    private final Long ACTIVITY_RECORD_ID = 42L;
+    private final Long USER_ID = 237L;
 
     @BeforeClass
     public static void setUpOnce() {
         ApplicationContext context = new ClassPathXmlApplicationContext(
-                "applicationContext.xml");
+                "testContext.xml");
         activityRecordService = (ActivityRecordService) context.getBean("activityRecordService");
-        userDao = (UserDao) context.getBean("userDaoJPA");
     }
 
     @AfterClass
     public static void tearDownOnce() {
         activityRecordService = null;
-        userDao = null;
     }
 
     @Before
     public void setUp() {
+        Long time = new java.util.Date().getTime();
+        
         user = new AuthUser();
+        user.setId(237L);
         user.setAge(35);
         user.setGender("female");
         user.setName("Edita Papeky");
         user.setWeightCat(WeightCategory._180_);
         user.setUsername("Petra");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("userDao: " + userDao);
-        System.out.println("user: " + user);
-        userDao.create(user);
+        
+        activityRecord = new ActivityRecord();
+        activityRecord.setActivityDate(new java.sql.Date(time));
+        activityRecord.setDuration(40);
+        activityRecord.setCaloriesBurnt(4000);
+        activityRecord.setCalories(caloriesMock);
+        activityRecord.setAuthUser(user);
+        
+        activityRecordDto = new ActivityRecordDto();
+        activityRecordDto.setActivityName("Strielanie zajacov.");
+        activityRecordDto.setActivityDate(new java.util.Date(time));
+        activityRecordDto.setCaloriesBurnt(4000);
+        activityRecordDto.setDuration(40);
+        activityRecordDto.setWeightCatNum(3);
+        activityRecordDto.setUserId(USER_ID);
     }
 
     @After
@@ -72,23 +94,23 @@ public class ActivityRecordServiceTest {
 
     @Test
     public void testCreate() {
-        // prepare DTO:
-        ActivityRecordDto dto = new ActivityRecordDto();
-        dto.setActivityDate(new Date());
-        dto.setActivityName("strielanie zajacov");
-        dto.setDuration(40);
-        dto.setCaloriesBurnt(1000);
-        dto.setWeightCatNum(2);
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-        System.out.println("user id: " + user.getId());
-        dto.setUserId(user.getId());
+        activityRecordDto.setActivityRecordId(null);    // must be null if new entity is to be created
+        activityRecord.setId(null);     // returned after conversion from DTO
 
-        // test create():
-        Long id = activityRecordService.create(dto);
-        assertNotNull(id);
-        System.out.println("Id is: " + id);
+        when(activityRecordDao.create(activityRecord)).thenReturn(ACTIVITY_RECORD_ID);
+        when(activityRecordConvert.fromDtoToEntity(activityRecordDto)).thenReturn(activityRecord);
+        
+        Long returnedId = activityRecordService.create(activityRecordDto);
+        
+        ArgumentCaptor<ActivityRecord> argument = ArgumentCaptor.forClass(ActivityRecord.class);
+        verify(activityRecordDao).create(argument.capture());
+        assertTrue("Service layer sent to DAO an entity with different Id than expected. Expected Id: null, "
+                + "sent Id: "+argument.getValue().getId()+".", argument.getValue().getId() == null);
+        
+        activityRecord.setId(ACTIVITY_RECORD_ID);   // set by DB after DAO create() call
+        assertEquals("Returned Id and expected Id are inconsistent.", activityRecord.getId(), returnedId);
+        
+        // assertDeepEquals - checknut napr. usera
     }
 
     @Test

@@ -67,7 +67,6 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
         }
 
         if (dto.getUserId() != null) {
-            //UserDao userDao = new UserDaoImplJPA();
             entity.setAuthUser((AuthUser) userDao.get(dto.getUserId()));
             // conversion method is not responsible for checking any data consistence
         } else {

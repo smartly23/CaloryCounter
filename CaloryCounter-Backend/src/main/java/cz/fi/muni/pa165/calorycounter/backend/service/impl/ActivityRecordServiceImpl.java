@@ -49,9 +49,10 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                 @Override
                 public Long doMethod() {
                     ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
-                    System.out.println("activityRecordDao inside ServiceImpl: "+activityRecordDao);
-                    activityRecordDao.create(entity);
-                    return entity.getId();
+                    Long entityId = activityRecordDao.create(entity); 
+                    /*                      !!!!!!!!!!!!!!!!!                        */
+                    // QUESTION: does it return non-null when the transaction finishes?
+                    return entityId;
                 }
             }.tryMethod();
         }
