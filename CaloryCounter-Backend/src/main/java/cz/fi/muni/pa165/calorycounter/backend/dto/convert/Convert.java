@@ -15,7 +15,7 @@ public interface Convert<T, U> {
      * @ param em EntityManager passed from the calling object.
      * @return entity T: some of its parameters may be null mostly in case of newly-to-be-created entity 
      */
-    public T fromDtoToEntity(U dto, EntityManager em);
+    public T fromDtoToEntity(U dto);
 
     /*
      * @param entity T

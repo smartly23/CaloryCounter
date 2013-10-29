@@ -2,22 +2,21 @@ package cz.fi.muni.pa165.calorycounter.backend.dto.convert;
 
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
-import javax.persistence.EntityManager;
+import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 
 /**
  * Conversion between ActivityRecord DTO and entity back and forth.
  *
  * @author
  */
-public class ActivityConvert implements Convert<Activity, ActivityDto> {
+public class ActivityConvert {
+// REMAKE
 
-    @Override
-    public Activity fromDtoToEntity(ActivityDto dto, EntityManager em) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Calories fromDtoToEntity(ActivityDto dto) {
+        return null;
     }
 
-    @Override
-    public ActivityDto fromEntityToDto(Activity entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static ActivityDto fromEntityToDto(Calories entity) {
+        return null;
     }
 }

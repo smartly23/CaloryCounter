@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,11 +16,14 @@ import org.slf4j.LoggerFactory;
 public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     final static Logger log = LoggerFactory.getLogger(CaloriesDaoImplJPA.class);
+    // injected from Spring
+    @PersistenceContext
     private EntityManager em;
 
     public ActivityRecordDaoImplJPA() {
     }
-
+    
+    // this is only for legacy compatibility with some old tests
     public ActivityRecordDaoImplJPA(EntityManager em) {
         this.em = em;
     }

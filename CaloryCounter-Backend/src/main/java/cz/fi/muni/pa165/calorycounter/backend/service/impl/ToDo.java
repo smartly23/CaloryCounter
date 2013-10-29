@@ -11,8 +11,22 @@ public class ToDo {
      * 4. DataAccessException
      * 5. ten AOP na opakujuce sa casti kodu
      * 6. ActivityRecordConvert: issue na r. 41
-     * 7. Testy!
+     * 7. Testy! + Javadoc!
      * 8. Neskor: logovanie tiez robit cez Spring Aspect, a nie priamo v business kode. Detto vsetky URL typu
      * jdbc:derby://localhost:1527/CaloryDB nastavit v samostatnom properties subore a cez PropertyPlaceholderConfigurer.
+     */
+    /*
+     * Co sa ho chcem spytat:
+     * 1. checkpoint assignment: "API of backend will use dedicated transfer objects, not entities" - mame
+     * to teraz dobre? Ak nie, ako inak by sme mohli pracovat s DAO bez toho aby sme si konvertli DTO na DAO
+     * niekde v business vrstve?
+     * 3. DataAccessException - ktoru podtriedu mame vyhadzovat?
+     * 4. ako dostat EntityManager do toho persistence-contextu: staci LocalEntityManagerFactoryBean?
+     * (Shared EntityManager proxy for target factory [org.springframework.orm.jpa.LocalEntityManagerFactoryBean@5e4b530d])
+     * 5. ci pre optimalizaciu mozme robit samostatnu DAO triedu.
+
+     * Martin: ActivityDto, ActivityService + ActivityConvert;
+     * Jano: UserStatsDto, + service + dao; vid https://www.facebook.com/photo.php?fbid=10202343599778259&set=p.10202343599778259&type=1&theater
+     * Zdenek: UserActivityRecordsDao + service; + AuthUserConvert
      */
 }

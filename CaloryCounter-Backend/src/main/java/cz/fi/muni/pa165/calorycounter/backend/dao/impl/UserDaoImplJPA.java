@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,14 @@ import org.slf4j.LoggerFactory;
 public class UserDaoImplJPA implements UserDao {
 
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
+    // injected from Spring
+    @PersistenceContext
     private EntityManager em;
 
     public UserDaoImplJPA() {
     }
-
+    
+    // this is only for legacy compatibility with some old tests
     public UserDaoImplJPA(EntityManager em) {
         this.em = em;
     }

@@ -1,35 +1,38 @@
 package cz.fi.muni.pa165.calorycounter.backend.service.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
-//import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.service.ActivityRecordService;
-import javax.persistence.EntityManager;
-//import javax.persistence.PersistenceContext;
+import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
+import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataAccessException;
-//import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Service;
 
 /**
  * User service for all operations on ActivityRecord DTO.
  *
  * @author Martin Pasko (smartly23)
  */
-//@Service
+@Service
 @Transactional(readOnly = true)
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    //@PersistenceContext
-    private EntityManager em;
-    private ActivityRecordConvert convert = new ActivityRecordConvert();
-    private ActivityRecordDao activityRecordDao; //= new ActivityRecordDaoImplJPA(em);
+    // injected by setter from Spring
+    private ActivityRecordConvert convert;
+    // concrete implementation injected by setter from Spring
+    private ActivityRecordDao activityRecordDao;
 
+    /*
+     * @throws IllegalArgumentException if dto with existing ActivityRecord (activityRecordId) is given.
+     * @throws DataAccessException if operation failed on persistence layer. No transaction done.
+     */
     @Override
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
     // to Propagation.REQUIRED je tam aj defaultne, ak nechceme nastavit inu tak to tam neni nutne
@@ -42,24 +45,53 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             log.error("ActivityRecordServiceImpl.create() called on existing entity", iaex);
             throw iaex;
         } else {
-            em.getTransaction().begin();
-            ActivityRecord entity = convert.fromDtoToEntity(dto, em);
-            em.getTransaction().commit();   // must commit SEPARATELY to have Activity and Calories objects' id set up
-
-            em.getTransaction().begin();        // ak budeme robit fasadu, tak transakcie posunut az tam hore
-            activityRecordDao.create(entity);
-            em.getTransaction().commit();
-            return entity.getId();
+            return (Long) new DataAccessExceptionNonVoidTemplate(dto) {
+                @Override
+                public Long doMethod() {
+                    ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
+                    System.out.println("activityRecordDao inside ServiceImpl: "+activityRecordDao);
+                    activityRecordDao.create(entity);
+                    return entity.getId();
+                }
+            }.tryMethod();
         }
+        /*
+         ActivityRecord entity;
+         try {
+         entity = convert.fromDtoToEntity(dto);
+         activityRecordDao.create(entity);
+         } catch (Exception ex) {
+         throw new RecoverableDataAccessException("Operation 'create' failed." + ex.getMessage(), ex);
+         }
+         return entity.getId();
+         }
+         */
     }
 
+    /*
+     * @throws DataAccessException if operation failed on persistence layer. No transaction done.
+     */
     @Override
     public ActivityRecordDto get(Long id) {
+        return (ActivityRecordDto) new DataAccessExceptionNonVoidTemplate(id) {
+            @Override
+            public ActivityRecordDto doMethod() {
+                ActivityRecord entity = activityRecordDao.get((Long) getU());
+                ActivityRecordDto dto = convert.fromEntityToDto(entity);
+                return dto;
+            }
+        }.tryMethod();
+        /*
         ActivityRecord entity = activityRecordDao.get(id);
         ActivityRecordDto dto = convert.fromEntityToDto(entity);
         return dto;
+        * */
     }
 
+    /*
+     * @throws IllegalArgumentException if dto with non-existent ActivityRecord (activityRecordId) is given.
+     * @throws DataAccessException if operation failed on persistence layer. No transaction done.
+     */
     @Override
     @Transactional(readOnly = false)
     public void update(ActivityRecordDto dto) {
@@ -69,11 +101,24 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             log.error("ActivityRecordServiceImpl.update() called on non-existent entity", iaex);
             throw iaex;
         } else {
-            ActivityRecord entity = convert.fromDtoToEntity(dto, em);
+            new DataAccessExceptionVoidTemplate(dto) {
+                @Override
+                public void doMethod() {
+                    ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
+                    activityRecordDao.update(entity);
+                }
+            }.tryMethod();
+            /*
+            ActivityRecord entity = convert.fromDtoToEntity(dto);
             activityRecordDao.update(entity);
+            * */
         }
     }
 
+    /*
+     * @throws IllegalArgumentException if dto with non-existent ActivityRecord (activityRecordId) is given.
+     * @throws DataAccessException if operation failed on persistence layer. No transaction done.
+     */
     @Override
     @Transactional(readOnly = false)
     public void remove(ActivityRecordDto dto) {
@@ -83,11 +128,23 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             log.error("ActivityRecordServiceImpl.remove() called on non-existent entity", iaex);
             throw iaex;
         } else {
-            activityRecordDao.remove(activityRecordDao.get(dto.getActivityRecordId()));
+            new DataAccessExceptionVoidTemplate(dto) {
+                @Override
+                public void doMethod() {
+                    activityRecordDao.remove(activityRecordDao.get(((ActivityRecordDto)getU()).getActivityRecordId()));
+                }
+            }.tryMethod();
+            
+            //activityRecordDao.remove(activityRecordDao.get(dto.getActivityRecordId()));
         }
     }
 
-    public void setEm(EntityManager em) {
-        this.em = em;
+    public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {
+        this.activityRecordDao = activityRecordDao;
     }
+
+    public void setConvert(ActivityRecordConvert convert) {
+        this.convert = convert;
+    }
+    
 }

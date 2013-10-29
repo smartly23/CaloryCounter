@@ -20,11 +20,14 @@ import org.slf4j.LoggerFactory;
 public class ActivityDaoImplJPA implements ActivityDao {
 
     final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
+    // injected from Spring
+    @PersistenceContext
     private EntityManager em;
 
     public ActivityDaoImplJPA() {
     }
 
+    // this is only for legacy compatibility with some old tests
     public ActivityDaoImplJPA(EntityManager em) {
         this.em = em;
     }

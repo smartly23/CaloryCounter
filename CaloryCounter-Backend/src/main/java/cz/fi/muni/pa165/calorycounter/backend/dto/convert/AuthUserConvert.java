@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
 public class AuthUserConvert implements Convert<AuthUser, AuthUserDto> {
 
     @Override
-    public AuthUser fromDtoToEntity(AuthUserDto dto, EntityManager em) {
+    public AuthUser fromDtoToEntity(AuthUserDto dto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -4,17 +4,12 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
-//import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
-import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +21,21 @@ import org.slf4j.LoggerFactory;
 public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRecordDto> {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    ActivityRecordDao activityRecordDao; //= new ActivityRecordDaoImplJPA(em);
+    private ActivityRecordDao activityRecordDao; // concrete implementation in Spring config file
+    private ActivityDao activityDao; // concrete implementation in Spring config file
+    private CaloriesDao caloriesDao; // concrete implementation in Spring config file
+    private UserDao userDao; // concrete implementation in Spring config file
 
+
+    /*
+     * Converts ActivityRecord DTO to appropriate entity.
+     * @param dto DTO sent from service layer
+     * @return ActivityRecord entity
+     * @throws IllegalArgumentException if user id in parameter "dto" is null 
+     */
     @Override
-    public ActivityRecord fromDtoToEntity(ActivityRecordDto dto, EntityManager em) {
+    public ActivityRecord fromDtoToEntity(ActivityRecordDto dto) {
         ActivityRecord entity;
-        //ActivityRecordDao activityRecordDao = new ActivityRecordDaoImplJPA(em);
 
         if (dto.getActivityRecordId() != null) {
             entity = activityRecordDao.get(dto.getActivityRecordId());
@@ -49,7 +53,6 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
-            ActivityDao activityDao = new ActivityDaoImplJPA(em);
             activityDao.create(activity);
             calories.setActivity(activity);
             for (WeightCategory cat : WeightCategory.values()) {
@@ -59,13 +62,12 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
                     log.warn("ActivityRecord DTO-to-DAO conversion: unknown weight category number in DTO.");
                 }
             }
-            CaloriesDao caloriesDao = new CaloriesDaoImplJPA(em);
             caloriesDao.create(calories);
             entity.setCalories(calories);
         }
 
         if (dto.getUserId() != null) {
-            UserDao userDao = new UserDaoImplJPA(em);
+            //UserDao userDao = new UserDaoImplJPA();
             entity.setAuthUser((AuthUser) userDao.get(dto.getUserId()));
             // conversion method is not responsible for checking any data consistence
         } else {
@@ -80,6 +82,12 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
         return entity;
     }
 
+    /*
+     * Converts ActivityRecord entity to appropriate DTO.
+     * @param entity ActivityRecord entity to be converted to DTO
+     * @return ActivityRecord DTO
+     * @throws IllegalArgumentException if entity id in parameter "entity" is null 
+     */
     @Override
     public ActivityRecordDto fromEntityToDto(ActivityRecord entity) {
         ActivityRecordDto dto = new ActivityRecordDto();
@@ -98,5 +106,21 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             dto.setActivityRecordId(entity.getId());
         }
         return dto;
+    }
+
+    public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {
+        this.activityRecordDao = activityRecordDao;
+    }
+
+    public void setActivityDao(ActivityDao activityDao) {
+        this.activityDao = activityDao;
+    }
+
+    public void setCaloriesDao(CaloriesDao caloriesDao) {
+        this.caloriesDao = caloriesDao;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 }
