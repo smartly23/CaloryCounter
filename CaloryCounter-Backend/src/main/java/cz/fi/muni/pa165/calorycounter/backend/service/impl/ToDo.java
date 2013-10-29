@@ -15,7 +15,6 @@ public class ToDo {
      * 8. Neskor: logovanie tiez robit cez Spring Aspect, a nie priamo v business kode. Detto vsetky URL typu
      * jdbc:derby://localhost:1527/CaloryDB nastavit v samostatnom properties subore a cez PropertyPlaceholderConfigurer.
      */
-    
     /*
      * Co sa ho chcem spytat:
      * 1. checkpoint assignment: "API of backend will use dedicated transfer objects, not entities" - mame
@@ -24,6 +23,10 @@ public class ToDo {
      * 3. DataAccessException - ktoru podtriedu mame vyhadzovat?
      * 4. ako dostat EntityManager do toho persistence-contextu: staci LocalEntityManagerFactoryBean?
      * (Shared EntityManager proxy for target factory [org.springframework.orm.jpa.LocalEntityManagerFactoryBean@5e4b530d])
+     * 5. ci pre optimalizaciu mozme robit samostatnu DAO triedu.
 
+     * Martin: ActivityDto, ActivityService + ActivityConvert;
+     * Jano: UserStatsDto, + service + dao; vid https://www.facebook.com/photo.php?fbid=10202343599778259&set=p.10202343599778259&type=1&theater
+     * Zdenek: UserActivityRecordsDao + service; + AuthUserConvert
      */
 }
