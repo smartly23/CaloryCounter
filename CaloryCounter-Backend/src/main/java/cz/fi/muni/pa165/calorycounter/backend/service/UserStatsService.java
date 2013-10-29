@@ -4,10 +4,17 @@
  */
 package cz.fi.muni.pa165.calorycounter.backend.service;
 
+import cz.fi.muni.pa165.calorycounter.backend.dto.UserStatsDto;
+import java.util.List;
+
 /**
  *
  * @author xpasko
  */
 public interface UserStatsService {
-    // get metoda alebo metody podla prip. parametrov
+    /** Returns all users with their stats
+     * 
+     * @return All users with their stats
+     */
+    public List<UserStatsDto> getAll();
 }

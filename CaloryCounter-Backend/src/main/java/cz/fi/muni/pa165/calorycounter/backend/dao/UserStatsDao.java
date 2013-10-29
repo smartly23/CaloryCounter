@@ -4,14 +4,14 @@
  */
 package cz.fi.muni.pa165.calorycounter.backend.dao;
 
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImpl;
+import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA;
 import java.util.List;
 
 /**
  *
- * @author xpasko
+ * @author  Jan Kucera (Greld)
  */
 public interface UserStatsDao {
 
-    public List<UserStatsDaoImpl.UserStats> getUsersStats();
+    public List<UserStatsDaoImplJPA.UserStats> getUsersStats();
 }

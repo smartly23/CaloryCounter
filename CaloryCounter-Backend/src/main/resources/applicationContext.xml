@@ -43,6 +43,12 @@
             <ref local="activityRecordConvert"/>
         </property>
     </bean>
+    
+    <bean id="userStatsService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserStatsServiceImpl">
+        <property name="userStatsDao">
+            <ref local="userStatsDaoJPA"/>
+        </property>
+    </bean>
 
     <bean id="activityRecordConvert" class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert">
         <property name="activityRecordDao">
@@ -65,4 +71,5 @@
     <bean id="activityDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA"/>
     <bean id="caloriesDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA"/>
     <bean id="userDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA"/>
+    <bean id="userStatsDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA"/>
 </beans>
