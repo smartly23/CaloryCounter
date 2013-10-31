@@ -36,7 +36,7 @@ public class ActivityDaoTest {
 
     @BeforeClass
     public static void setUpOnce() {
-        emf = Persistence.createEntityManagerFactory("PU1");
+        emf = Persistence.createEntityManagerFactory("TestPU");
     }
 
     @AfterClass

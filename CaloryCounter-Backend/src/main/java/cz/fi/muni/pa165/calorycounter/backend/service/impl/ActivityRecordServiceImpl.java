@@ -49,7 +49,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                 @Override
                 public Long doMethod() {
                     ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
-                    Long entityId = activityRecordDao.create(entity); 
+                    Long entityId = activityRecordDao.create(entity);
                     /*                      !!!!!!!!!!!!!!!!!                        */
                     // QUESTION: does it return non-null when the transaction finishes?
                     return entityId;
@@ -74,6 +74,11 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
      */
     @Override
     public ActivityRecordDto get(Long id) {
+        if (id == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Invalid id in parameter: null");
+            log.error("ActivityRecordServiceImpl.get() called on null parameter: Long id", iaex);
+            throw iaex;
+        }
         return (ActivityRecordDto) new DataAccessExceptionNonVoidTemplate(id) {
             @Override
             public ActivityRecordDto doMethod() {
@@ -83,10 +88,10 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             }
         }.tryMethod();
         /*
-        ActivityRecord entity = activityRecordDao.get(id);
-        ActivityRecordDto dto = convert.fromEntityToDto(entity);
-        return dto;
-        * */
+         ActivityRecord entity = activityRecordDao.get(id);
+         ActivityRecordDto dto = convert.fromEntityToDto(entity);
+         return dto;
+         * */
     }
 
     /*
@@ -110,9 +115,9 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                 }
             }.tryMethod();
             /*
-            ActivityRecord entity = convert.fromDtoToEntity(dto);
-            activityRecordDao.update(entity);
-            * */
+             ActivityRecord entity = convert.fromDtoToEntity(dto);
+             activityRecordDao.update(entity);
+             * */
         }
     }
 
@@ -132,10 +137,10 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             new DataAccessExceptionVoidTemplate(dto) {
                 @Override
                 public void doMethod() {
-                    activityRecordDao.remove(activityRecordDao.get(((ActivityRecordDto)getU()).getActivityRecordId()));
+                    activityRecordDao.remove(activityRecordDao.get(((ActivityRecordDto) getU()).getActivityRecordId()));
                 }
             }.tryMethod();
-            
+
             //activityRecordDao.remove(activityRecordDao.get(dto.getActivityRecordId()));
         }
     }
@@ -147,5 +152,4 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
     public void setConvert(ActivityRecordConvert convert) {
         this.convert = convert;
     }
-    
 }

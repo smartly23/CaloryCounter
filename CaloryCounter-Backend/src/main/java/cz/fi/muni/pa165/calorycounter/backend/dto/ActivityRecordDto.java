@@ -75,6 +75,32 @@ public class ActivityRecordDto {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.activityRecordId) + Objects.hashCode(this.userId);
+        return hash;
+    }
+
+    // two DTOs are equal, if both userId and activityRecordId are equal
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ActivityRecordDto other = (ActivityRecordDto) obj;
+        if (!Objects.equals(this.activityRecordId, other.activityRecordId)) {   // if both null, then true
+            return false;
+        }
+        if (!Objects.equals(this.userId, other.userId)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "ActivityRecordDto{" + "activityRecordId=" + activityRecordId + ", userId=" + userId
                 + ", activityName=" + activityName + ", weightCatNum=" + weightCatNum + ", duration="

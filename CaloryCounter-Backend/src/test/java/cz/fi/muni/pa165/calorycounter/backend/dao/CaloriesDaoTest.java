@@ -37,7 +37,7 @@ public class CaloriesDaoTest {
 
     @BeforeClass
     public static void setUpClass() {
-        emf = Persistence.createEntityManagerFactory("PU1");
+        emf = Persistence.createEntityManagerFactory("TestPU");
     }
 
     @AfterClass
@@ -51,14 +51,14 @@ public class CaloriesDaoTest {
     public void setUp() {
         em = emf.createEntityManager();
         caloriesDao = new CaloriesDaoImplJPA(em);
-              
-        
+
+
         activity = new Activity();
         activity.setName("Plavání");
         em.getTransaction().begin();
         em.persist(activity);
         em.getTransaction().commit();
-        
+
     }
 
     @After
@@ -68,7 +68,7 @@ public class CaloriesDaoTest {
     }
 
     @Test
-    public void testCreate() {      
+    public void testCreate() {
         Calories calories = new Calories();
         calories.setWeightCat(WeightCategory._130_);
         calories.setAmount(150);

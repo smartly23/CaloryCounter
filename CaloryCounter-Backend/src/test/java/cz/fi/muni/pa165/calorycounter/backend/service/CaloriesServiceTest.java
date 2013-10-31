@@ -75,23 +75,26 @@ public class CaloriesServiceTest {
      @After
      public void tearDown() {
      }
+     */
 
-     @Test
-     public void testCreate() {
-     caloriesService.create(caloriesDto);
+    @Test
+    public void testCreate() {
+        /*
+         caloriesService.create(caloriesDto);
 
-     ArgumentCaptor<Calories> argument = ArgumentCaptor.forClass(Calories.class);
-     Mockito.verify(caloriesDaoImplJPA).create(argument.capture());
-     assertTrue("IDs are not same", calories.getId() == argument.getValue().getId());
-     assertEquals("diffrent weight category", calories.getWeightCat(), argument.getValue().getWeightCat());
+         ArgumentCaptor<Calories> argument = ArgumentCaptor.forClass(Calories.class);
+         Mockito.verify(caloriesDaoImplJPA).create(argument.capture());
+         assertTrue("IDs are not same", calories.getId() == argument.getValue().getId());
+         assertEquals("diffrent weight category", calories.getWeightCat(), argument.getValue().getWeightCat());
 
-     try {
-     caloriesService.create(null);
-     fail("caloriesService.create with null dont throw exception");
-     } catch (IllegalArgumentException e) {
-     }
-     }
-
+         try {
+         caloriesService.create(null);
+         fail("caloriesService.create with null dont throw exception");
+         } catch (IllegalArgumentException e) {
+         }
+         * */
+    }
+    /*
      @Test
      public void testGet() {
 
@@ -137,5 +140,7 @@ public class CaloriesServiceTest {
      fail("caloriesService.remove with null dont throw exception");
      } catch (IllegalArgumentException e) {
      }
-     }*/
+     }
+
+     */
 }

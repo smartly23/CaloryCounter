@@ -36,7 +36,7 @@ public class AuthUserDaoTest {
 
     @BeforeClass
     public static void before() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU1");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestPU");
         em = emf.createEntityManager();
         authUserDao = new UserDaoImplJPA(em);
         prepareTestEntities();
@@ -156,7 +156,7 @@ public class AuthUserDaoTest {
 
     @Test
     public void testGetByUsername() {
-        System.out.println(""+luke.getUsername());
+        System.out.println("" + luke.getUsername());
         AuthUser userByUsername = authUserDao.getByUsername(luke.getUsername());
         assertTrue("User was not found by username", userByUsername != null);
         assertTrue("Username of the user returned is not correct", userByUsername.getUsername().equals(luke.getUsername()));
