@@ -3,7 +3,6 @@ package cz.fi.muni.pa165.calorycounter.backend.service;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
-import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
@@ -22,6 +21,7 @@ import static org.mockito.Mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
 
 /**
  * Unit Tests using Mockito to mock DAO layer and thus avoid real DB operations.
@@ -72,6 +72,7 @@ public class ActivityRecordServiceTest {
         user.setUsername("Petra");
 
         activityRecord = new ActivityRecord();
+        activityRecord.setId(ACTIVITY_RECORD_ID);
         activityRecord.setActivityDate(new java.sql.Date(time));
         activityRecord.setDuration(40);
         activityRecord.setCaloriesBurnt(4000);
@@ -85,6 +86,7 @@ public class ActivityRecordServiceTest {
         activityRecordDto.setDuration(40);
         activityRecordDto.setWeightCatNum(3);
         activityRecordDto.setUserId(USER_ID);
+        activityRecordDto.setActivityRecordId(ACTIVITY_RECORD_ID);
     }
 
     @After
@@ -132,8 +134,6 @@ public class ActivityRecordServiceTest {
 
         // new trivial test:
 
-        activityRecord.setId(ACTIVITY_RECORD_ID);
-        activityRecordDto.setActivityRecordId(ACTIVITY_RECORD_ID);
         when(activityRecordDao.get(ACTIVITY_RECORD_ID)).thenReturn(activityRecord);
         // stub(activityRecordDao.get(ACTIVITY_RECORD_ID)).toReturn(activityRecord);   // deprecated
         when(activityRecordConvertMock.fromEntityToDto(activityRecord)).thenReturn(activityRecordDto);
@@ -145,9 +145,53 @@ public class ActivityRecordServiceTest {
 
     @Test
     public void testUpdate() {
+        activityRecordDto.setCaloriesBurnt(4500);
+        when(activityRecordConvertMock.fromDtoToEntity(activityRecordDto)).thenReturn(activityRecord);
+        doThrow(RuntimeException.class).when(activityRecordDao).update(activityRecord);
+
+        try {
+            activityRecordService.update(activityRecordDto);
+        } catch (DataAccessException daex) {
+            activityRecord.setCaloriesBurnt(4500);
+        }
+
+        assertEquals("Update method does not update underlying entity as expected."
+                + "", activityRecordDto.getCaloriesBurnt(), activityRecord.getCaloriesBurnt());
+        assertEquals("Update method tampers with given Dto!", activityRecordDto.getCaloriesBurnt(), 4500);
+
+        // illegal argument input test
+        activityRecordDto.setActivityRecordId(null);
+        try {
+            activityRecordService.update(activityRecordDto);
+            fail("Update method tried to update non-existent entity.");
+        } catch (IllegalArgumentException iaex) {
+            // OK
+        }
     }
 
     @Test
     public void testRemove() {
+        when(activityRecordDao.get(activityRecordDto.getActivityRecordId())).thenReturn(activityRecord);
+
+        activityRecordService.remove(activityRecordDto);
+
+        when(activityRecordDao.get(activityRecordDto.getActivityRecordId())).thenThrow(RuntimeException.class);
+
+        try {
+            activityRecordService.get(activityRecordDto.getActivityRecordId());
+            fail("ActivityRecord was not removed.");
+        } catch (DataAccessException daex) {
+            //OK
+        }
+
+        // illegal argument input test: strong
+        activityRecordDto.setActivityRecordId(null);
+        try {
+            activityRecordService.remove(activityRecordDto); // this also tests correctness of design pattern,
+            // i.e. illegal-argument test should be BEFORE any application logic
+            fail("Update method tried to remove non-existent entity.");
+        } catch (IllegalArgumentException iaex) {
+            // OK
+        }
     }
 }
