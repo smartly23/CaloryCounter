@@ -10,6 +10,8 @@ import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,6 +107,17 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             dto.setActivityRecordId(entity.getId());
         }
         return dto;
+    }
+
+    public List<ActivityRecordDto> fromEntityToDto(List<ActivityRecord> activityRecords) {
+        if (activityRecords == null) {
+            return null;
+        }
+        List<ActivityRecordDto> activityRecordDtos = new ArrayList<>();
+        for (ActivityRecord activityRecord : activityRecords) {
+            activityRecordDtos.add(fromEntityToDto(activityRecord));
+        }
+        return activityRecordDtos;
     }
 
     public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {

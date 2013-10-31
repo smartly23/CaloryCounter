@@ -2,22 +2,31 @@ package cz.fi.muni.pa165.calorycounter.backend.dto.convert;
 
 import cz.fi.muni.pa165.calorycounter.backend.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
-import javax.persistence.EntityManager;
 
 /**
  * Conversion between AuthUser DTO and entity back and forth.
  *
- * @author
+ * @author Zdenek Lastuvka
  */
-public class AuthUserConvert implements Convert<AuthUser, AuthUserDto> {
+public class AuthUserConvert {
 
-    @Override
-    public AuthUser fromDtoToEntity(AuthUserDto dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static AuthUser fromDtoToEntity(AuthUserDto dto) {
+        AuthUser authUser = new AuthUser();
+        authUser.setId(dto.getUserId());
+        authUser.setAge(dto.getAge());
+        authUser.setName(dto.getName());
+        authUser.setGender(dto.getSex());//proc ty renamy?
+        //weight enum
+        return authUser;
     }
 
-    @Override
-    public AuthUserDto fromEntityToDto(AuthUser entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static AuthUserDto fromEntityToDto(AuthUser entity) {
+        AuthUserDto authUserDto = new AuthUserDto();
+        authUserDto.setUserId(entity.getId());
+        authUserDto.setAge(entity.getAge());
+        authUserDto.setName(entity.getName());
+        authUserDto.setSex(entity.getGender());//proc ty renamy?
+        //weight enum
+        return authUserDto;
     }
 }

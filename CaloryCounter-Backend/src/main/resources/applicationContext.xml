@@ -46,6 +46,12 @@
             <ref local="userStatsDaoJPA"/>
         </property>
     </bean>
+    
+    <bean id="userActivityRecordsService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserActivityRecordsServiceImpl">
+        <property name="activityRecordDao">
+            <ref local="activityRecordDaoJPA"/>
+        </property>
+    </bean>
 
     <bean id="activityRecordConvert" class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert">
         <property name="activityRecordDao">

@@ -1,6 +1,8 @@
 package cz.fi.muni.pa165.calorycounter.backend.dao;
 
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
+import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
+import java.util.List;
 
 /**
  * DAO interface - for operations on the persistence layer on ActivityRecord
@@ -9,5 +11,6 @@ import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
  * @author Zdenek Lastuvka
  */
 public interface ActivityRecordDao extends Dao<ActivityRecord> {
-    
+
+    List<ActivityRecord> getAllActivityRecordsByUser(AuthUser authUser);
 }

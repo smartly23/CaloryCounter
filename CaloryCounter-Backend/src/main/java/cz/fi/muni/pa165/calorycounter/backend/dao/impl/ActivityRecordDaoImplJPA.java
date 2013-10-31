@@ -2,8 +2,12 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
+import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
+import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +26,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     public ActivityRecordDaoImplJPA() {
     }
-    
+
     // this is only for legacy compatibility with some old tests
     public ActivityRecordDaoImplJPA(EntityManager em) {
         this.em = em;
@@ -76,5 +80,24 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
 
     private boolean validate(ActivityRecord record) {
         return (record == null || record.getAuthUser() == null || record.getCalories() == null);
+    }
+
+    @Override
+    public List<ActivityRecord> getAllActivityRecordsByUser(AuthUser authUser) {
+        if (authUser == null || authUser.getId() == null) {
+            throw new IllegalArgumentException("Invalid authUser: null or id is null");
+        }
+        TypedQuery<ActivityRecord> query;
+        List<ActivityRecord> returnedActivityRecords;
+        try {
+            query = em.createQuery("SELECT tbl"
+                    + " FROM ActivityRecord tbl WHERE tbl.authUser = :authUser"
+                    + " ", ActivityRecord.class);
+            query.setParameter("authUser", authUser);
+            returnedActivityRecords = query.getResultList();
+        } catch (NoResultException nrex) {
+            throw new IllegalArgumentException("Invalid authUser: nonexistent");
+        }
+        return returnedActivityRecords;
     }
 }

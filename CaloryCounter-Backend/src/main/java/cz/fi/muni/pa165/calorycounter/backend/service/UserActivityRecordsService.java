@@ -4,10 +4,20 @@
  */
 package cz.fi.muni.pa165.calorycounter.backend.service;
 
+import cz.fi.muni.pa165.calorycounter.backend.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.backend.dto.UserActivityRecordsDto;
+
 /**
  *
- * @author xpasko
+ * @author Zdenek Lastuvka
  */
 public interface UserActivityRecordsService {
     // metody ako filterByDuration, date a pod.
+
+    /**
+     * Returns UserActivityRecordsDto for user
+     *
+     * @return UserActivityRecordsDto
+     */
+    public UserActivityRecordsDto getAllActivityRecords(AuthUserDto authUserDto);
 }
