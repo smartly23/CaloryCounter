@@ -28,5 +28,8 @@ public class ToDo {
      * Martin: ActivityDto, ActivityService + ActivityConvert;
      * Jano: UserStatsDto, + service + dao; vid https://www.facebook.com/photo.php?fbid=10202343599778259&set=p.10202343599778259&type=1&theater
      * Zdenek: UserActivityRecordsDao + service; + AuthUserConvert
+     *
+     * Nema sa v DTO namiesto Listu a Mapy vracat ich nemodifikovatelna kopia?
+     * model.Activity by mala mat unikatne meno. Po pokuse vlozit do DB novu model.Activity, ktora tam uz je, by sa malo vratit ID existujucej.
      */
 }

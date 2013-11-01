@@ -8,12 +8,12 @@ import java.util.Objects;
 /**
  * DTO for Activity entity.
  *
- * @author Martin Pasko (smartly23)
+ * @author Martin Bryndza (martin-bryndza)
  */
 public class ActivityDto {
 
     private String activityName;
-    private Map<WeightCategory, Calories> weightCalories;
+    private Map<WeightCategory, Integer> weightCalories;
 
     public String getActivityName() {
         return activityName;
@@ -23,17 +23,25 @@ public class ActivityDto {
         this.activityName = activityName;
     }
 
-    public Map<WeightCategory, Calories> getWeightCalories() {
-        return weightCalories;
+    public Integer getCaloriesAmount(WeightCategory weightCategory) {
+        return weightCalories.get(weightCategory);
     }
 
-    public void setWeightCalories(Map<WeightCategory, Calories> weightCalories) {
-        this.weightCalories = weightCalories;
+    public void setCaloriesAmount(WeightCategory weightCategory, Integer caloriesAmount) {
+        if (caloriesAmount == null || caloriesAmount.compareTo(0) < 0) {
+            throw new IllegalArgumentException("Amount of calories cannot be null or less than zaro. Is " + caloriesAmount);
+        }
+        this.weightCalories.put(weightCategory, caloriesAmount);
     }
 
     @Override
     public String toString() {
-        return "ActivityDto{" + "activityName=" + activityName + ", weightCalories=" + weightCalories + '}';
+        StringBuilder sb = new StringBuilder("ActivityDto{activityName=").append(activityName);
+        sb.append(" [");
+        for (WeightCategory wc : weightCalories.keySet()) {
+            sb.append(wc.toString()).append(":").append(weightCalories.get(wc)).append("; ");
+        }
+        sb.append("]}");
+        return sb.toString();
     }
-
 }
