@@ -11,6 +11,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.AuthUserConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.service.UserActivityRecordsService;
+import org.springframework.dao.RecoverableDataAccessException;
 
 /**
  *
@@ -36,8 +37,11 @@ public class UserActivityRecordsServiceImpl implements UserActivityRecordsServic
         }
         UserActivityRecordsDto uard = new UserActivityRecordsDto();
         uard.setNameOfUser(authUser.getName());
-        uard.setActivityRecords(activityRecordConvert.fromEntityToDto(activityRecordDao.getAllActivityRecordsByUser(authUser)));
-
+        try {
+            uard.setActivityRecords(activityRecordConvert.fromEntityToDto(activityRecordDao.getAllActivityRecordsByUser(authUser)));
+        } catch (Exception ex) {
+            throw new RecoverableDataAccessException("Operation 'create' failed." + ex.getMessage(), ex);
+        }
         return uard;
     }
 }
