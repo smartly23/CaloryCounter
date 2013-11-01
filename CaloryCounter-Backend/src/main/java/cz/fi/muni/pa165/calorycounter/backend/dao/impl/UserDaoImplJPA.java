@@ -43,10 +43,12 @@ public class UserDaoImplJPA implements UserDao {
             query.setParameter("uname", username);
             returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
         } catch (NoResultException nrex) {
-            throw new IllegalArgumentException("Invalid username: nonexistent");
+            return null;                     // need this information during registration
         }
         return returnedUser;
     }
+    
+    
 
     @Override
     public Long create(AuthUser user) {
@@ -99,4 +101,25 @@ public class UserDaoImplJPA implements UserDao {
     private boolean validate(Object obj) {
         return obj == null;
     }
+
+    @Override
+    public AuthUser login(String username, String password) {
+        if (validate(username) || validate(password)) {
+            throw new IllegalArgumentException("Invalid username or password: null");
+        }
+        TypedQuery<AuthUser> query;
+        AuthUser returnedUser;
+        try {
+            query = em.createQuery("SELECT tbl FROM AuthUser tbl "
+                    + " WHERE tbl.username = :uname and tbl.password = :pword", AuthUser.class);
+            query.setParameter("uname", username);
+            query.setParameter("pword", password);
+            returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
+        } catch (NoResultException nrex) {
+            log.info("User with given username and password doest not exist: null is returning");
+            return null;
+        }
+        return returnedUser;
+    }
+
 }

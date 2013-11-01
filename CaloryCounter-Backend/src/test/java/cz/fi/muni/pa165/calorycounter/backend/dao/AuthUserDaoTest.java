@@ -160,12 +160,8 @@ public class AuthUserDaoTest {
         AuthUser userByUsername = authUserDao.getByUsername(luke.getUsername());
         assertTrue("User was not found by username", userByUsername != null);
         assertTrue("Username of the user returned is not correct", userByUsername.getUsername().equals(luke.getUsername()));
-        try {
-            authUserDao.getByUsername("notExistingUsername");
-            fail("Should have thrown an exception when username does not exist.");
-        } catch (IllegalArgumentException e) {
-            //OK
-        }
+        AuthUser shouldBeNull = authUserDao.getByUsername("notExistingUsername");
+        assertNull("Should have return null when username does not exist.", shouldBeNull);
         try {
             authUserDao.getByUsername(null);
             fail("Should have thrown an exception on null argument.");

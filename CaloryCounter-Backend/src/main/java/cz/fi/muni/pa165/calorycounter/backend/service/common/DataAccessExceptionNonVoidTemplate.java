@@ -10,12 +10,19 @@ import org.springframework.dao.RecoverableDataAccessException;
  * 
  * @author Martin Pasko (smartly23)
  */
-public abstract class DataAccessExceptionNonVoidTemplate<T,U> {
+public abstract class DataAccessExceptionNonVoidTemplate<T,U,V> {
     
     private final U u;
+    private final V v;
 
     public DataAccessExceptionNonVoidTemplate(U u) {
         this.u = u;
+        this.v = null;
+    }
+    
+    public DataAccessExceptionNonVoidTemplate(U u, V v) {
+        this.u = u;
+        this.v = v;
     }
     
     public T tryMethod() {
@@ -32,6 +39,10 @@ public abstract class DataAccessExceptionNonVoidTemplate<T,U> {
     
     public U getU() {
         return u;
+    }
+
+    public V getV() {
+        return v;
     }
     
     

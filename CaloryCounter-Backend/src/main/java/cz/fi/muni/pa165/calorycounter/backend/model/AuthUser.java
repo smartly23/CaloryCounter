@@ -29,6 +29,8 @@ public class AuthUser implements Serializable {
     private int age;
     @Column(unique = true, columnDefinition = "varchar(20)", nullable = false)
     private String username;
+    @Column(columnDefinition = "varchar(200)")  // sifra?
+    private String password;
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
     @OneToMany(mappedBy = "authUser", cascade = CascadeType.ALL)
@@ -72,6 +74,14 @@ public class AuthUser implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public WeightCategory getWeightCat() {

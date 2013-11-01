@@ -41,9 +41,12 @@
         </property>
     </bean>
     
-    <bean id="userStatsService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserStatsServiceImpl">
+    <bean id="userService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl">
         <property name="userStatsDao">
             <ref local="userStatsDaoJPA"/>
+        </property>
+        <property name="userDao">
+            <ref local="userDaoJPA"/>
         </property>
     </bean>
     

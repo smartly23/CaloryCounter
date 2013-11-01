@@ -17,4 +17,13 @@ public interface UserDao extends Dao<AuthUser> {
      * @throws IllegalArgumentException if parameter is null or invalid
      */
     AuthUser getByUsername(String username);
+    
+    /** 
+     * Verify if user with given username and password exists
+     * @param username
+     * @param password
+     * @return User with given username and password
+     */
+    AuthUser login(String username, String password);
+    
 }
