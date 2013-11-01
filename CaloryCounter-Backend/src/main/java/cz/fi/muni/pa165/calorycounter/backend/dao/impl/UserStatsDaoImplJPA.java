@@ -5,7 +5,6 @@
 package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserStatsDao;
-import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -21,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * @author Jan Kucera (Greld)
  */
 public class UserStatsDaoImplJPA implements UserStatsDao {
-    
+
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
     @PersistenceContext
@@ -29,22 +28,22 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
 
     public List<UserStats> getUsersStats() {
         // em.createTypedQuery dotaz cez "new"
-        
+
         TypedQuery<UserStats> query;
         List<UserStats> returnedUsers;
         try {
             query = em.createQuery("SELECT new cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImpl.UserStats(u.name, SUM(ar.caloriesBurnt, SUM(ar.duration)) "
-                    +" FROM AuthUser u LEFT JOIN ActivityRecord ar WHERE u.id = ar.authUser.id"
+                    + " FROM AuthUser u LEFT JOIN ActivityRecord ar WHERE u.id = ar.authUser.id"
                     + " GROUP BY u.id, u.name", UserStats.class);
-            returnedUsers = query.getResultList();     
+            returnedUsers = query.getResultList();
         } catch (NoResultException nrex) {
             throw new IllegalArgumentException("Invalid username: nonexistent");
         }
         return returnedUsers;
-        
+
     }
 
-    public class UserStats {
+    public static class UserStats {
 
         private String userName;
         private int sumBurntCalories;

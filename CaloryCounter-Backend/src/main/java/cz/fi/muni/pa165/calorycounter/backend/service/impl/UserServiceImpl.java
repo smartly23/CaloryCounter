@@ -48,6 +48,7 @@ public class UserServiceImpl implements UserService {
                     dto.setNameOfUser(dao.getUserName());
                     dto.setSumBurntCalories(dao.getSumBurntCalories());
                     dto.setSumDuration(dao.getSumDuration());
+                    dtos.add(dto);
                 }
                 return dtos;
             }

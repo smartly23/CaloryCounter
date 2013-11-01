@@ -6,9 +6,14 @@
 package cz.fi.muni.pa165.calorycounter.backend.service;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
+import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA;
+import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA.UserStats;
 import cz.fi.muni.pa165.calorycounter.backend.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.backend.dto.UserStatsDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -33,11 +38,14 @@ public class UserServiceTest {
     private UserService userService = new UserServiceImpl();
     @Mock
     private UserDaoImplJPA userDaoImplJPA;
+    @Mock
+    private UserStatsDaoImplJPA userStatsDaoImplJPA;
     private AuthUser user;
     private AuthUserDto userDto;
     private final Long USER_ID = 237L;
     private final String USERNAME = "edita";
     private final String PASSWORD = "heslo";
+    private final List<UserStats> listStats = new ArrayList<>();
 
     @BeforeClass
     public static void setUpClass() {
@@ -62,6 +70,12 @@ public class UserServiceTest {
         userDto.setUserId(USER_ID);
         userDto.setName("Edita Papeky");
 
+        UserStatsDto userStatsDto = new UserStatsDto();
+        userStatsDto.setNameOfUser(USERNAME);
+
+        UserStats userStats = new UserStats(USERNAME, 150, 10);
+
+        listStats.add(userStats);
     }
 
     @After
@@ -106,6 +120,18 @@ public class UserServiceTest {
         } catch (IllegalArgumentException e) {
             // OK
         }
+    }
+
+    @Test
+    public void testGetAllUserStats() {
+        Mockito.stub(userStatsDaoImplJPA.getUsersStats()).toReturn(listStats);
+
+        List<UserStatsDto> listDto = userService.getAllUserStats();
+        assertNotNull("List is null.", listDto);
+        assertFalse("List is empty", listDto.isEmpty());
+        assertTrue("List's size should be 1", listDto.size() == 1);
+
+        assertEquals("User is not in the list", USERNAME, listDto.iterator().next().getNameOfUser());
     }
 
 }
