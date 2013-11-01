@@ -11,6 +11,9 @@ import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 public class AuthUserConvert {
 
     public static AuthUser fromDtoToEntity(AuthUserDto dto) {
+        if (dto == null) {
+            return null;
+        }
         AuthUser authUser = new AuthUser();
         authUser.setId(dto.getUserId());
         authUser.setAge(dto.getAge());
@@ -21,6 +24,9 @@ public class AuthUserConvert {
     }
 
     public static AuthUserDto fromEntityToDto(AuthUser entity) {
+        if (entity == null) {
+            return null;
+        }
         AuthUserDto authUserDto = new AuthUserDto();
         authUserDto.setUserId(entity.getId());
         authUserDto.setAge(entity.getAge());

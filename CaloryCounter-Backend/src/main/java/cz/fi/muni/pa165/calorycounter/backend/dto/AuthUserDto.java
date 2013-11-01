@@ -57,10 +57,31 @@ public class AuthUserDto {
     }
 
     @Override
-    public String toString() {
-        return "AuthUserDto{" + "userId=" + userId + ", name=" + name + ", sex=" + sex + ", age=" 
-                + age + ", weightCatNum=" + weightCatNum + '}';
+    public int hashCode() {
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.userId);
+        return hash;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AuthUserDto other = (AuthUserDto) obj;
+        if (!Objects.equals(this.userId, other.userId)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthUserDto{" + "userId=" + userId + ", name=" + name + ", sex=" + sex + ", age="
+                + age + ", weightCatNum=" + weightCatNum + '}';
+    }
 
 }

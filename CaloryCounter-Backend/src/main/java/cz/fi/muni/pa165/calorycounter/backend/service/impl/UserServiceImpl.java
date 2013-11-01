@@ -7,16 +7,12 @@ package cz.fi.muni.pa165.calorycounter.backend.service.impl;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserStatsDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA.UserStats;
-import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.UserStatsDto;
-import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.AuthUserConvert;
-import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.service.UserService;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
-import static cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl.log;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -34,12 +30,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
 public class UserServiceImpl implements UserService {
-    final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
+
+    final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     // concrete implementation injected by setter from Spring
     private UserStatsDao userStatsDao;
     private UserDao userDao;
 
-   
     @Override
     public List<UserStatsDto> getAllUserStats() {
         return (List<UserStatsDto>) new DataAccessExceptionNonVoidTemplate(null) {
@@ -57,7 +53,6 @@ public class UserServiceImpl implements UserService {
             }
         }.tryMethod();
     }
-
 
     @Override
     public AuthUserDto login(String username, String password) {
@@ -83,12 +78,12 @@ public class UserServiceImpl implements UserService {
             log.error("UserServiceImpl.register() called on null parameter: AuthUserDto user or String username or String password", iaex);
             throw iaex;
         }
-        
+
         AuthUserDto userDto = getByUsername(username);
-        if (userDto != null){
-            throw new IllegalArgumentException("Username is allready used");
+        if (userDto != null) {
+            throw new IllegalArgumentException("Username is already used");
         }
-        
+
         AuthUser entity = AuthUserConvert.fromDtoToEntity(user);
         entity.setUsername(username);
         entity.setPassword(password);
@@ -100,7 +95,7 @@ public class UserServiceImpl implements UserService {
             }
         }.tryMethod();
     }
-    
+
     @Override
     public AuthUserDto getByUsername(String username) {
         if (username == null) {
@@ -125,6 +120,5 @@ public class UserServiceImpl implements UserService {
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-
 
 }
