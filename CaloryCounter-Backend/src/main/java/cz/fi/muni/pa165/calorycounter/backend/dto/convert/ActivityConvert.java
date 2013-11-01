@@ -4,10 +4,8 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Conversion between ActivityRecord DTO and entity back and forth.
