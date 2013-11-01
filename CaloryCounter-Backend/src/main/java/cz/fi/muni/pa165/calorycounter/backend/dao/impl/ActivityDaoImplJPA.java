@@ -72,4 +72,14 @@ public class ActivityDaoImplJPA implements ActivityDao {
         }
         em.remove(entity);
     }
+
+    @Override
+    public Activity get(String name) {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Name is null or empty: \"" + name + "\"");
+        } else if (em.createQuery("SELECT a.id FROM Activity a WHERE a.name = :name", Long.class).setParameter("name", name).getResultList().size() < 1) {
+            throw new IllegalArgumentException("Invalid name: nonexistent");
+        }
+        return em.createQuery("SELECT a FROM Activity a WHERE a.name = :name", Activity.class).setParameter("name", name).getSingleResult();
+    }
 }

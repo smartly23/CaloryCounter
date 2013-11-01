@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import java.util.List;
 
 /**
  * DAO interface - for operations on the persistence layer on Calories entities.
@@ -23,4 +24,8 @@ public interface CaloriesDao extends Dao<Calories> {
      * @throws IllegalArgumentException if parameter is null or invalid
      */
     Calories getByActivityWeightCat(Activity activity, WeightCategory weightCat);
+
+    List<Calories> getByActivity(Activity activity);
+
+    List<Calories> getAll();
 }

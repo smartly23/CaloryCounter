@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.calorycounter.backend.dto;
 
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -14,7 +13,7 @@ import java.util.Objects;
 public class ActivityDto {
 
     private String activityName;
-    private Map<WeightCategory, Integer> weightCalories = new HashMap<>();
+    private Map<WeightCategory, Integer> weightCalories;
 
     public String getActivityName() {
         return activityName;

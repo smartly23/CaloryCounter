@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -101,5 +102,26 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
 
     private boolean validate(Calories calories) {
         return (calories == null || calories.getWeightCat() == null || calories.getActivity() == null);
+    }
+
+    @Override
+    public List<Calories> getAll() {
+        return em.createQuery("SELECT tbl FROM Calories tbl", Calories.class).getResultList();
+    }
+
+    @Override
+    public List<Calories> getByActivity(Activity activity) {
+        if (activity == null || activity.getId() == null) {
+            throw new IllegalArgumentException("Invalid activity: null or id is null");
+        }
+        TypedQuery<Calories> query;
+        try {
+            query = em.createQuery("SELECT tbl FROM Calories tbl "
+                    + "WHERE tbl.activity = :activity", Calories.class);
+            query.setParameter("activity", activity);
+        } catch (NoResultException nrex) {
+            throw new IllegalArgumentException("Invalid activity: Calories nonexistent");
+        }
+        return query.getResultList();
     }
 }

@@ -5,10 +5,17 @@
 package cz.fi.muni.pa165.calorycounter.backend.service;
 
 import cz.fi.muni.pa165.calorycounter.backend.dto.ActivityDto;
+import java.util.List;
 
 /**
  *
- * @author Lastuvka
+ * @author Martin Bryndza (martin-bryndza)
  */
-public interface ActivityService extends Service<ActivityDto> {
+public interface ActivityService {
+
+    ActivityDto get(Long activityId);
+
+    ActivityDto get(String activityName);
+
+    List<ActivityDto> getAll();
 }

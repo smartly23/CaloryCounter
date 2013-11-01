@@ -40,7 +40,7 @@
             <ref local="activityRecordConvert"/>
         </property>
     </bean>
-    
+
     <bean id="userService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl">
         <property name="userStatsDao">
             <ref local="userStatsDaoJPA"/>
@@ -49,7 +49,16 @@
             <ref local="userDaoJPA"/>
         </property>
     </bean>
-    
+
+    <bean id="activityService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityServiceImpl">
+        <property name="activityDao">
+            <ref local="activityDaoJPA"/>
+        </property>
+        <property name="caloriesDao">
+            <ref local="caloriesDaoJPA"/>
+        </property>
+    </bean>
+
     <bean id="userActivityRecordsService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserActivityRecordsServiceImpl">
         <property name="activityRecordDao">
             <ref local="activityRecordDaoJPA"/>
