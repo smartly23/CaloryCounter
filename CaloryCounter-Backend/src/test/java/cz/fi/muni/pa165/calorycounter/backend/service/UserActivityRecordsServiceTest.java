@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.fi.muni.pa165.calorycounter.backend.service;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA;
@@ -121,7 +117,7 @@ public class UserActivityRecordsServiceTest {
 
         Mockito.stub(activityRecordDaoImplJPA.getAllActivityRecordsByUser(user)).toReturn(al);
         UserActivityRecordsDto uard2 = uars.getAllActivityRecords(userDto);
-        assertTrue("Name is not equals", uard.getNameOfUser() == uard2.getNameOfUser());
+        assertEquals("Name is not equals", uard.getNameOfUser(), uard2.getNameOfUser());
         assertEquals("diffrent list of activities", uard.getActivityRecords(), uard2.getActivityRecords());
         try {
             uars.getAllActivityRecords(null);
