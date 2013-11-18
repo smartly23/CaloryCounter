@@ -15,7 +15,7 @@
             <div id="navigation">
                 <ul>
                     <li><s:link href="/new_record.jsp"><f:message key="navigation.new_record"/></s:link></li>
-                    <li><s:link href="/my_records.jsp"><f:message key="navigation.my_records"/></s:link></li>
+                    <li><s:link href="/records/list.jsp"><f:message key="navigation.my_records"/></s:link></li>
                     <li><s:link href="/global_ladder.jsp"><f:message key="navigation.global_ladder"/></s:link></li>
                     <li><s:link href="/activities.jsp"><f:message key="navigation.activities"/></s:link></li>
                     </ul>
