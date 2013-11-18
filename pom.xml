@@ -16,7 +16,6 @@
   <modules>
     <module>CaloryCounter-Backend</module>
     <module>CaloryCounter-Frontend</module>
-    <module>CaloryCounter-WebUI</module>
   </modules>
   
   <build>
