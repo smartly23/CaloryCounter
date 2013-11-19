@@ -14,8 +14,9 @@
   </properties>
   
   <modules>
-    <module>CaloryCounter-Backend</module>
-    <module>CaloryCounter-Frontend</module>
+    <module>CaloryCounter-API</module>
+    <module>CaloryCounter-BusinessLogic</module>
+    <module>CaloryCounter-Web</module>
   </modules>
   
   <build>
