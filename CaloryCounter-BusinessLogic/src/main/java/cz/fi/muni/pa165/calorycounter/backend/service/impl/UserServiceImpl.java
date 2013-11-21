@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.fi.muni.pa165.calorycounter.backend.service.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
@@ -13,6 +9,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.convert.AuthUserConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
+import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
@@ -98,6 +95,41 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void update(AuthUserDto dto) {
+        if (dto.getUserId() == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot update user that"
+                    + " doesn't exist. Use create instead.");
+            log.error("UserServiceImpl.update() called on non-existent entity", iaex);
+            throw iaex;
+        } else {
+            new DataAccessExceptionVoidTemplate(dto) {
+                @Override
+                public void doMethod() {
+                    AuthUser entity = AuthUserConvert.fromDtoToEntity((AuthUserDto) getU());
+                    userDao.update(entity);
+                }
+            }.tryMethod();
+        }
+    }
+    
+    @Override
+    public void remove(AuthUserDto dto) {
+        if (dto.getUserId()== null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove user that"
+                    + " doesn't exist.");
+            log.error("UserServiceImpl.remove() called on non-existent entity", iaex);
+            throw iaex;
+        } else {
+            new DataAccessExceptionVoidTemplate(dto) {
+                @Override
+                public void doMethod() {
+                    userDao.remove(userDao.get(((AuthUserDto) getU()).getUserId()));
+                }
+            }.tryMethod();
+        }
+    }
+
+    @Override
     public AuthUserDto getByUsername(String username) {
         if (username == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Invalid username in parameter: null");
@@ -121,5 +153,4 @@ public class UserServiceImpl implements UserService {
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-
 }

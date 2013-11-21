@@ -28,6 +28,9 @@ public interface UserService{
      */
     Long register(AuthUserDto user, String username, String password);
     
+    void update(AuthUserDto user);
+    
+    void remove(AuthUserDto user);
     /**
      * 
      * @param username

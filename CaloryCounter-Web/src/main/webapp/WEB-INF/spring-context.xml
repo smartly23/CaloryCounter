@@ -16,5 +16,8 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
     <bean name= "activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl" >
     </bean>
+    
+    <bean name="userService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl"/>
+    <bean class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityServiceImpl"/>
 
 </beans>
