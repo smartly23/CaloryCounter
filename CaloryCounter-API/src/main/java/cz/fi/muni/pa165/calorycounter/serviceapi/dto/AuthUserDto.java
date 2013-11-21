@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
-import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
 import java.util.Objects;
 
 /**

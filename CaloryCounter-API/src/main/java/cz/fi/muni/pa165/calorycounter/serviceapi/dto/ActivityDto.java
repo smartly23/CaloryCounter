@@ -1,10 +1,7 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
-import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * DTO for Activity entity.

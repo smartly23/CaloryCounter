@@ -7,7 +7,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;

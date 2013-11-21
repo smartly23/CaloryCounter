@@ -16,12 +16,6 @@
     <url>http://maven.apache.org</url>
 
     <dependencies>
-        <dependency>
-            <groupId>cz.fi.muni.pa165</groupId>
-            <artifactId>CaloryCounter-BusinessLogic</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 
 

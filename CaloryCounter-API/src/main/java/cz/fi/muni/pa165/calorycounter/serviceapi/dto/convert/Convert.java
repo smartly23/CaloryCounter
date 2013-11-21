@@ -1,10 +1,8 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi.dto.convert;
 
-import javax.persistence.EntityManager;
-
 /**
- * Interface for conversion between DTO and entity back and forth. Conversion classes DO NOT verify consistence
- * of data being converted.
+ * Interface for conversion between DTO and entity back and forth. Conversion
+ * classes DO NOT verify consistence of data being converted.
  *
  * @author Martin Pasko (smartly23)
  */

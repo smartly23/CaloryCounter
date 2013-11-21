@@ -4,7 +4,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;

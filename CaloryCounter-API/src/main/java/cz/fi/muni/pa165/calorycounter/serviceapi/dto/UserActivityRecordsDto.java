@@ -6,7 +6,6 @@ package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
 import java.util.Collections;
 import java.util.List;
-import org.hibernate.mapping.Collection;
 
 /**
  * This is used for various filtering of user stats based on his activities.

@@ -1,5 +1,5 @@
 
-package cz.fi.muni.pa165.calorycounter.backend.model;
+package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
 /**
  * This entity represents weight categories by intervals for all common human weights in lbs.

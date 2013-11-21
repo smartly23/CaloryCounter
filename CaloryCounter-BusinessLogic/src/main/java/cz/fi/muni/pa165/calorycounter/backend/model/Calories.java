@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.calorycounter.backend.model;
 
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Entity;

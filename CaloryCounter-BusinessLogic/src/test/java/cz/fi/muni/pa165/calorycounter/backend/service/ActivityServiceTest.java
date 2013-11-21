@@ -11,7 +11,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityServiceImpl;
 import java.util.HashMap;
 import java.util.LinkedList;

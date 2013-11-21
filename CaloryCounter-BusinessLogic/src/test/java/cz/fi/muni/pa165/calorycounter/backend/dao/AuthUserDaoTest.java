@@ -6,7 +6,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
-import cz.fi.muni.pa165.calorycounter.backend.model.WeightCategory;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
