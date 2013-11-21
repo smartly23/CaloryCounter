@@ -5,6 +5,39 @@
 
 <s:layout-render name="layout.jsp">
     <s:layout-component name="body">
-        
+        <s:errors/>
+        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">
+            <s:hidden name="user.id"/>
+            <fieldset><legend><f:message key="profile.edit"/></legend>
+                <table>
+                    <tr>
+                        <!-- "for" label-u je previazane s "id" text-u, tzn. ze klik na dany label
+                        sposobi akciu na danom text inpute; "name" labelu znaci to, co sa zobrazi v casti
+                        label a mozem to byt aj z toho properties suboru, ako v tomto pripade, alebo
+                        natvrdo medzi label a /label tagmi-->
+                        <th><s:label for="i1" name="profile.name"/></th>
+                        <td><s:text id="i1" name="user.name"/></td>
+                    </tr>
+                    <tr>
+                        <th><s:label for="i2" name="profile.age"/></th>
+                        <td><s:text id="i2" name="user.age"/></td>
+                    </tr>
+                    <tr>
+                        <c:forEach var="gender"
+                        items="<%= cz.fi.muni.pa165.calorycounter.frontend.Gender.values()%>">
+                        <stripes:radio name="user.sex" value="${gender}"/>${gender}
+                        </c:forEach>
+                    </tr>
+                    <tr>
+                        <th><s:label for="i3" name="profile.weight"/></th>
+                        <td><s:select id="i3" name="user.weightCatNum">
+                                <s:options-enumeration enum="cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory.values()"/>
+                            </s:select></td>
+                        </tr>
+                    </table>
+                <s:submit name="save"><f:message key="profile.save"/></s:submit>
+                <s:submit name="cancel"><f:message key="profile.cancel"/></s:submit>
+                </fieldset>
+        </s:form>
     </s:layout-component>
 </s:layout-render>
