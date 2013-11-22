@@ -14,11 +14,11 @@
         <body>
             <div id="main_container">
                 <div id="header">
-                    <div id="logo"><a href="index.jsp"><img src="main/resources/images/logo.png" alt="" title="" border="0">LOGO</a></div> <%//TODO%>
+                    <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" title="" border="0"></s:link></div>
                     <div id="profile"><p><s:link href="/profile/show.jsp"><f:message key="navigation.editprofile"/></s:link></p></div>
                         <div id="menu">
                             <ul>
-                                <li><a class="current" href="${pageContext.request.contextPath}/index.jsp"><f:message key="navigation.home"/></a></li>
+                                <li><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
                             <li><s:link href="/record/create.jsp"><f:message key="navigation.new_record"/></s:link></li>
                             <li><s:link href="/records/list.jsp"><f:message key="navigation.my_records"/></s:link></li>
                             <li><s:link href="/global_ladder.jsp"><f:message key="navigation.global_ladder"/></s:link></li>
@@ -42,13 +42,12 @@
 
                 <div id="footer">
                     <div class="copyright">
-                        <a href="home.html"><img src="images/footer_logo.gif" alt="" title="" border="0"></a>
+                        <a href="home.html"><img src="/images/footer_logo.gif" alt="" title="" border="0"></a>
                     </div>
                     <div class="footer_links">
                         <a href="#">About us</a>
                         <a href="privacy.html">Privacy policy</a>
                         <a href="contact.html">Contact us </a>
-                        <a href="http://www.wix.com/start/matrix/?utm_campaign=af_webpagedesign.com.au&amp;experiment_id=Greefies">Create your own free web site</a>
                     </div>
                 </div>
             </div> <!--end of main container-->

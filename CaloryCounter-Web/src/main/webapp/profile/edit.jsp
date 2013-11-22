@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="layout.jsp">
+<s:layout-render name="/layout.jsp">
     <s:layout-component name="body">
         <s:errors/>
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">
@@ -26,15 +26,15 @@
                         <c:forEach var="gender"
                         items="<%= cz.fi.muni.pa165.calorycounter.frontend.Gender.values()%>">
                         <stripes:radio name="user.sex" value="${gender}"/>${gender}
-                        </c:forEach>
+                    </c:forEach>
                     </tr>
                     <tr>
                         <th><s:label for="i3" name="profile.weight"/></th>
                         <td><s:select id="i3" name="user.weightCatNum">
                                 <s:options-enumeration enum="cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory.values()"/>
                             </s:select></td>
-                        </tr>
-                    </table>
+                    </tr>
+                </table>
                 <s:submit name="save"><f:message key="profile.save"/></s:submit>
                 <s:submit name="cancel"><f:message key="profile.cancel"/></s:submit>
                 </fieldset>

@@ -21,7 +21,7 @@ public class ActivityDaoImplJPA implements ActivityDao {
 
     final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
-    @PersistenceContext
+    @PersistenceContext(name = "PU1", unitName = "PU1")
     private EntityManager em;
 
     public ActivityDaoImplJPA() {

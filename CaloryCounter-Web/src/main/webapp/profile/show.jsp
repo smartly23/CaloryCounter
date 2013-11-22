@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="layout.jsp">
+<s:layout-render name="/layout.jsp">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" var="profileActionBean"/>
         <!-- treba, lebo pri prvom prideni na tuto stranku z layoutu sme este neforwardovali z ProfileBeanu,

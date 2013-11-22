@@ -23,7 +23,7 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
 
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
-    @PersistenceContext
+    @PersistenceContext(name = "PU1", unitName = "PU1")
     private EntityManager em;
 
     public List<UserStats> getUsersStats() {

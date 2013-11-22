@@ -17,10 +17,7 @@ import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -198,7 +195,6 @@ public class AuthUserDaoTest {
         em.persist(anakin);
         em.persist(obiWan);
         em.getTransaction().commit();
-
 
     }
 

@@ -19,12 +19,12 @@ public class UserDaoImplJPA implements UserDao {
 
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
-    @PersistenceContext
+    @PersistenceContext(name = "PU1", unitName = "PU1")
     private EntityManager em;
 
     public UserDaoImplJPA() {
     }
-    
+
     // this is only for legacy compatibility with some old tests
     public UserDaoImplJPA(EntityManager em) {
         this.em = em;
@@ -47,8 +47,6 @@ public class UserDaoImplJPA implements UserDao {
         }
         return returnedUser;
     }
-    
-    
 
     @Override
     public Long create(AuthUser user) {
