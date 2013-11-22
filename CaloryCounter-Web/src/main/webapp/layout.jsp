@@ -18,7 +18,7 @@
                     <div id="profile"><p><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean"><f:message key="navigation.editprofile"/></s:link></p></div>
                         <div id="menu">
                             <ul>
-                                <li><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
+                                <li id="first"><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
                             <li><s:link href="/record/create.jsp"><f:message key="navigation.new_record"/></s:link></li>
                             <li class="navlink"><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li>
 
@@ -43,7 +43,7 @@
 
                 <div id="footer">
                     <div class="copyright">
-                        <a href="home.html"><img src="/images/footer_logo.gif" alt="" title="" border="0"></a>
+                        (c) MUFI
                     </div>
                     <div class="footer_links">
                         <a href="#">About us</a>
