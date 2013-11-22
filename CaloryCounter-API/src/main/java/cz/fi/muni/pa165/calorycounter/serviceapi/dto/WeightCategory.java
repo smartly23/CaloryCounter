@@ -8,7 +8,6 @@ package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
  */
 public enum WeightCategory {
 
-    _0_("less than 130 lbs"),
     _130_("130-154 lbs"),
     _155_("155-179lbs"),
     _180_("180-204lbs"),
@@ -20,6 +19,11 @@ public enum WeightCategory {
     }
 
     public String getShowedCategory() {
+        return showedCategory;
+    }
+
+    @Override
+    public String toString() {
         return showedCategory;
     }
 }

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * @author Martin Bryndza (martin-bryndza)
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(value = "transactionManager", readOnly = true)
 public class ActivityServiceImpl implements ActivityService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityService.class);
@@ -56,7 +56,7 @@ public class ActivityServiceImpl implements ActivityService {
                 }
                 ActivityDto dto = convert.fromEntitiesListToDto(cals);
                 return dto;
-}
+            }
         }.tryMethod();
     }
 

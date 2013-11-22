@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
  * @author Martin Pasko (smartly23)
  */
 @Service
-@Transactional(readOnly = true)
+@Transactional(value = "transactionManager", readOnly = true)
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);

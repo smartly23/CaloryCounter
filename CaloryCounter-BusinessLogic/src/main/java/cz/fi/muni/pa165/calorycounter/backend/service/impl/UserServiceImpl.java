@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jan Kucera (Greld)
  */
 @Service
-@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
+@Transactional(value = "transactionManager", readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
 public class UserServiceImpl implements UserService {
 
     final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
@@ -111,10 +111,10 @@ public class UserServiceImpl implements UserService {
             }.tryMethod();
         }
     }
-    
+
     @Override
     public void remove(AuthUserDto dto) {
-        if (dto.getUserId()== null) {
+        if (dto.getUserId() == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove user that"
                     + " doesn't exist.");
             log.error("UserServiceImpl.remove() called on non-existent entity", iaex);
