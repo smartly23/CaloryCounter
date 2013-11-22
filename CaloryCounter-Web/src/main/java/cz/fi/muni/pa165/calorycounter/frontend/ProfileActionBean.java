@@ -25,7 +25,7 @@ public class ProfileActionBean extends BaseActionBean {
         @Validate(on = "save", field = "sex", required = true),
         @Validate(on = "save", field = "weightCatNum", required = true)
     })
-    private AuthUserDto user;
+    private AuthUserDto user = createAuxUser();
     private String username;
     private Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
     @SpringBean //Spring can inject even to private and protected fields
@@ -35,7 +35,7 @@ public class ProfileActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution show() {
         log.debug("show()");
-        user = userService.getByUsername("x");
+        user = userService.getByUsername(username);
         return new ForwardResolution("/profile/show.jsp");
     }
 

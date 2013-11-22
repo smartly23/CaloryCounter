@@ -14,7 +14,7 @@
         <body>
             <div id="main_container">
                 <div id="header">
-                    <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="<f:message key="webname"/>"></s:link></div>
+                    <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>
                     <h1 id="topTitle"><s:link href="/index.jsp"><f:message key="topTitle"/></s:link></h1>
                     <div id="profile"><p><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean"><f:message key="navigation.editprofile"/></s:link></p></div>
                         <div id="menu">
