@@ -5,16 +5,23 @@ body {
     font: 10px  verdana, arial, helvetica;
     color: #416271;
 }
+h1#topTitle{
+    margin: 35px 20px 20px 20px;
+    float: left;
+}
+h1#topTitle a{
+    font-size:30px;
+    color:#E6D35E;
+    text-decoration: none;
+}
 h1{
-    padding:5px 0 5px 0;
-    margin:0px;
-    font-size:18px;
-    color:#FFFFFF;
+    margin:10px 5px;
+    font-size:20px;
+    color:#E6D35E;
 }
 h2{
-    padding:5px 0 5px 0;
-    margin:0px;
-    font-size:18px;
+    margin:20px 15px 15px 15px;
+    font-size:20px;
     color:#f7951e;
 }
 h3{
@@ -31,9 +38,7 @@ h4{
 }
 p{
     text-align:justify;
-    padding:2px 0 2px 0;
-    margin:0px;
-    line-height:15px;
+    margin:0px 20px;
 }
 p.white{
     color:#FFFFFF;
@@ -69,11 +74,23 @@ img.box_img{
     padding:10px 10px;
     float:left;
 }
+#logo img{
+     border: 0;
+     width: 95px;
+     height: 84px;
+}
 #profile{
     padding:15px 15px;
     float:right;
-
 }
+
+#profile a{
+    color: black;
+}
+#profile a:hover{
+    text-decoration: none;
+}
+
 /*----------------------menu-------------------------*/
 #menu{
     width:900px;
@@ -86,16 +103,19 @@ img.box_img{
     list-style:none;padding:0 0 0 230px;margin: auto;display:block;
 }
 #menu ul li{
-    list-style:none;display:inline;float:left;width:auto;height:42px;padding:0px;line-height:42px; font-family:Arial, Helvetica, sans-serif; font-size:13px;
+    list-style:none;display:inline;float:left;width:auto;height:42px;padding: 0;margin: 0 0 0 25px;line-height:42px; font-family:Arial, Helvetica, sans-serif; font-size:13px;
+}
+#menu ul li#first{
+    margin:0;
 }
 #menu ul li a{
-    height:42px; width: auto;float:left;text-decoration:none;padding:0 0 0 25px; margin:0px 3px 0px 3px;color:#fff;text-align:center;
+    height:42px; width: auto;float:left;text-decoration:none;padding:0; margin:0px 3px 0px 3px;color:#fff;text-align:center;
 }
 #menu ul li :hover{
-    height:42px;width: auto;text-decoration:none;color: #fff;padding:0 0 0 25px; background:url(/images/menu_arrow.gif) no-repeat left;
+    color: #C3C1BD; 
 }
 #menu ul li .current{
-    height:42px;width: auto;float:left;text-decoration:none;padding:0px;color: #fff;padding:0 0 0 25px; background:url(/images/menu_arrow.gif) no-repeat left;
+    color: #C3C1BD;
 }
 
 /*----------------middle green box-----------*/
@@ -132,6 +152,8 @@ img.box_img{
     width:auto;
     height:auto;
     clear:both;
+    padding: 20px;
+    font-size: 13px;
 }
 /*----------------------top right navigation-------------------------*/
 #right_nav{
@@ -335,8 +357,9 @@ textarea.contact_textarea{
 }
 .copyright{
     float:left;
-    padding-left:10px;
-    padding-top:10px;
+    margin-left: 20px;
+    line-height: 37px;
+    color: #C3C1BD
 }
 .footer_links{
     float:right;
