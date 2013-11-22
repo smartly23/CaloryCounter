@@ -5,6 +5,7 @@
 
 <s:layout-render name="/layout.jsp">
     <s:layout-component name="body">
+        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" var="actionBean"/>
         <s:errors/>
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">
             <s:hidden name="user.id"/>
@@ -32,8 +33,8 @@
                     </tr>
                     <tr>
                         <th><s:label for="i4" name="profile.weight"/></th>
-                        <td><s:select id="i4" name="user.weightCatNum">
-                                <s:options-collection collection="${actionBean.weightStringList}"/>
+                        <td><s:select id="i4" name="user.weightCatNum" >
+                                <s:options-enumeration enum="cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory" label="showedCategory"/>
                             </s:select></td>
                     </tr>
                 </table>

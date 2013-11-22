@@ -11,7 +11,7 @@
     </s:layout-component>
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" var="actionBean"/>
-        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" focus="" >
+        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" action="createRecord" focus="" >
             <fieldset>
                 <legend>
                     <f:message key="record.create.legend"/>

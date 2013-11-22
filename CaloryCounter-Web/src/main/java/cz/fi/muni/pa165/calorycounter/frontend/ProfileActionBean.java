@@ -27,7 +27,6 @@ public class ProfileActionBean extends BaseActionBean {
     })
     private AuthUserDto user = createAuxUser();
     private String username;
-    private List<String> weightStringList;
     private Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
     @SpringBean //Spring can inject even to private and protected fields
     private UserService userService;
@@ -41,7 +40,6 @@ public class ProfileActionBean extends BaseActionBean {
     }
 
     public Resolution edit() {
-        weightStringList = fillWeightStringList();
         log.debug("edit() user with id {}", user.getUserId());
         return new ForwardResolution("/profile/edit.jsp");
     }
@@ -58,10 +56,6 @@ public class ProfileActionBean extends BaseActionBean {
 
     public AuthUserDto getUser() {
         return user;
-    }
-
-    public List<String> getWeightStringList() {
-        return weightStringList;
     }
 
     public Gender[] getGenders() {
@@ -82,13 +76,5 @@ public class ProfileActionBean extends BaseActionBean {
         // toto odkomentovat az ked budeme mat funkcnu databazu, dovtedy to bude hadzat error
         //userService.register(user, "emrkvicka", "passwd");
         return authUser;
-    }
-
-    private List<String> fillWeightStringList() {
-        List<String> tempList = new ArrayList();
-        for (WeightCategory value : WeightCategory.values()) {
-            tempList.add(value.getShowedCategory());
-        }
-        return new ArrayList(tempList);
     }
 }

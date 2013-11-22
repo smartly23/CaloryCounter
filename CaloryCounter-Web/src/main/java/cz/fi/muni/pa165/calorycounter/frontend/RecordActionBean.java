@@ -23,7 +23,6 @@ public class RecordActionBean extends BaseActionBean implements ValidationErrorH
     final static Logger log = LoggerFactory.getLogger(RecordActionBean.class);
     @SpringBean
     protected ActivityRecordService activityRecordService;
-
     @ValidateNestedProperties(value = {
         @Validate(on = {"createRecord", "save"}, field = "activityName", required = true),
         @Validate(on = {"createRecord", "save"}, field = "duration", required = true, minvalue = 1),
@@ -56,7 +55,7 @@ public class RecordActionBean extends BaseActionBean implements ValidationErrorH
         log.debug("Created activity record with id " + createdId);
         log.debug(activityRecordService.get(createdId).toString());
         log.debug(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))).toString());
-        return new ForwardResolution("/record/list.jsp");
+        return new ForwardResolution("/records/list.jsp");
     }
 
     // <editor-fold desc="Editing a record">//GEN-BEGIN:edit
