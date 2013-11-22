@@ -22,7 +22,7 @@
                                 <li id="first"><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
                             <li><s:link href="/record/create.jsp"><f:message key="navigation.new_record"/></s:link></li>
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li>
-                            <li><s:link href="/global_ladder.jsp"><f:message key="navigation.global_ladder"/></s:link></li>
+                            <!--<li><s:link href="/global_ladder.jsp"><f:message key="navigation.global_ladder"/></s:link></li>-->
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean"><f:message key="navigation.activities"/></s:link></li>
                             </ul>
                         </div>

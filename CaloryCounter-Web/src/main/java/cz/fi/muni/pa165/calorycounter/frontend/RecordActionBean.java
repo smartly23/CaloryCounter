@@ -3,8 +3,6 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityRecordDto;
 import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.integration.spring.SpringBean;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityRecordService;
