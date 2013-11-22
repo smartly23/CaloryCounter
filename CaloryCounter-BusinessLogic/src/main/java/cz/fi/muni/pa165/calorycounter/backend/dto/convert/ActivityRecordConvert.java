@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Conversion between ActivityRecord DTO and entity back and forth.
@@ -24,17 +25,21 @@ import org.slf4j.LoggerFactory;
 public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRecordDto> {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    private ActivityRecordDao activityRecordDao; // concrete implementation in Spring config file
-    private ActivityDao activityDao; // concrete implementation in Spring config file
-    private CaloriesDao caloriesDao; // concrete implementation in Spring config file
-    private UserDao userDao; // concrete implementation in Spring config file
+    @Autowired
+    private ActivityRecordDao activityRecordDao;
+    @Autowired
+    private ActivityDao activityDao;
+    @Autowired
+    private CaloriesDao caloriesDao;
+    @Autowired
+    private UserDao userDao;
 
 
     /*
      * Converts ActivityRecord DTO to appropriate entity.
      * @param dto DTO sent from service layer
      * @return ActivityRecord entity
-     * @throws IllegalArgumentException if user id in parameter "dto" is null 
+     * @throws IllegalArgumentException if user id in parameter "dto" is null
      */
     @Override
     public ActivityRecord fromDtoToEntity(ActivityRecordDto dto) {
@@ -88,7 +93,7 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
      * Converts ActivityRecord entity to appropriate DTO.
      * @param entity ActivityRecord entity to be converted to DTO
      * @return ActivityRecord DTO
-     * @throws IllegalArgumentException if entity id in parameter "entity" is null 
+     * @throws IllegalArgumentException if entity id in parameter "entity" is null
      */
     @Override
     public ActivityRecordDto fromEntityToDto(ActivityRecord entity) {
