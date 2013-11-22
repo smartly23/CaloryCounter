@@ -14,7 +14,7 @@
         <body>
             <div id="main_container">
                 <div id="header">
-                    <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" title="" border="0"></s:link></div>
+                    <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" title="" border="0" width="95" height="84"></s:link></div>
                     <div id="profile"><p><s:link href="/profile/show.jsp"><f:message key="navigation.editprofile"/></s:link></p></div>
                         <div id="menu">
                             <ul>
