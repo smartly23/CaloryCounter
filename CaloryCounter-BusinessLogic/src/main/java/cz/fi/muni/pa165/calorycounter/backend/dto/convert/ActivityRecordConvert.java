@@ -99,7 +99,7 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     public ActivityRecordDto fromEntityToDto(ActivityRecord entity) {
         ActivityRecordDto dto = new ActivityRecordDto();
 
-        dto.setActivityDate(new java.util.Date(entity.getActivityDate().getTime()));    // sql.Date to util.Date
+        //dto.setActivityDate(new java.util.Date(entity.getActivityDate().getTime()));    // sql.Date to util.Date
         dto.setCaloriesBurnt(entity.getCaloriesBurnt());
         dto.setDuration(entity.getDuration());
         dto.setWeightCatNum(entity.getCalories().getWeightCat().ordinal() + 1);
