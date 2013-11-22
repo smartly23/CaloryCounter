@@ -7,7 +7,7 @@
         <class>cz.fi.muni.pa165.calorycounter.backend.model.AuthUser</class>
         <class>cz.fi.muni.pa165.calorycounter.backend.model.Calories</class>
         <properties>
-            <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.ClientDriver"/>  
+            <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.ClientDriver"/>
             <property name="hibernate.connection.url" value="jdbc:derby://localhost:1527/pa165"/>
             <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect"/>
