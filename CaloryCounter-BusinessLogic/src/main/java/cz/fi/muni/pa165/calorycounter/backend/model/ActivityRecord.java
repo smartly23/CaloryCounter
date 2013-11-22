@@ -18,15 +18,15 @@ import javax.persistence.ManyToOne;
 public class ActivityRecord implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private int duration; //duration unit is minute
     private Date activityDate; //date is reserved by sql
     private int caloriesBurnt;
-    
+
     @ManyToOne
     private AuthUser authUser;
-    
+
     @ManyToOne
     private Calories calories;
 
@@ -104,6 +104,5 @@ public class ActivityRecord implements Serializable {
     public String toString() {
         return "ActivityRecord{" + "duration=" + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + ", authUser=" + authUser + ", calories=" + calories + '}';
     }
-
 
 }

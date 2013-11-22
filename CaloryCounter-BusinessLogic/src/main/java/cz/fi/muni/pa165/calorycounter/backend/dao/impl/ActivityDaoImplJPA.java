@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 /**
  * JPA/Hibernate DAO implementation - for operations on the persistence layer on
@@ -17,11 +18,12 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martin Bryndza (martin.bryndza)
  */
+@Repository
 public class ActivityDaoImplJPA implements ActivityDao {
 
     final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
-    @PersistenceContext(name = "PU1", unitName = "PU1")
+    @PersistenceContext
     private EntityManager em;
 
     public ActivityDaoImplJPA() {

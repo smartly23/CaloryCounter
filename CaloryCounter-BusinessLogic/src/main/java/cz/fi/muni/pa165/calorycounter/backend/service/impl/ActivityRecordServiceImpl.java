@@ -9,6 +9,7 @@ import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessException
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.dao.DataAccessException;
@@ -20,13 +21,14 @@ import org.springframework.stereotype.Service;
  * @author Martin Pasko (smartly23)
  */
 @Service
-@Transactional(value = "transactionManager", readOnly = true)
+@Transactional
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
     // injected by setter from Spring
-    private ActivityRecordConvert convert;
+    private ActivityRecordConvert convert = new ActivityRecordConvert();
     // concrete implementation injected by setter from Spring
+    @Autowired
     private ActivityRecordDao activityRecordDao;
 
     /*

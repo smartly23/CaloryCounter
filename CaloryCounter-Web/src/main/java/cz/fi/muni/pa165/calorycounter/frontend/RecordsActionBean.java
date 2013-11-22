@@ -12,6 +12,7 @@ import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserActivityRecordsService;
+import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 
 import java.util.List;
 
@@ -28,6 +29,9 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
     @SpringBean //Spring can inject even to private and protected fields
     protected UserActivityRecordsService userActivityRecordsService;
 
+    @SpringBean //Spring can inject even to private and protected fields
+    protected UserService userService;
+
     //--- part for showing a list of records ----
     private UserActivityRecordsDto uards;
     private AuthUserDto authUserDto;
@@ -35,6 +39,12 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
     // some login user 
     @DefaultHandler
     public Resolution list() {
+        AuthUserDto user = new AuthUserDto();
+        user.setName("x");
+        user.setUsername("x");
+        user.setUserId(1L);
+        authUserDto = user;
+
         log.debug("list()");
         uards = userActivityRecordsService.getAllActivityRecords(authUserDto);
         return new ForwardResolution("/records/list.jsp");

@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 /**
  * This class receives burntcalories for every user. It is a separate DAO for
@@ -19,11 +20,12 @@ import org.slf4j.LoggerFactory;
  *
  * @author Jan Kucera (Greld)
  */
+@Repository
 public class UserStatsDaoImplJPA implements UserStatsDao {
 
     final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
-    @PersistenceContext(name = "PU1", unitName = "PU1")
+    @PersistenceContext
     private EntityManager em;
 
     public List<UserStats> getUsersStats() {

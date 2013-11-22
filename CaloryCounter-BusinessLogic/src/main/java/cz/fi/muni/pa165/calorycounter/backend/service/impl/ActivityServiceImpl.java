@@ -23,19 +23,30 @@ import java.util.Map;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author Martin Bryndza (martin-bryndza)
  */
 @Service
-@Transactional(value = "transactionManager", readOnly = true)
+@Transactional
 public class ActivityServiceImpl implements ActivityService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityService.class);
     private ActivityConvert convert = new ActivityConvert();
+    @Autowired
     private ActivityDao activityDao; //injected
+    @Autowired
     private CaloriesDao caloriesDao; //injected
+
+    public void setActivityDao(ActivityDao activityDao) {
+        this.activityDao = activityDao;
+    }
+
+    public void setCaloriesDao(CaloriesDao caloriesDao) {
+        this.caloriesDao = caloriesDao;
+    }
 
     @Override
     public ActivityDto get(Long activityId) {

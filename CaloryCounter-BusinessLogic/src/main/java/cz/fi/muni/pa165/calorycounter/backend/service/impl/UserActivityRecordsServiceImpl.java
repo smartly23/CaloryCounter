@@ -11,6 +11,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.AuthUserConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserActivityRecordsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.RecoverableDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,10 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Zdenek Lastuvka
  */
 @Service
-@Transactional(value = "transactionManager", readOnly = true)
+@Transactional
 public class UserActivityRecordsServiceImpl implements UserActivityRecordsService {
 
     ActivityRecordConvert activityRecordConvert = new ActivityRecordConvert();
+    @Autowired
     private ActivityRecordDao activityRecordDao;
 
     public void setActivityRecordDao(ActivityRecordDao activityRecordDao) {

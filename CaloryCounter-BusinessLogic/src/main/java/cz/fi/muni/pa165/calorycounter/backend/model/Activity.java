@@ -12,12 +12,11 @@ import javax.persistence.Id;
  *
  * @author Jak Kucera (Greld)
  */
-
 @Entity
 public class Activity implements Serializable {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
 
@@ -58,11 +57,10 @@ public class Activity implements Serializable {
         }
         return true;
     }
-    
+
     @Override
     public String toString() {
         return "SportActivity{ name= " + name + " }";
     }
-    
-    
+
 }

@@ -16,18 +16,17 @@ import javax.persistence.ManyToOne;
  *
  * @author Jak Kucera (Greld)
  */
-
 @Entity
-public class Calories implements Serializable{
-    
+public class Calories implements Serializable {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private int amount;
-    
+
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
-    
+
     @ManyToOne
     private Activity activity;
 
@@ -89,7 +88,5 @@ public class Calories implements Serializable{
     public String toString() {
         return "Calories{ amount=" + amount + ", weightCat=" + weightCat + ", activity=" + activity + '}';
     }
-    
-    
-    
+
 }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,12 +26,14 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Jan Kucera (Greld)
  */
 @Service
-@Transactional(value = "transactionManager", readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
+@Transactional
 public class UserServiceImpl implements UserService {
 
     final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     // concrete implementation injected by setter from Spring
+    @Autowired
     private UserStatsDao userStatsDao;
+    @Autowired
     private UserDao userDao;
 
     @Override

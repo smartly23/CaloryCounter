@@ -1,112 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
 
+    
+    <context:component-scan base-package="cz.fi.muni.pa165"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
     <!--
-        Na testy DAO vrstvy by sme mali pouzivat embedded DB: <jdbc:embedded-database id="dataSource" type="DERBY"/>
+        Post-processor to perform exception translation on @Repository classes
+        (from native exceptions such as JPA PersistenceExceptions to
+        Spring's DataAccessException hierarchy).
     -->
-    <tx:annotation-driven/>
-    <context:annotation-config/><!-- kvoli @PersistenceContext-->
-
-    <bean id="dataSource"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
-        <property name="url"
-                  value="jdbc:derby:pa165;create=true" />
-        <property name="username" value="pa165" />
-        <property name="password" value="pa165" />
-    </bean>
-
-    <bean id="Emf" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"></property>
-        <property name="persistenceUnitName" value="PU1"/>
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="databasePlatform" value="org.hibernate.dialect.DerbyDialect" />
-            </bean>
-        </property>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hbm2ddl.auto">create-drop</prop>
-            </props>
-        </property>
-    </bean>
-
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="Emf"/>
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-
-    <!--
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <constructor-arg ref="dataSource" />
+    
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="PU1" />
+        
     </bean>
-    -->
-
-    <!-- service -->
-    <bean id="activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl">
-        <property name="activityRecordDao">
-            <ref local="activityRecordDaoJPA"/>
-        </property>
-        <property name="convert">
-            <ref local="activityRecordConvert"/>
-        </property>
-    </bean>
-
-    <bean id="userService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl">
-        <property name="userStatsDao">
-            <ref local="userStatsDaoJPA"/>
-        </property>
-        <property name="userDao">
-            <ref local="userDaoJPA"/>
-        </property>
-    </bean>
-
-    <bean id="activityService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityServiceImpl">
-        <property name="activityDao">
-            <ref local="activityDaoJPA"/>
-        </property>
-        <property name="caloriesDao">
-            <ref local="caloriesDaoJPA"/>
-        </property>
-    </bean>
-
-    <bean id="userActivityRecordsService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserActivityRecordsServiceImpl">
-        <property name="activityRecordDao">
-            <ref local="activityRecordDaoJPA"/>
-        </property>
-    </bean>
-
-    <bean id="activityRecordConvert" class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert">
-        <property name="activityRecordDao">
-            <ref local="activityRecordDaoJPA"/>
-        </property>
-        <property name="activityDao">
-            <ref local="activityDaoJPA"/>
-        </property>
-        <property name="caloriesDao">
-            <ref local="caloriesDaoJPA"/>
-        </property>
-        <property name="userDao">
-            <ref local="userDaoJPA"/>
-        </property>
-    </bean>
-
-    <!--DAO-->
-    <!-- bude to stale ta ista instancia ARDJ, alebo ak nie, tak ako to docielit -->
-    <bean id="activityRecordDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA"/>
-    <bean id="activityDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA"/>
-    <bean id="caloriesDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA"/>
-    <bean id="userDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA"/>
-    <bean id="userStatsDaoJPA" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA"/>
+   
 </beans>

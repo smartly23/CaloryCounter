@@ -15,13 +15,14 @@
             <div id="main_container">
                 <div id="header">
                     <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="" title="" border="0" width="95" height="84"></s:link></div>
-                    <div id="profile"><p><s:link href="/profile/show.jsp"><f:message key="navigation.editprofile"/></s:link></p></div>
+                    <div id="profile"><p><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean"><f:message key="navigation.editprofile"/></s:link></p></div>
                         <div id="menu">
                             <ul>
                                 <li><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
                             <li><s:link href="/record/create.jsp"><f:message key="navigation.new_record"/></s:link></li>
-                            <li><s:link href="/records/list.jsp"><f:message key="navigation.my_records"/></s:link></li>
-                            <li><s:link href="/global_ladder.jsp"><f:message key="navigation.global_ladder"/></s:link></li>
+                            <li class="navlink"><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li>
+
+                                <li><s:link href="/global_ladder.jsp"><f:message key="navigation.global_ladder"/></s:link></li>
                             <li><s:link href="/activities.jsp"><f:message key="navigation.activities"/></s:link></li>
                             </ul>
                         </div>
