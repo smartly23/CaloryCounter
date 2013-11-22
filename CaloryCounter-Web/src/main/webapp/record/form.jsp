@@ -1,16 +1,26 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <s:errors/>
+<s:hidden name="record.userId"/>
+<s:hidden name="record.weightCatNum"/>
+<s:hidden name="record.caloriesBurnt"/>
 <table>
     <tr>
-        <th><s:label for="b1" name="record.activity"/></th>
-        <td><s:text id="b1" name="record.activity"/></td>
+        <th><s:label for="activityName" name="record.activity"/></th>
+        <td><s:text id="activityName" name="record.activityName"/></td>
     </tr>
     <tr>
-        <th><s:label for="b2" name="record.duration"/></th>
-        <td><s:text id="b2" name="record.duration.hour" size="1"/>h <s:text id="b3" name="record.duration.minute" size="1"/>m</td>
+        <th><s:label for="duration" name="record.duration"/></th>
+        <td><s:text id="duration" name="record.duration" size="4"/> <f:message key="minutes"/></td>
     </tr>
     <tr>
-        <th><s:label for="b4" name="record.date"/></th>
-        <td><s:text id="b4" name="record.date"/></td>
+        <th><s:label for="date" name="record.date"/></th>
+        <td><input type="text" id="date" name="record.activityDate"/></td>
     </tr>
 </table>
+<script>
+    $(function() {
+        $("#date").datepicker();
+    });
+</script>

@@ -7,11 +7,16 @@
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" var="actionBean"/>
 
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean">
-            <s:hidden name="record.id"/>
-            <fieldset><legend><f:message key="record.edit.edit"/></legend>
+            <s:hidden name="record.activityRecordId"/>
+            <fieldset>
+                <legend>
+                    <f:message key="record.edit.edit"/>
+                </legend>
                 <%@include file="form.jsp"%>
-                <s:submit name="save"><f:message key="record.edit.save"/></s:submit>
-                </fieldset>
+                <s:submit name="save">
+                    <f:message key="record.edit.save"/>
+                </s:submit>
+            </fieldset>
         </s:form>
 
     </s:layout-component>
