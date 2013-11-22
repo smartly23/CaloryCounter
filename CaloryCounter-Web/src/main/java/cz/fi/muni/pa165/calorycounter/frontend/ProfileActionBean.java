@@ -35,7 +35,8 @@ public class ProfileActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution show() {
         log.debug("show()");
-        user = userService.getByUsername(username);
+        // toto odkomentovat az ked budeme mat funkcnu databazu, dovtedy to bude hadzat error
+        //user = userService.getByUsername(username);
         return new ForwardResolution("/profile/show.jsp");
     }
 
