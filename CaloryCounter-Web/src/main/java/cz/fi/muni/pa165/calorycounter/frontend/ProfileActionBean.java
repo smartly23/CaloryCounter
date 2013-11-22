@@ -1,9 +1,10 @@
-
 package cz.fi.muni.pa165.calorycounter.frontend;
 
-import static cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean.log;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
+import java.util.ArrayList;
+import java.util.List;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
@@ -17,15 +18,17 @@ import org.slf4j.LoggerFactory;
 
 @UrlBinding("/myprofile/{$event}/{user.username}")
 public class ProfileActionBean extends BaseActionBean {
-    
+
     @ValidateNestedProperties(value = {
         @Validate(on = "save", field = "name", required = true),
         @Validate(on = "save", field = "age", required = true),
         @Validate(on = "save", field = "sex", required = true),
         @Validate(on = "save", field = "weightCatNum", required = true)
     })
-    private AuthUserDto user;
+    private AuthUserDto user = createAuxUser();
     private String username;
+    private List<String> weightStringList;
+    private Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
     @SpringBean //Spring can inject even to private and protected fields
     private UserService userService;
     final static Logger log = LoggerFactory.getLogger(RecordActionBean.class);
@@ -36,12 +39,13 @@ public class ProfileActionBean extends BaseActionBean {
         user = userService.getByUsername(username);
         return new ForwardResolution("/profile/show.jsp");
     }
-    
+
     public Resolution edit() {
+        weightStringList = fillWeightStringList();
         log.debug("edit() user with id {}", user.getUserId());
         return new ForwardResolution("/profile/edit.jsp");
     }
-    
+
     public Resolution save() {
         log.debug("save() user with id {}", user.getUserId());
         userService.update(user);
@@ -51,9 +55,40 @@ public class ProfileActionBean extends BaseActionBean {
     public Resolution cancel() {
         return new RedirectResolution(this.getClass(), "show");
     }
-    
+
     public AuthUserDto getUser() {
         return user;
     }
-    
+
+    public List<String> getWeightStringList() {
+        return weightStringList;
+    }
+
+    public Gender[] getGenders() {
+        return genders;
+    }
+
+    /*
+     * Temporary method, until we implement login and authentication features
+     */
+    private AuthUserDto createAuxUser() {
+        AuthUserDto authUser = new AuthUserDto();
+        authUser.setName("Ezest Mrkvicka");
+        authUser.setAge(35);
+        authUser.setSex(Gender.Other.toString());
+        authUser.setWeightCatNum(WeightCategory._155_);
+        authUser.setUsername("emrkvicka");
+        authUser.setUserId(new Long(666));
+        // toto odkomentovat az ked budeme mat funkcnu databazu, dovtedy to bude hadzat error
+        //userService.register(user, "emrkvicka", "passwd");
+        return authUser;
+    }
+
+    private List<String> fillWeightStringList() {
+        List<String> tempList = new ArrayList();
+        for (WeightCategory value : WeightCategory.values()) {
+            tempList.add(value.getShowedCategory());
+        }
+        return new ArrayList(tempList);
+    }
 }

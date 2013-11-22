@@ -23,15 +23,17 @@
                         <td><s:text id="i2" name="user.age"/></td>
                     </tr>
                     <tr>
-                        <c:forEach var="gender"
-                        items="<%= cz.fi.muni.pa165.calorycounter.frontend.Gender.values()%>">
-                        <stripes:radio name="user.sex" value="${gender}"/>${gender}
-                    </c:forEach>
+                        <th><s:label for="i3" name="profile.sex"/></th>
+                        <td>
+                            <c:forEach items="${actionBean.genders}" var="gender">
+                                <s:radio id="i3" name="user.sex" value="${gender}"/>${gender}
+                            </c:forEach>
+                        </td>
                     </tr>
                     <tr>
-                        <th><s:label for="i3" name="profile.weight"/></th>
-                        <td><s:select id="i3" name="user.weightCatNum">
-                                <s:options-enumeration enum="cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory.values()"/>
+                        <th><s:label for="i4" name="profile.weight"/></th>
+                        <td><s:select id="i4" name="user.weightCatNum">
+                                <s:options-collection collection="${actionBean.weightStringList}"/>
                             </s:select></td>
                     </tr>
                 </table>

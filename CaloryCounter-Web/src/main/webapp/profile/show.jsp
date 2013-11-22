@@ -11,14 +11,14 @@
         <p><f:message key="navigation.editprofile"/></p>
 
         <div>
-            <c:out value="Username: ${user.username}"/>
-            <c:out value="Name: ${user.name}"/>
-            <c:out value="Age: ${user.age}"/>
-            <c:out value="Sex: ${user.sex}"/>
-            <c:out value="Weight category: ${user.weightCatNum.showedCategory}"/>
+            <br><f:message key="profile.username"/><c:out value=" ${profileActionBean.user.username}"/><br>
+            <f:message key="profile.name"/><c:out value=" ${profileActionBean.user.name}"/><br>
+            <f:message key="profile.age"/><c:out value=" ${profileActionBean.user.age}"/><br>
+            <f:message key="profile.sex"/><c:out value=" ${profileActionBean.user.sex}"/><br>
+            <f:message key="profile.weight"/><c:out value=" ${profileActionBean.user.weightCatNum.showedCategory}"/>
             <br>
             <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" event="edit">
-                <s:param name="user.id" value="${user.userId}"/><f:message key="profile.edit"/>
+                <s:param name="user.id" value="${profileActionBean.user.userId}"/><f:message key="profile.edit"/>
             </s:link>
         </div>
     </s:layout-component>
