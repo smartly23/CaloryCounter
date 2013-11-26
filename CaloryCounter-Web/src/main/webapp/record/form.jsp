@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <th><s:label for="date" name="record.date"/></th>
-        <td><input type="text" id="date" name="date"/></td>
+        <td><s:text id="date" name="record.activityDate"/></td>
     </tr>
 </table>
 <script>

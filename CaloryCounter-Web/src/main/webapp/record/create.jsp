@@ -17,7 +17,7 @@
                     <f:message key="record.create.legend"/>
                 </legend>
                 <%@include file="form.jsp"%>
-                <s:submit name="createRecord" value="createRecord" onclick="createRecord">
+                <s:submit name="createRecord">
                     <f:message key="record.create"/>
                 </s:submit>
             </fieldset>
