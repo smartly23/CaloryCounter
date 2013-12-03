@@ -28,6 +28,7 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Override
     public List<UserStats> getUsersStats() {
         // em.createTypedQuery dotaz cez "new"
 

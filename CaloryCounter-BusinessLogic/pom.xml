@@ -205,6 +205,9 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument> <!-- t.j. zobrazi aj 
+                    detaily warningov (presne umiestnenie v kode), ktore by inak iba spomenulo, 
+                    ze tam su -->
                 </configuration>
             </plugin>
         </plugins>

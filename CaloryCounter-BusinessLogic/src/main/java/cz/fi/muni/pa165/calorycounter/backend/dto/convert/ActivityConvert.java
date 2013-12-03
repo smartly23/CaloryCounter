@@ -6,12 +6,14 @@ import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
  * Conversion between ActivityRecord DTO and entity back and forth.
  *
  * @author Martin Bryndza (martin-bryndza)
  */
+@Component
 public class ActivityConvert {
 
     public List<Calories> fromDtoToEntitiesList(ActivityDto dto) {
