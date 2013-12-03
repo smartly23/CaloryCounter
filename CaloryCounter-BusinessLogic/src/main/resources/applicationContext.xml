@@ -15,15 +15,19 @@
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd" >
 
     
-    <context:component-scan base-package="cz.fi.muni.pa165"/>
+    <context:component-scan base-package="cz.fi.muni.pa165"/><!-- sluzi na automaticke vyhladavanie beanov v danom packagi
+    bez toho, aby sme ich tu museli rucne definovat-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!--<context:annotation-config />--> <!-- kvoli autowired anotaciam; netreba, ak uz mame component-scan -->
+    <!--<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>-->
+    <!-- postprocessor: toto neterba, ked tam mame component-scan, alebo annotation-config, lebo tieto si ho registruju automaticky-->
     
     <!--
         Post-processor to perform exception translation on @Repository classes
         (from native exceptions such as JPA PersistenceExceptions to
         Spring's DataAccessException hierarchy).
     -->
-    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+    <!--<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />-->
     
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
@@ -34,5 +38,19 @@
         <property name="persistenceUnitName" value="PU1" />
         
     </bean>
-   
+    
+    <!-- definicia beanov - potrebna, len ak by sme nemamli component-scan-->
+    <!--<bean class="cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityRecordConvert" autowire="byType">
+    -->
+        <!-- ak mame anotaciu @Autowired, alebo v xml-ku autowire="byType", tak nepotrebujeme definovat property (v opacnom pripade property
+        overridne anotaciu)-->
+        <!--<property name="activityDao" ref="activityDao"></property>-->
+    <!--</bean>
+    <bean id="activityRecordService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.ActivityRecordServiceImpl"/>
+    <bean id="activityDao" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA"/>
+    <bean id="activityRecordDao" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityRecordDaoImplJPA"/>
+    <bean id="caloriesDao" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA"/>
+    <bean id="userDao" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA"/>
+    <bean id="userStatsDao" class="cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA"/>
+   -->
 </beans>

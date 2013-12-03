@@ -25,9 +25,8 @@ import org.springframework.stereotype.Service;
 public class ActivityRecordServiceImpl implements ActivityRecordService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
-    // injected by setter from Spring
-    private ActivityRecordConvert convert = new ActivityRecordConvert();
-    // concrete implementation injected by setter from Spring
+    @Autowired
+    private ActivityRecordConvert convert;
     @Autowired
     private ActivityRecordDao activityRecordDao;
 

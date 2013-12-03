@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
+import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
@@ -16,12 +17,14 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Conversion between ActivityRecord DTO and entity back and forth.
  *
  * @author Martin Pasko (smartly23)
  */
+@Component
 public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRecordDto> {
 
     final static Logger log = LoggerFactory.getLogger(ActivityRecordConvert.class);
@@ -33,7 +36,6 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     private CaloriesDao caloriesDao;
     @Autowired
     private UserDao userDao;
-
 
     /*
      * Converts ActivityRecord DTO to appropriate entity.
@@ -61,6 +63,10 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
+            log.warn("\n\n\n\n\n"+activityDao+"\n\n\n\n\n");
+            log.warn("\n\n\n\n\n"+activityRecordDao+"\n\n\n\n\n");
+            log.warn("\n\n\n\n\n"+caloriesDao+"\n\n\n\n\n");
+            log.warn("\n\n\n\n\n"+userDao+"\n\n\n\n\n");
             activityDao.create(activity);
             calories.setActivity(activity);
             for (WeightCategory cat : WeightCategory.values()) {
@@ -141,4 +147,5 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
+    
 }
