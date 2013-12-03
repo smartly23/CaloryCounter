@@ -24,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UserActivityRecordsServiceImpl implements UserActivityRecordsService {
 
-    ActivityRecordConvert activityRecordConvert = new ActivityRecordConvert();
+    @Autowired
+    ActivityRecordConvert activityRecordConvert;
     @Autowired
     private ActivityRecordDao activityRecordDao;
 

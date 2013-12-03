@@ -63,10 +63,7 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
-            log.warn("\n\n\n\n\n"+activityDao+"\n\n\n\n\n");
-            log.warn("\n\n\n\n\n"+activityRecordDao+"\n\n\n\n\n");
-            log.warn("\n\n\n\n\n"+caloriesDao+"\n\n\n\n\n");
-            log.warn("\n\n\n\n\n"+userDao+"\n\n\n\n\n");
+            log.warn("\n\n\n\n\n"+activity.getName()+"\n\n\n\n\n");
             activityDao.create(activity);
             calories.setActivity(activity);
             for (WeightCategory cat : WeightCategory.values()) {

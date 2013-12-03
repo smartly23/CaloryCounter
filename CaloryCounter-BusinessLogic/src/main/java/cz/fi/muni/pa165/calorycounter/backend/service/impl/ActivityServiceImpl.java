@@ -34,7 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ActivityServiceImpl implements ActivityService {
 
     final static Logger log = LoggerFactory.getLogger(ActivityService.class);
-    private ActivityConvert convert = new ActivityConvert();
+    @Autowired
+    private ActivityConvert convert;
     @Autowired
     private ActivityDao activityDao; //injected
     @Autowired
