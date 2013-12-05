@@ -98,7 +98,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
         if (foundCalories == null) {
             log.error("Calories is not in DB");
         }
-        em.remove(calories);                    // em.find je nutne, remove zmaze iba manazovanu entitu
+        em.remove(foundCalories); // em.find je nutne, remove zmaze iba manazovanu entitu
         // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
 

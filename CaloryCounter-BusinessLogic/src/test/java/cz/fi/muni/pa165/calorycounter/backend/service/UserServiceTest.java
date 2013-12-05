@@ -111,12 +111,12 @@ public class UserServiceTest {
         Long nextId = new Long(USER_ID + 1);
         Mockito.stub(userDaoImplJPA.create(user)).toReturn(nextId);
         Mockito.stub(userDaoImplJPA.getByUsername(USERNAME)).toReturn(user);
-        Long id = userService.register(userDto, "nonexist", PASSWORD);
+        Long id = userService.register(userDto, PASSWORD);
         assertNotNull("User was not registered.", id);
         assertEquals("Wrong id was returned.", nextId, id);
 
         try {
-            id = userService.register(userDto, USERNAME, PASSWORD);
+            id = userService.register(userDto, PASSWORD);
             fail("should throw IllegalArgumentException if username is already used.");
         } catch (IllegalArgumentException e) {
             // OK

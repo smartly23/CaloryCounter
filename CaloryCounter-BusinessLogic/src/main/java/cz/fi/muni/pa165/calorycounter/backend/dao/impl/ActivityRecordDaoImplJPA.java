@@ -77,7 +77,7 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
             log.error("ActivityRecord is not in DB");
         }
 
-        em.remove(record);
+        em.remove(activityRecord);
     }
 
     private boolean validate(ActivityRecord record) {

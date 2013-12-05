@@ -3,17 +3,25 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
+import java.util.Random;
+import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
+import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Stripes ActionBean for handling user profile operations.
+ *
+ * @author Martin Pasko (smartly23)
+ */
 @UrlBinding("/myprofile/{$event}/{user.username}")
 public class ProfileActionBean extends BaseActionBean {
 
@@ -23,28 +31,44 @@ public class ProfileActionBean extends BaseActionBean {
         @Validate(on = "save", field = "sex", required = true),
         @Validate(on = "save", field = "weightCatNum", required = true)
     })
-    private static AuthUserDto user = createAuxUser();
-    private String username;
+    private AuthUserDto user;
+    private static String username;
     private Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
     @SpringBean //Spring can inject even to private and protected fields
     private UserService userService;
     final static Logger log = LoggerFactory.getLogger(RecordActionBean.class);
 
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
+    public void loadUser() {
+        String login = getContext().getRequest().getParameter("user.username");
+        if (login == null) {
+            return;
+        }
+        user = userService.getByUsername(login);
+        /* vytiahne sa objekt z DB a automaticky sa nan namapuju zeditovane polozky, teda nam toto vrati
+         * objekt, ktory po prislusnej akcii (napr. submit button z formulara) automaticky bude mat 
+         * namapovane nove hodnoty = nemusime kopirovat vsetky parametre cez url
+         */
+    }
+
     @DefaultHandler
     public Resolution show() {
         log.debug("show()");
-        // toto odkomentovat az ked budeme mat funkcnu databazu, dovtedy to bude hadzat error
-        //user = userService.getByUsername(username);
+        // nasl. podmienka: temporary riesenie, nez budeme mat implementovany multiuser management:
+        if (username == null) {
+            persistAuxUser();
+        }
+        user = userService.getByUsername(username);
         return new ForwardResolution("/profile/show.jsp");
     }
 
     public Resolution edit() {
-        log.debug("edit() user with id {}", user.getUserId());
+        log.debug("edit() user {}", user);
         return new ForwardResolution("/profile/edit.jsp");
     }
 
     public Resolution save() {
-        log.debug("save() user with id {}", user.getUserId());
+        log.debug("save() user {}", user);
         userService.update(user);
         return new RedirectResolution(this.getClass(), "show");
     }
@@ -62,18 +86,22 @@ public class ProfileActionBean extends BaseActionBean {
     }
 
     /*
-     * Temporary method, until we implement login and authentication features
+     * Temporary methods, until we implement login and authentication features
      */
-    private static AuthUserDto createAuxUser() {
+    private AuthUserDto createAuxUser() {
         AuthUserDto authUser = new AuthUserDto();
         authUser.setName("Ezest Mrkvicka");
         authUser.setAge(35);
         authUser.setSex(Gender.Other.toString());
         authUser.setWeightCatNum(WeightCategory._155_);
-        authUser.setUsername("emrkvicka");
-        authUser.setUserId(new Long(666));
-        // toto odkomentovat az ked budeme mat funkcnu databazu, dovtedy to bude hadzat error
-        //userService.register(user, "emrkvicka", "passwd");
+        Integer randomNumber = new Random().nextInt(1000000);
+        authUser.setUsername("emrkvicka" + randomNumber.toString());
         return authUser;
+    }
+
+    private void persistAuxUser() {
+        user = createAuxUser();
+        username = user.getUsername();
+        userService.register(user, "passwd");
     }
 }

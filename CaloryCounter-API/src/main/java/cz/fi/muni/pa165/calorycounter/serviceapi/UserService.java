@@ -22,11 +22,10 @@ public interface UserService{
     /**
      * Create new user.
      * @param user
-     * @param username
      * @param password
      * @return User id if registration was successfull, null otherwise
      */
-    Long register(AuthUserDto user, String username, String password);
+    Long register(AuthUserDto user, String password);
     
     void update(AuthUserDto user);
     

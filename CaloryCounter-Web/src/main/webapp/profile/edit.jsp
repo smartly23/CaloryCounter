@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp">
+<s:layout-render name="/layout.jsp" titlekey="profile.edit">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" var="actionBean"/>
         <s:errors/>
@@ -38,7 +38,9 @@
                             </s:select></td>
                     </tr>
                 </table>
-                <s:submit name="save"><f:message key="profile.save"/></s:submit>
+                <s:submit name="save"><f:message key="profile.save"/>
+                    <s:param name="user.username" value="${actionBean.user.username}"/>
+                </s:submit>
                 <s:submit name="cancel"><f:message key="profile.cancel"/></s:submit>
                 </fieldset>
         </s:form>

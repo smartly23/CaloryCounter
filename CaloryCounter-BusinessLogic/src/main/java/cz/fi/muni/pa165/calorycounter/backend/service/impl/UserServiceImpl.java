@@ -71,20 +71,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long register(AuthUserDto user, String username, String password) {
-        if (user == null || username == null || password == null) {
+    public Long register(AuthUserDto user, String password) {
+        if (user == null || user.getUsername() == null || password == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Invalid user or username or password in parameter: null");
             log.error("UserServiceImpl.register() called on null parameter: AuthUserDto user or String username or String password", iaex);
             throw iaex;
         }
 
-        AuthUserDto userDto = getByUsername(username);
+        AuthUserDto userDto = getByUsername(user.getUsername());
         if (userDto != null) {
             throw new IllegalArgumentException("Username is already used");
         }
 
         AuthUser entity = AuthUserConvert.fromDtoToEntity(user);
-        entity.setUsername(username);
         entity.setPassword(password);
         return (Long) new DataAccessExceptionNonVoidTemplate(entity) {
             @Override

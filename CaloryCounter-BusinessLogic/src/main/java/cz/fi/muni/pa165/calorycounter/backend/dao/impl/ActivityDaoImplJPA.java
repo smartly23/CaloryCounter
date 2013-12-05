@@ -72,7 +72,7 @@ public class ActivityDaoImplJPA implements ActivityDao {
         if (activity == null) {
             LOG.error("Given activity" + entity + "is not in DB.");
         }
-        em.remove(entity);
+        em.remove(activity);
     }
 
     @Override

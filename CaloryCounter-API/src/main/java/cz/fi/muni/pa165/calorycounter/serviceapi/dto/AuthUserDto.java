@@ -10,7 +10,7 @@ import java.util.Objects;
 public class AuthUserDto {
 
     private Long userId;
-    private String username;
+    private String username; 
     private String name;
     private String sex;
     private int age;
@@ -88,8 +88,8 @@ public class AuthUserDto {
 
     @Override
     public String toString() {
-        return "AuthUserDto{" + "userId=" + userId + ", name=" + name + ", sex=" + sex + ", age="
-                + age + ", weightCatNum=" + weightCatNum + '}';
+        return "AuthUserDto{" + "userId=" + userId + ", username=" + username + ", name=" + name + 
+                ", sex=" + sex + ", age=" + age + ", weightCatNum=" + weightCatNum + '}';
     }
 
 }

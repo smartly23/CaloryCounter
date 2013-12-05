@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 public class Calories implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int amount;
 

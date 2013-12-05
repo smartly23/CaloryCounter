@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
 /**
  * This entity represents registered, logged and authenticated user.
@@ -23,7 +24,8 @@ import javax.persistence.OneToMany;
 public class AuthUser implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    // vytvorit DB sekvenciu pri naloadovani SQL skriptu a zmenit na Type.SEQUENCE
     private Long id;
     private String name;
     private String gender;
@@ -36,6 +38,8 @@ public class AuthUser implements Serializable {
     private WeightCategory weightCat;
     @OneToMany(mappedBy = "authUser", cascade = CascadeType.ALL)
     private List<ActivityRecord> records;
+    // staci unidirectional, keby sme zmenili na bidirectional, je dobre, aby vztah vlastnila "many" strana,
+    // t.j. uz iba pridat joincolumn do activityRecord
 
     public Long getId() {
         return id;

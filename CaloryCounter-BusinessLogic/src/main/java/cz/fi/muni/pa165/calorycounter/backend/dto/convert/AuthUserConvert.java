@@ -22,6 +22,7 @@ public class AuthUserConvert {
         authUser.setName(dto.getName());
         authUser.setGender(dto.getSex());//proc ty renamy?
         authUser.setWeightCat(dto.getWeightCatNum());
+        authUser.setUsername(dto.getUsername());
         return authUser;
     }
 
@@ -35,6 +36,7 @@ public class AuthUserConvert {
         authUserDto.setName(entity.getName());
         authUserDto.setSex(entity.getGender());//proc ty renamy?
         authUserDto.setWeightCatNum(entity.getWeightCat());
+        authUserDto.setUsername(entity.getUsername());
         return authUserDto;
     }
 }

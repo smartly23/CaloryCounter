@@ -57,6 +57,7 @@ public class UserDaoImplJPA implements UserDao {
         }
         AuthUser createdUser = em.merge(user);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
         // vyhradenych CRUD operacii - to nechceme
+        // tuna v ramci EAGER fetchingu zaroven LEFT-JOINuje ActivityRecords - premysliet ci treba
         return createdUser.getId();
 
     }
@@ -94,7 +95,7 @@ public class UserDaoImplJPA implements UserDao {
         if (authUser == null) {
             log.error("Given user" + user + "is not in DB.");
         }
-        em.remove(user);                    // em.find je nutne, remove zmaze iba manazovanu entitu
+        em.remove(authUser);  // em.find je nutne, remove zmaze iba manazovanu entitu
         // je potrebne pri inverznej zavislosti osetrit pre-removal
     }
 
