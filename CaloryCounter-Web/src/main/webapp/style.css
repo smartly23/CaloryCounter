@@ -377,4 +377,21 @@ textarea.contact_textarea{
 }
 
 
+/**** tables ****/
 
+table.basic {
+    border: 1px solid #3A3C3E;
+    border-collapse: collapse;
+    width: 100%;
+}
+table.basic td, table.basic th {
+    border: 1px solid #3A3C3E;
+    padding: 3px 6px;
+    text-align: center;
+}
+table.basic th {
+    background-color: #B8B8B8;
+}
+table.basic .col1 {
+   background-color: #F1F1F1; 
+}

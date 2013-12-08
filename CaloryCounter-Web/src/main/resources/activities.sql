@@ -1,4 +1,10 @@
-insert into AuthUser (age, gender, name, password, username, weightcat) 
-values (35, 'female', 'Edita Papeky', 'ferinko', 'ferko', 3);
-
-insert into Activity (name) values ('female');
+insert into ACTIVITY ("NAME") values ('Badminton');
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (266, '_130_', 1);
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (317, '_155_', 1);
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (368, '_180_', 1);
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (419, '_205_', 1);
+insert into ACTIVITY ("NAME") values ('Tennis');
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (472, '_130_', 2);
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (563, '_155_', 2);
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (654, '_180_', 2);
+insert into CALORIES (AMOUNT, WEIGHTCAT, ACTIVITY_ID) values (745, '_205_', 2);
