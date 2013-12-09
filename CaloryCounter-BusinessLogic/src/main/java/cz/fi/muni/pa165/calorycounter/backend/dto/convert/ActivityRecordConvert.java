@@ -5,7 +5,6 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
@@ -96,8 +95,9 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     @Override
     public ActivityRecordDto fromEntityToDto(ActivityRecord entity) {
         ActivityRecordDto dto = new ActivityRecordDto();
-
-        //dto.setActivityDate(new java.util.Date(entity.getActivityDate().getTime()));    // sql.Date to util.Date
+        if (entity.getActivityDate() != null) {
+            dto.setActivityDate(new java.util.Date(entity.getActivityDate().getTime()));    // sql.Date to util.Date
+        }
         dto.setCaloriesBurnt(entity.getCaloriesBurnt());
         dto.setDuration(entity.getDuration());
         dto.setWeightCatNum(entity.getCalories().getWeightCat().ordinal() + 1);
