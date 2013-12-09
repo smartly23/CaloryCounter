@@ -22,6 +22,32 @@ public enum WeightCategory {
         return showedCategory;
     }
 
+    public static WeightCategory getCategory(int index) {
+        switch (index) {
+            case 0:
+                return _130_;
+            case 1:
+                return _155_;
+            case 2:
+                return _180_;
+            default:
+                return _205_;
+        }
+    }
+
+    public static int getIndex(WeightCategory cat) {
+        switch (cat) {
+            case _130_:
+                return 0;
+            case _155_:
+                return 1;
+            case _180_:
+                return 2;
+            default:
+                return 3;
+        }
+    }
+
     @Override
     public String toString() {
         return showedCategory;

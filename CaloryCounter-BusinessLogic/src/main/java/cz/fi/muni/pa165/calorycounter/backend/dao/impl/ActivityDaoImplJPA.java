@@ -39,8 +39,11 @@ public class ActivityDaoImplJPA implements ActivityDao {
         if (entity == null) {
             throw new IllegalArgumentException("Invalid entity (Activity): " + entity);
         }
+        LOG.debug("Creating " + entity.toString());
         Activity activity = em.merge(entity);
-        return activity.getId();
+        Long id = activity.getId();
+        LOG.debug("Created " + activity.toString() + ". Assigned ID: " + id);
+        return id;
     }
 
     @Override

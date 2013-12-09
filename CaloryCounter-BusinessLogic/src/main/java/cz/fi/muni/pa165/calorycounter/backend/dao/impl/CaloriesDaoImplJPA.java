@@ -60,9 +60,13 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
         if (validate(calories)) {
             throw new IllegalArgumentException("Invalid user: null or null username of user");
         }
+        System.out.println("Creating " + calories.toString());
+        log.debug("Creating " + calories.toString());
         Calories createdCalories = em.merge(calories);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
         // vyhradenych CRUD operacii - to nechceme
-        return createdCalories.getId();
+        Long id = createdCalories.getId();
+        log.debug("Created " + calories.toString() + ". Assigned ID: " + id);
+        return id;
     }
 
     @Override

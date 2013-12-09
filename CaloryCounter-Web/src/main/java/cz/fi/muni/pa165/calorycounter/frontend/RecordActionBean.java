@@ -7,7 +7,6 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityRecordService;
-import java.sql.Date;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
@@ -29,15 +28,6 @@ public class RecordActionBean extends BaseActionBean {
         @Validate(on = {"createRecord", "save"}, field = "activityDate", required = true)
     })
     private ActivityRecordDto record;
-//    private String date;
-//
-//    public String getDate() {
-//        return date;
-//    }
-//
-//    public void setDate(String date) {
-//        this.date = date;
-//    }
 
     public ActivityRecordDto getRecord() {
         return record;
@@ -59,10 +49,7 @@ public class RecordActionBean extends BaseActionBean {
         record.setCaloriesBurnt(1); //TODO
         record.setUserId(1L); //TODO
         record.setWeightCatNum(1); //TODO
-//        String dateParts[] = date.split("/");
-//        Date d = Date.valueOf(dateParts[2] + "-" + dateParts[0] + "-" + dateParts[1]);
-//        record.setActivityDate(d);
-        log.debug("Creatid activity record...");
+        log.debug("Creating activity record...");
         log.debug(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getActivityDate())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))).toString());
         Long createdId = activityRecordService.create(record);
         getContext().getMessages().add(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))));

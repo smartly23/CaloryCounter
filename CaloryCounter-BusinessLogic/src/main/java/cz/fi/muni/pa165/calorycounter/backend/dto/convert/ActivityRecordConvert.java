@@ -63,22 +63,17 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
-            log.warn("\n\n\n\n\n"+activity.getName()+"\n\n\n\n\n");
+            log.warn("\n\n\n\n\n" + activity.getName() + "\n\n\n\n\n");
             activityDao.create(activity);
             calories.setActivity(activity);
-            for (WeightCategory cat : WeightCategory.values()) {
-                if (cat.ordinal() + 1 == dto.getWeightCatNum()) {
-                    calories.setWeightCat(cat);
-                } else {
-                    log.warn("ActivityRecord DTO-to-DAO conversion: unknown weight category number in DTO.");
-                }
-            }
+            calories.setWeightCat(WeightCategory.getCategory(dto.getWeightCatNum()));
             caloriesDao.create(calories);
             entity.setCalories(calories);
         }
 
         if (dto.getUserId() != null) {
-            entity.setAuthUser((AuthUser) userDao.get(dto.getUserId()));
+            AuthUser user = userDao.get(dto.getUserId());
+            entity.setAuthUser(user);
             // conversion method is not responsible for checking any data consistence
         } else {
             log.error("ActivityRecord DTO-to-DAO conversion: converting to ActivityRecord entity "
@@ -144,5 +139,5 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-    
+
 }

@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -66,7 +67,8 @@ public class UserDaoImplJPA implements UserDao {
     public AuthUser get(Long id) {
         if (validate(id)) {
             throw new IllegalArgumentException("Invalid id: null");
-        } else if (em.createQuery("SELECT tbl.id FROM AuthUser tbl WHERE tbl.id = "
+        }
+        if (em.createQuery("SELECT tbl.id FROM AuthUser tbl WHERE tbl.id = "
                 + ":givenId", Long.class).setParameter("givenId", id).getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid id: nonexistent");
         }
