@@ -7,7 +7,7 @@
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean" var="actionBean"/>
 
-        <p><f:message key="record.list.allrecords"/></p>
+        <h2><f:message key="records.list.title"/></h2>
 
         <table class="basic">
             <tr>
@@ -19,11 +19,13 @@
             </tr>
             <c:forEach items="${actionBean.uards.activityRecords}" var="activityRecord">
                 <tr>
-                    <td><c:out value="${activityRecord.activityDate}"/></td>
+                    <td>
+                        <f:formatDate pattern="dd.MM. yyyy" value="${activityRecord.activityDate}" />
+                    </td>
                     <td><c:out value="${activityRecord.activityName}"/></td>
                     <td><c:out value="${activityRecord.duration}"/></td>
                     <td><c:out value="${activityRecord.caloriesBurnt}"/></td>
-                    <td><c:out value="${activityRecord.weightCatNum}"/></td>
+                    <td><f:message key="activity.weightCat${activityRecord.weightCatNum}"/></td>
                 </tr>
             </c:forEach>
         </table>

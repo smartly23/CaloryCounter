@@ -14,10 +14,10 @@
                 <th colspan="4"><f:message key="activity.calories"/></th>
             </tr>
             <tr>
-                <th><f:message key="activity.weightCat130"/></th>
-                <th><f:message key="activity.weightCat155"/></th>
-                <th><f:message key="activity.weightCat180"/></th>
-                <th><f:message key="activity.weightCat205"/></th>
+                <th><f:message key="activity.weightCat1"/></th>
+                <th><f:message key="activity.weightCat2"/></th>
+                <th><f:message key="activity.weightCat3"/></th>
+                <th><f:message key="activity.weightCat4"/></th>
             </tr>
             <c:forEach items="${actionBean.activities}" var="activity">
                 <tr>

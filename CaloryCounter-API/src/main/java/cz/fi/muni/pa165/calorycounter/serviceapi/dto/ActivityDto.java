@@ -32,6 +32,10 @@ public class ActivityDto {
         this.weightCalories.put(weightCategory, caloriesAmount);
     }
 
+    public Map<WeightCategory, Integer> getWeightCalories() {
+        return weightCalories;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ActivityDto{activityName=").append(activityName);

@@ -5,7 +5,6 @@ import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityRecordDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.ActivityDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityRecordDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
@@ -63,7 +62,7 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             Calories calories = new Calories();
             Activity activity = new Activity();
             activity.setName(dto.getActivityName());
-            log.warn("\n\n\n\n\n"+activity.getName()+"\n\n\n\n\n");
+            log.warn("\n\n\n\n\n" + activity.getName() + "\n\n\n\n\n");
             activityDao.create(activity);
             calories.setActivity(activity);
             for (WeightCategory cat : WeightCategory.values()) {
@@ -101,8 +100,9 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     @Override
     public ActivityRecordDto fromEntityToDto(ActivityRecord entity) {
         ActivityRecordDto dto = new ActivityRecordDto();
-
-        //dto.setActivityDate(new java.util.Date(entity.getActivityDate().getTime()));    // sql.Date to util.Date
+        if (entity.getActivityDate() != null) {
+            dto.setActivityDate(new java.util.Date(entity.getActivityDate().getTime()));    // sql.Date to util.Date
+        }
         dto.setCaloriesBurnt(entity.getCaloriesBurnt());
         dto.setDuration(entity.getDuration());
         dto.setWeightCatNum(entity.getCalories().getWeightCat().ordinal() + 1);
@@ -144,5 +144,5 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-    
+
 }

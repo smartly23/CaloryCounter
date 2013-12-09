@@ -18,7 +18,7 @@
             <!-- DDL (t.j. create/alter/drop table atd.) tento property sa pouziva obvykle iba v development phase, 
             v production phase su obvykle ine nastroje na manazovanie DB -->
             <!-- vid http://blog.eyallupu.com/2007/05/hibernates-hbm2ddl-tool.html -->
-            <property name="hibernate.hbm2ddl.import_files" value="activities.sql"/>
+            <property name="hibernate.hbm2ddl.import_files" value="import.sql"/>
             <!-- DML (t.j. insert, update, delete, select a pod.)-->
             <!-- sem sql script v classpath, ak viac, tak podla poradia - pouziju sa len ak create
             alebo create-drop, t.j. ak sa predtym vytvara schema, do ktorej mozno aplikovat DML -->

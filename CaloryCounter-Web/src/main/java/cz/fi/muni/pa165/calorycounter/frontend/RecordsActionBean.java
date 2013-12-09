@@ -3,18 +3,13 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserActivityRecordsDto;
 import net.sourceforge.stripes.action.*;
-import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
-import net.sourceforge.stripes.validation.Validate;
-import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserActivityRecordsService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
-
-import java.util.List;
 
 /**
  * Stripes ActionBean for handling book operations.
@@ -39,11 +34,8 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
     // some login user 
     @DefaultHandler
     public Resolution list() {
-        AuthUserDto user = new AuthUserDto();
-        user.setName("x");
-        user.setUsername("x");
-        user.setUserId(1L);
-        authUserDto = user;
+        // nastaveni prihlaseneho uzivatele
+        authUserDto = userService.getByUsername("John");
 
         log.debug("list()");
         uards = userActivityRecordsService.getAllActivityRecords(authUserDto);
