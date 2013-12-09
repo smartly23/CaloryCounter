@@ -8,7 +8,8 @@
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" var="actionBean"/>
         <s:errors/>
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">
-            <s:hidden name="user.id"/>
+            <%--<s:hidden name="user.id"/>--%>
+            <%--<s:hidden name="user.password" value="${actionBean.user.password}"/>--%>
             <fieldset><legend><f:message key="profile.edit"/></legend>
                 <table>
                     <tr>

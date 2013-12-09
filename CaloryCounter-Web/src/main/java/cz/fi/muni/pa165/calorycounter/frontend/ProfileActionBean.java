@@ -2,8 +2,6 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
-import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
-import java.util.Random;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -54,9 +52,8 @@ public class ProfileActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution show() {
         log.debug("show()");
-        // nasl. podmienka: temporary riesenie, nez budeme mat implementovany multiuser management:
         if (username == null) {
-            persistAuxUser();
+            username = "John"; // pre-persisted user until we have real user management
         }
         user = userService.getByUsername(username);
         return new ForwardResolution("/profile/show.jsp");
@@ -85,23 +82,4 @@ public class ProfileActionBean extends BaseActionBean {
         return genders;
     }
 
-    /*
-     * Temporary methods, until we implement login and authentication features
-     */
-    private AuthUserDto createAuxUser() {
-        AuthUserDto authUser = new AuthUserDto();
-        authUser.setName("Ezest Mrkvicka");
-        authUser.setAge(35);
-        authUser.setSex(Gender.Other.toString());
-        authUser.setWeightCatNum(WeightCategory._155_);
-        Integer randomNumber = new Random().nextInt(1000000);
-        authUser.setUsername("emrkvicka" + randomNumber.toString());
-        return authUser;
-    }
-
-    private void persistAuxUser() {
-        user = createAuxUser();
-        username = user.getUsername();
-        userService.register(user, "passwd");
-    }
 }
