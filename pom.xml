@@ -17,6 +17,7 @@
     <module>CaloryCounter-API</module>
     <module>CaloryCounter-BusinessLogic</module>
     <module>CaloryCounter-Web</module>
+    <module>CaloryCounter-REST-Jersey-Client</module>
   </modules>
   
   <build>
