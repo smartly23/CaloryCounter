@@ -67,12 +67,23 @@
 
     <!-- Servlet declaration can be omitted in which case
     it would be automatically added by Jersey -->
+    
     <servlet>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
+        <display-name>CaloryCounter JAX-RS Servlet</display-name>
+        <servlet-name>RS</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+<!--        Following is required only if javax.ws.rs.Application subclass is packaged with the web.xml file.
+        See http://docs.oracle.com/cd/E24329_01/web.1211/e24983/configure.htm#CACIEAFE-->
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>cz.fi.muni.pa165.calorycounter.frontend.restserver.ConfigApplication</param-value>
+            <!--<param-value>cz.fi.muni.pa165.calorycounter.frontend.restserver.MyApplication</param-value>-->
+        </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
-
+    <!--If conflict with javax.ws.rs.ApplicationPath annotation, this takes precedence -->
     <servlet-mapping>
-        <servlet-name>javax.ws.rs.core.Application</servlet-name>
-        <url-pattern>/restserver/*</url-pattern>
+        <servlet-name>RS</servlet-name>
+        <url-pattern>/resources/*</url-pattern>
     </servlet-mapping>
 </web-app>

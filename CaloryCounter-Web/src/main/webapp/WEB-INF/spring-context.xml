@@ -16,5 +16,8 @@
 
     <import resource="classpath:applicationContext.xml" />
     
+    <bean class="cz.fi.muni.pa165.calorycounter.frontend.restserver.ProfileRestResource"/>
+
+    <!--<bean id="userService" class="cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl"/>-->
     
 </beans>
