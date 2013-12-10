@@ -45,6 +45,8 @@ public class ProfileRestResource {
         return userService.getByUsername(username);
     }
     
+//    e.g. curl -i http://localhost:8080/CaloryCounter-Web/resources/profile/jsonget/Anna
+//    for XML use 'curl -i -H "Accept: application/xml" -H "Content-Type: application/xml" http://localhost:8080/path'
     @GET
     @Path("/jsonget/{uname}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

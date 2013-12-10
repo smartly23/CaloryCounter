@@ -1,12 +1,18 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * DTO for AuthUser entity.
  *
  * @author Martin Pasko (smartly23)
  */
+
+// ak chceme konkretny tvar XML-ka, mozme si zadefinovat vlastnu schemu, v ktorej namespace bude rovnaky 
+//ako tu @XmlRootElement(namespace = "somenamespace"), alebo je mozne definovat rovno package-namespace,
+//vid http://stackoverflow.com/questions/16584555/understanding-jaxb-xmlrootelement-annotation
+@XmlRootElement
 public class AuthUserDto {
 
     private Long userId;
