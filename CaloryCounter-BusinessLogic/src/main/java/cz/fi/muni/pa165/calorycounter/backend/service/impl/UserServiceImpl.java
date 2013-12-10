@@ -43,6 +43,7 @@ public class UserServiceImpl implements UserService {
                 List<UserStatsDto> dtos = new ArrayList<>();
                 for (UserStats dao : daos) {
                     UserStatsDto dto = new UserStatsDto();
+                    dto.setUserId(dao.getUserId());
                     dto.setNameOfUser(dao.getUserName());
                     dto.setSumBurntCalories(dao.getSumBurntCalories());
                     dto.setSumDuration(dao.getSumDuration());

@@ -74,7 +74,7 @@ public class UserServiceTest {
         UserStatsDto userStatsDto = new UserStatsDto();
         userStatsDto.setNameOfUser(USERNAME);
 
-        UserStats userStats = new UserStats(USERNAME, 150, 10);
+        UserStats userStats = new UserStats(USER_ID, USERNAME, 150, 10);
 
         listStats.add(userStats);
     }

@@ -30,32 +30,35 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
 
     @Override
     public List<UserStats> getUsersStats() {
-        // em.createTypedQuery dotaz cez "new"
-
         TypedQuery<UserStats> query;
         List<UserStats> returnedUsers;
         try {
-            query = em.createQuery("SELECT new cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImpl.UserStats(u.name, SUM(ar.caloriesBurnt, SUM(ar.duration)) "
-                    + " FROM AuthUser u LEFT JOIN ActivityRecord ar WHERE u.id = ar.authUser.id"
-                    + " GROUP BY u.id, u.name", UserStats.class);
+            query = em.createQuery("SELECT new cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA$UserStats(u.id, u.name, SUM(r.caloriesBurnt), SUM(r.duration)) "
+                    + " FROM AuthUser u LEFT JOIN u.records r WHERE u.id = r.authUser.id"
+                    + " GROUP BY u.id, u.name ORDER BY SUM(r.caloriesBurnt) DESC", UserStats.class);
             returnedUsers = query.getResultList();
         } catch (NoResultException nrex) {
-            throw new IllegalArgumentException("Invalid username: nonexistent");
+            throw new IllegalArgumentException("No users in DB");
         }
         return returnedUsers;
-
     }
 
     public static class UserStats {
 
+        private long userId;
         private String userName;
         private int sumBurntCalories;
         private int sumDuration;
 
-        public UserStats(String userName, int sumBurntCalories, int sumDuration) {
+        public UserStats(long userId, String userName, long sumBurntCalories, long sumDuration) {
+            this.userId = userId;
             this.userName = userName;
-            this.sumBurntCalories = sumBurntCalories;
-            this.sumDuration = sumDuration;
+            this.sumBurntCalories = (int) sumBurntCalories;
+            this.sumDuration = (int) sumDuration;
+        }
+
+        public long getUserId() {
+            return userId;
         }
 
         public int getSumDuration() {
