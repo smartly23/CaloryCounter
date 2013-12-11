@@ -14,7 +14,7 @@ public class AuthUserConvert {
 
     public static AuthUser fromDtoToEntity(AuthUserDto dto) {
         if (dto == null) {
-            return null;
+            throw new IllegalArgumentException("AuthUserConvert: fromDtoToEntity: null parameter!");
         }
         AuthUser authUser = new AuthUser();
         authUser.setId(dto.getUserId());
@@ -29,7 +29,7 @@ public class AuthUserConvert {
 
     public static AuthUserDto fromEntityToDto(AuthUser entity) {
         if (entity == null) {
-            return null;
+            throw new IllegalArgumentException("AuthUserConvert: fromEntityToDto: null parameter!");
         }
         AuthUserDto authUserDto = new AuthUserDto();
         authUserDto.setUserId(entity.getId());

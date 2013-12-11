@@ -40,14 +40,10 @@ public class UserDaoImplJPA implements UserDao {
         }
         TypedQuery<AuthUser> query;
         AuthUser returnedUser;
-        try {
-            query = em.createQuery("SELECT tbl FROM AuthUser tbl "
-                    + " WHERE tbl.username = :uname", AuthUser.class);
-            query.setParameter("uname", username);
-            returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
-        } catch (NoResultException nrex) {
-            return null;                     // need this information during registration
-        }
+        query = em.createQuery("SELECT tbl FROM AuthUser tbl "
+                + " WHERE tbl.username = :uname", AuthUser.class);
+        query.setParameter("uname", username);
+        returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
         return returnedUser;
     }
 
@@ -124,5 +120,4 @@ public class UserDaoImplJPA implements UserDao {
         }
         return returnedUser;
     }
-
 }

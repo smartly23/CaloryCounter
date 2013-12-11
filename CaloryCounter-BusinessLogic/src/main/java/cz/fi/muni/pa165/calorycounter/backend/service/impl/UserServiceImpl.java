@@ -12,6 +12,7 @@ import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessException
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,8 +79,12 @@ public class UserServiceImpl implements UserService {
             log.error("UserServiceImpl.register() called on null parameter: AuthUserDto user or String username or String password", iaex);
             throw iaex;
         }
-
-        AuthUserDto userDto = getByUsername(user.getUsername());
+        AuthUserDto userDto;
+        try {
+            userDto = getByUsername(user.getUsername());
+        } catch (NoResultException ex) {
+            userDto = null;
+        }
         if (userDto != null) {
             throw new IllegalArgumentException("Username is already used");
         }
@@ -97,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(AuthUserDto dto) {
-        if (dto.getUserId() == null) {
+        if (dto == null || dto.getUserId() == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot update user that"
                     + " doesn't exist. Use create instead.");
             log.error("UserServiceImpl.update() called on non-existent entity", iaex);
@@ -115,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void remove(AuthUserDto dto) {
-        if (dto.getUserId() == null) {
+        if (dto == null || dto.getUserId() == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove user that"
                     + " doesn't exist.");
             log.error("UserServiceImpl.remove() called on non-existent entity", iaex);

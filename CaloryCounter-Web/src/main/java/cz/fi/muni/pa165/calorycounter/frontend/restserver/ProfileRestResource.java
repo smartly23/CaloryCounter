@@ -2,9 +2,9 @@ package cz.fi.muni.pa165.calorycounter.frontend.restserver;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -38,26 +38,24 @@ public class ProfileRestResource {
 
 //    with no path after /profile given:
     @GET
-    @Produces("text/plain")
     public String getText() {
-        return "Please specify your action.";   // upravit: vsetky message cez resource bundle
+        throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
 
     @GET
-    @Path("/getuserByQuery")
+    @Path("/getuserbyquery")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto getUserByQuery(@QueryParam("uname") String username) {
         if (username == null) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
         }
         AuthUserDto returnedUser;
         try {
             returnedUser = userService.getByUsername(username);
         } catch (RecoverableDataAccessException ex) {
-            /*
-             * Thanks to the "slightly weird" design of UserServiceImpl (in case of entity not found 
-             * returns null), we can be sure, that if exception is thrown, than its internal server error
-             */
+            if (ex.getCause().getClass().equals(NoResultException.class)) {
+                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+            }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
         return returnedUser;
@@ -70,12 +68,15 @@ public class ProfileRestResource {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto getUserByPath(@PathParam("uname") String username) {
         if (username == null) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
         }
         AuthUserDto returnedUser;
         try {
             returnedUser = userService.getByUsername(username);
         } catch (RecoverableDataAccessException ex) {
+            if (ex.getCause().getClass().equals(NoResultException.class)) {
+                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+            }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
         return returnedUser;
@@ -89,12 +90,16 @@ public class ProfileRestResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto registerUser(AuthUserDto newUser) {
-        if (newUser == null) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null) {
+            throw new WebApplicationException("User, username or passwd is null", Response.Status.BAD_REQUEST);
         }
         AuthUserDto returnedUser;
         try {
             userService.register(newUser, newUser.getPassword());
+        } catch (IllegalArgumentException ex) {
+            throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+        }
+        try {
             returnedUser = userService.getByUsername(newUser.getUsername());
         } catch (RecoverableDataAccessException ex) {
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
@@ -102,22 +107,22 @@ public class ProfileRestResource {
         return returnedUser;
     }
 
-    /*
-     * If the DTO sent to server has invalid (non-existent) username, 
-     */
     @PUT
     @Path("/updateuser")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto updateUser(AuthUserDto userToUpdate) {
-        if (userToUpdate == null) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+        if (userToUpdate == null || userToUpdate.getUserId() == null) {
+            throw new WebApplicationException("User or user id is null", Response.Status.BAD_REQUEST);
         }
         AuthUserDto returnedUser;
         try {
             userService.update(userToUpdate);
             returnedUser = userService.getByUsername(userToUpdate.getUsername());
         } catch (RecoverableDataAccessException ex) {
+            if (ex.getCause().getClass().equals(IllegalArgumentException.class)) {
+                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+            }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
         return returnedUser;
@@ -127,11 +132,14 @@ public class ProfileRestResource {
     @Path("/removeuser/{uname}")
     public void unregisterUser(@PathParam("uname") String username) {
         if (username == null) {
-            throw new WebApplicationException(Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
         }
         try {
             userService.remove(userService.getByUsername(username));
         } catch (RecoverableDataAccessException ex) {
+            if (ex.getCause().getClass().equals(IllegalArgumentException.class)) {
+                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+            }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
     }
