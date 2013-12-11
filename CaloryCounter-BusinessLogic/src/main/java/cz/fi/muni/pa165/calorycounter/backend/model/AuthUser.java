@@ -38,7 +38,7 @@ public class AuthUser implements Serializable {
     private String password;
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
-    @OneToMany(mappedBy = "authUser")
+    @OneToMany(mappedBy = "authUser"/*, cascade = {CascadeType.MERGE, CascadeType.REMOVE}*/)
     private List<ActivityRecord> records;
     // staci unidirectional, keby sme zmenili na bidirectional, je dobre, aby vztah vlastnila "many" strana,
     // t.j. uz iba pridat joincolumn do activityRecord
