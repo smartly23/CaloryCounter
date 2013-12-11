@@ -2,13 +2,12 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <s:errors/>
-<s:hidden name="record.userId"/>
-<s:hidden name="record.weightCatNum"/>
-<s:hidden name="record.caloriesBurnt"/>
+<s:hidden name="record.userId" value="${actionBean.user.userId}"/>
+<s:hidden name="record.weightCategory" value="${actionBean.user.weightCategory}"/>
 <table>
     <tr>
         <th><s:label for="activityName" name="record.activity"/></th>
-        <td><s:text id="activityName" name="record.activityName"/></td>
+        <td><s:select id="activityName" name="record.activityName"><s:options-collection collection="${actionBean.activities}" value="activityName" label="activityName"/></s:select></td>
     </tr>
     <tr>
         <th><s:label for="duration" name="record.duration"/></th>

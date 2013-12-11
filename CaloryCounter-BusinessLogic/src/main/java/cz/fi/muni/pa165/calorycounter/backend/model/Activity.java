@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.model;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +19,7 @@ public class Activity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(columnDefinition = "VARCHAR(50)", unique = true, nullable = false)
     private String name;
 
     public Long getId() {
@@ -62,5 +64,4 @@ public class Activity implements Serializable {
     public String toString() {
         return "SportActivity{ name= " + name + " }";
     }
-
 }

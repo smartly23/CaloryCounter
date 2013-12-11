@@ -33,8 +33,6 @@
                 </div>
 
                 <div id="main_content">
-
-                    <s:messages/>
                     <s:layout-component name="body"/>
 
                     <div style=" clear:both;"></div>

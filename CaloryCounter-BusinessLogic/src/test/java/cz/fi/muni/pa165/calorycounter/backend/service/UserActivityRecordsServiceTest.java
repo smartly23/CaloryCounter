@@ -10,6 +10,7 @@ import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.service.impl.UserActivityRecordsServiceImpl;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -87,7 +88,7 @@ public class UserActivityRecordsServiceTest {
         activityRecordDto.setActivityDate(new java.util.Date(time));
         activityRecordDto.setCaloriesBurnt(4000);
         activityRecordDto.setDuration(40);
-        activityRecordDto.setWeightCatNum(3);
+        activityRecordDto.setWeightCategory(WeightCategory._180_);
         activityRecordDto.setUserId(USER_ID);
         activityRecordDto.setActivityRecordId(ACTIVITY_RECORD_ID);
 

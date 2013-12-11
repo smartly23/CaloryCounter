@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class ActivityConvert {
 
     public List<Calories> fromDtoToEntitiesList(ActivityDto dto) {
-        List<Calories> cals = new LinkedList<Calories>();
+        List<Calories> cals = new LinkedList<>();
         for (WeightCategory wc : WeightCategory.values()) {
             cals.add(fromDtoToEntity(dto, wc));
         }
@@ -28,6 +28,7 @@ public class ActivityConvert {
         Calories cal = new Calories();
         Activity activity = new Activity();
         activity.setName(dto.getActivityName());
+        activity.setId(dto.getActivityId());
         cal.setActivity(activity);
         cal.setAmount(dto.getCaloriesAmount(category));
         cal.setWeightCat(category);
@@ -36,17 +37,14 @@ public class ActivityConvert {
 
     public ActivityDto fromEntitiesListToDto(List<Calories> entities) {
         ActivityDto dto = new ActivityDto();
-        dto.setActivityName(entities.iterator().next().getActivity().getName());
+        Activity activity = entities.iterator().next().getActivity();
+        dto.setActivityName(activity.getName());
+        dto.setActivityId(activity.getId());
         for (Calories cal : entities) {
             if (!cal.getActivity().getName().equals(dto.getActivityName())) {
                 throw new IllegalArgumentException("Calories given are not of the same Activity. Expected " + dto.getActivityName() + "; Current " + cal.getActivity().getName());
             }
             dto.setCaloriesAmount(cal.getWeightCat(), cal.getAmount());
-        }
-        for (WeightCategory wc : WeightCategory.values()) {
-            if (dto.getCaloriesAmount(wc) == null) {
-                throw new IllegalArgumentException("Missing Calories with WeightCategory " + wc.toString());
-            }
         }
         return dto;
     }

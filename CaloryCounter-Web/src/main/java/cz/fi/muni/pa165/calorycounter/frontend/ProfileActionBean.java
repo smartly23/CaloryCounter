@@ -27,7 +27,7 @@ public class ProfileActionBean extends BaseActionBean {
         @Validate(on = "save", field = "name", required = true),
         @Validate(on = "save", field = "age", required = true),
         @Validate(on = "save", field = "sex", required = true),
-        @Validate(on = "save", field = "weightCatNum", required = true)
+        @Validate(on = "save", field = "weightCategory", required = true)
     })
     private AuthUserDto user;
     private static String username;

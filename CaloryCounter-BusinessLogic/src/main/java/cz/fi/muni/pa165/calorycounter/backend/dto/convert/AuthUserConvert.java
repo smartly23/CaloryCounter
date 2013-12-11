@@ -21,7 +21,7 @@ public class AuthUserConvert {
         authUser.setAge(dto.getAge());
         authUser.setName(dto.getName());
         authUser.setGender(dto.getSex());//proc ty renamy?
-        authUser.setWeightCat(dto.getWeightCatNum());
+        authUser.setWeightCat(dto.getWeightCategory());
         authUser.setUsername(dto.getUsername());
         authUser.setPassword(dto.getPassword());
         return authUser;
@@ -36,7 +36,7 @@ public class AuthUserConvert {
         authUserDto.setAge(entity.getAge());
         authUserDto.setName(entity.getName());
         authUserDto.setSex(entity.getGender());//proc ty renamy?
-        authUserDto.setWeightCatNum(entity.getWeightCat());
+        authUserDto.setWeightCategory(entity.getWeightCat());
         authUserDto.setUsername(entity.getUsername());
         authUserDto.setPassword(entity.getPassword());
         return authUserDto;

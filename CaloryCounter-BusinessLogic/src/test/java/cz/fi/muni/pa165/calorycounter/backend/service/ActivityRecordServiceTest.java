@@ -85,7 +85,7 @@ public class ActivityRecordServiceTest {
         activityRecordDto.setActivityDate(new java.util.Date(time));
         activityRecordDto.setCaloriesBurnt(4000);
         activityRecordDto.setDuration(40);
-        activityRecordDto.setWeightCatNum(3);
+        activityRecordDto.setWeightCategory(WeightCategory._180_);
         activityRecordDto.setUserId(USER_ID);
         activityRecordDto.setActivityRecordId(ACTIVITY_RECORD_ID);
     }

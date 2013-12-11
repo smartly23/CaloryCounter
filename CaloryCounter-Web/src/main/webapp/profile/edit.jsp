@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <th><s:label for="i4" name="profile.weight"/></th>
-                        <td><s:select id="i4" name="user.weightCatNum" >
+                        <td><s:select id="i4" name="user.weightCategory" >
                                 <s:options-enumeration enum="cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory" label="showedCategory"/>
                             </s:select></td>
                     </tr>

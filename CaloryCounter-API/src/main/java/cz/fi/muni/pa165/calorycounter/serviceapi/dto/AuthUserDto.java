@@ -21,7 +21,7 @@ public class AuthUserDto {
     private String name;
     private String sex;
     private int age;
-    private WeightCategory weightCatNum;
+    private WeightCategory weightCategory;
 
     public Long getUserId() {
         return userId;
@@ -71,12 +71,12 @@ public class AuthUserDto {
         this.age = age;
     }
 
-    public WeightCategory getWeightCatNum() {
-        return weightCatNum;
+    public WeightCategory getWeightCategory() {
+        return weightCategory;
     }
 
-    public void setWeightCatNum(WeightCategory weightCatNum) {
-        this.weightCatNum = weightCatNum;
+    public void setWeightCategory(WeightCategory weightCategory) {
+        this.weightCategory = weightCategory;
     }
 
     @Override
@@ -103,8 +103,8 @@ public class AuthUserDto {
 
     @Override
     public String toString() {
-        return "AuthUserDto{" + "userId=" + userId + ", username=" + username + ", password=" + password +
-                ", name=" + name + ", sex=" + sex + ", age=" + age + ", weightCatNum=" + weightCatNum + '}';
+        return "AuthUserDto{" + "userId=" + userId + ", username=" + username + ", password=" + password
+                + ", name=" + name + ", sex=" + sex + ", age=" + age + ", weightCategory=" + weightCategory + '}';
     }
 
 }

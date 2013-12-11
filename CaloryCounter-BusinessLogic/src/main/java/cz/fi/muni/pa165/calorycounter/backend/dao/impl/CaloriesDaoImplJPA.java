@@ -50,7 +50,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
             query.setParameter("activity", activity);
             query.setParameter("weightCat", weightCat);
         } catch (NoResultException nrex) {
-            throw new IllegalArgumentException("Invalid activity or weightCat: Calories nonexistent");
+            throw new IllegalArgumentException("Invalid activity or weightCat: Calories nonexistent", nrex);
         }
         return query.getSingleResult();
     }
@@ -127,6 +127,22 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
             query.setParameter("activity", activity);
         } catch (NoResultException nrex) {
             throw new IllegalArgumentException("Invalid activity: Calories nonexistent");
+        }
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Calories> getByWeightCategory(WeightCategory weightCategory) {
+        if (weightCategory == null) {
+            throw new IllegalArgumentException("Invalid weight category: null");
+        }
+        TypedQuery<Calories> query;
+        try {
+            query = em.createQuery("SELECT tbl FROM Calories tbl "
+                    + "WHERE tbl.weightCat = :weightCategory", Calories.class);
+            query.setParameter("weightCategory", weightCategory);
+        } catch (NoResultException nrex) {
+            throw new IllegalArgumentException("Invalid activity: Calories nonexistent", nrex);
         }
         return query.getResultList();
     }

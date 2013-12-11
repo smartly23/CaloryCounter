@@ -27,5 +27,7 @@ public interface CaloriesDao extends Dao<Calories> {
 
     List<Calories> getByActivity(Activity activity);
 
+    List<Calories> getByWeightCategory(WeightCategory weightCategory);
+
     List<Calories> getAll();
 }

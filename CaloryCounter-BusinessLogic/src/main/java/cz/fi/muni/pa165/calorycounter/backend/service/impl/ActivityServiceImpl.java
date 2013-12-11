@@ -95,8 +95,18 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public List<ActivityDto> getAll() {
-        List<ActivityDto> dtos = new LinkedList<>();
         List<Calories> cals = caloriesDao.getAll();
+        return getDtosFromCalories(cals);
+    }
+
+    @Override
+    public List<ActivityDto> getAll(WeightCategory weightCategory) {
+        List<Calories> cals = caloriesDao.getByWeightCategory(weightCategory);
+        return getDtosFromCalories(cals);
+    }
+
+    private List<ActivityDto> getDtosFromCalories(List<Calories> cals) {
+        List<ActivityDto> dtos = new LinkedList<>();
         Map<Activity, List<Calories>> calsByActivity = new HashMap<>();
         for (Calories cal : cals) {
             if (!calsByActivity.containsKey(cal.getActivity())) {

@@ -25,7 +25,7 @@
                     <td><c:out value="${activityRecord.activityName}"/></td>
                     <td><c:out value="${activityRecord.duration}"/></td>
                     <td><c:out value="${activityRecord.caloriesBurnt}"/></td>
-                    <td><f:message key="activity.weightCat${activityRecord.weightCatNum}"/></td>
+                    <td><f:message key="activity.weightCat${activityRecord.weightCategory}"/></td>
                 </tr>
             </c:forEach>
         </table>

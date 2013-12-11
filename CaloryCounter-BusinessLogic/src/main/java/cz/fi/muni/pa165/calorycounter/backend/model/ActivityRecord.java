@@ -25,10 +25,10 @@ public class ActivityRecord implements Serializable {
     private Date activityDate; //date is reserved by sql
     private int caloriesBurnt;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private AuthUser authUser;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Calories calories;
 
     public Long getId() {

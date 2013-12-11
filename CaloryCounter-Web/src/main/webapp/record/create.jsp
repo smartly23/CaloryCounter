@@ -22,6 +22,5 @@
                 </s:submit>
             </fieldset>
         </s:form>
-        <s:messages/>
     </s:layout-component>
 </s:layout-render>

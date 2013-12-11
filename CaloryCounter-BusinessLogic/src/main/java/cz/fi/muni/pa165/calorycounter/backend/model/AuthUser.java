@@ -27,16 +27,18 @@ public class AuthUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     // vytvorit DB sekvenciu pri naloadovani SQL skriptu a zmenit na Type.SEQUENCE
     private Long id;
+    @Column(columnDefinition = "VARCHAR(100)", nullable = false)
     private String name;
+    @Column(columnDefinition = "VARCHAR(6)")
     private String gender;
     private int age;
-    @Column(unique = true, columnDefinition = "varchar(20)", nullable = false)
+    @Column(unique = true, columnDefinition = "varchar(50)", nullable = false)
     private String username;
     @Column(columnDefinition = "varchar(200)")  // sifra?
     private String password;
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
-    @OneToMany(mappedBy = "authUser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "authUser")
     private List<ActivityRecord> records;
     // staci unidirectional, keby sme zmenili na bidirectional, je dobre, aby vztah vlastnila "many" strana,
     // t.j. uz iba pridat joincolumn do activityRecord

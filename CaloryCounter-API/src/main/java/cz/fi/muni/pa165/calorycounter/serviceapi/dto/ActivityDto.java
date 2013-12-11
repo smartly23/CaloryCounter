@@ -10,8 +10,17 @@ import java.util.Map;
  */
 public class ActivityDto {
 
+    private Long activityId;
     private String activityName;
     private Map<WeightCategory, Integer> weightCalories = new HashMap<>();
+
+    public Long getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
+    }
 
     public String getActivityName() {
         return activityName;

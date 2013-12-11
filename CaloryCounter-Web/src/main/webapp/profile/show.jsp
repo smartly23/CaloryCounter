@@ -14,7 +14,7 @@
             <f:message key="profile.name"/><c:out value=" ${actionBean.user.name}"/><br>
             <f:message key="profile.age"/><c:out value=" ${actionBean.user.age}"/><br>
             <f:message key="profile.sex"/><c:out value=" ${actionBean.user.sex}"/><br>
-            <f:message key="profile.weight"/><c:out value=" ${actionBean.user.weightCatNum.showedCategory}"/>
+            <f:message key="profile.weight"/><c:out value=" ${actionBean.user.weightCategory.showedCategory}"/>
             <br>
             <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" event="edit">
                 <s:param name="user.username" value="${actionBean.user.username}"/><f:message key="profile.edit"/>

@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -24,11 +25,9 @@ public class Calories implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int amount;
-
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     private Activity activity;
 
     public Long getId() {
@@ -89,5 +88,4 @@ public class Calories implements Serializable {
     public String toString() {
         return "Calories{ amount=" + amount + ", weightCat=" + weightCat + ", activity=" + activity + '}';
     }
-
 }

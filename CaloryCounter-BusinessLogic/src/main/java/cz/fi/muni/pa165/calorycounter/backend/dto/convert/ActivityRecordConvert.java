@@ -10,9 +10,9 @@ import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.ActivityRecord;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
-import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,24 +49,28 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
         if (dto.getActivityRecordId() != null) {
             entity = activityRecordDao.get(dto.getActivityRecordId());
             entity.getCalories().getActivity().setName(dto.getActivityName());
-            for (WeightCategory cat : WeightCategory.values()) {
-                if (cat.ordinal() + 1 == dto.getWeightCatNum()) {
-                    entity.getCalories().setWeightCat(cat);
-                } else {
-                    log.warn("ActivityRecord DTO-to-DAO conversion: unknown weight category number in DTO.");
-                }
-            }
+            entity.getCalories().setWeightCat(dto.getWeightCategory());
         } else {
             entity = new ActivityRecord();
             // create new Calories object and fill it into our entity; transaction management in the calling class
             Calories calories = new Calories();
-            Activity activity = new Activity();
+            Activity activity;
+            try {
+                activity = activityDao.get(dto.getActivityName());
+            } catch (NoResultException e) {
+                log.warn("Activity with name " + dto.getActivityName() + " was not found in database. A new activity will be created.");
+                activity = new Activity();
             activity.setName(dto.getActivityName());
-            log.warn("\n\n\n\n\n" + activity.getName() + "\n\n\n\n\n");
             activityDao.create(activity);
+            }
+            try {
+                calories = caloriesDao.getByActivityWeightCat(activity, dto.getWeightCategory());
+            } catch (NoResultException e) {
+                log.warn("Calories with activity " + activity.getName() + " and weight category " + dto.getWeightCategory() + " was not found in database. A new calories will be created.");
             calories.setActivity(activity);
-            calories.setWeightCat(WeightCategory.getCategory(dto.getWeightCatNum()));
+                calories.setWeightCat(dto.getWeightCategory());
             caloriesDao.create(calories);
+            }
             entity.setCalories(calories);
         }
 
@@ -100,7 +104,7 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
         }
         dto.setCaloriesBurnt(entity.getCaloriesBurnt());
         dto.setDuration(entity.getDuration());
-        dto.setWeightCatNum(entity.getCalories().getWeightCat().ordinal() + 1);
+        dto.setWeightCategory(entity.getCalories().getWeightCat());
         dto.setActivityName(entity.getCalories().getActivity().getName());
         dto.setUserId(entity.getAuthUser().getId());
         if (entity.getId() == null) {
@@ -139,5 +143,4 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
     }
-
 }

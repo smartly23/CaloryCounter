@@ -45,7 +45,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                     + " already exists. Use update instead.");
             log.error("ActivityRecordServiceImpl.create() called on existing entity", iaex);
             throw iaex;
-        } else {
+        }
             return (Long) new DataAccessExceptionNonVoidTemplate(dto) {
                 @Override
                 public Long doMethod() {
@@ -56,7 +56,6 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                     return entityId;
                 }
             }.tryMethod();
-        }
         /*
          ActivityRecord entity;
          try {

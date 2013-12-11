@@ -13,17 +13,17 @@ public class ActivityRecordDto {
     private Long activityRecordId;
     private Long userId;    // MUST be in every object
     private String activityName;
-    private int weightCatNum;   // According to the ordering in the enum, starting from 1!!!
+    private WeightCategory weightCategory;
     private int duration; //duration unit is minute
     private Date activityDate; // na prezentacnej vrstve bude util.Date = treba konvertovat medzi DTO a DAO
     private int caloriesBurnt;
 
-    public Long getActivityRecordId() {
-        return activityRecordId;
+    public String getActivityName() {
+        return activityName;
     }
 
-    public void setActivityRecordId(Long activityRecordId) {
-        this.activityRecordId = activityRecordId;
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
 
     public Long getUserId() {
@@ -34,20 +34,20 @@ public class ActivityRecordDto {
         this.userId = userId;
     }
 
-    public String getActivityName() {
-        return activityName;
+    public Long getActivityRecordId() {
+        return activityRecordId;
     }
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
+    public void setActivityRecordId(Long activityId) {
+        this.activityRecordId = activityId;
     }
 
-    public int getWeightCatNum() {
-        return weightCatNum;
+    public WeightCategory getWeightCategory() {
+        return weightCategory;
     }
 
-    public void setWeightCatNum(int weightCatNum) {
-        this.weightCatNum = weightCatNum;
+    public void setWeightCategory(WeightCategory weightCategory) {
+        this.weightCategory = weightCategory;
     }
 
     public int getDuration() {
@@ -103,7 +103,7 @@ public class ActivityRecordDto {
     @Override
     public String toString() {
         return "ActivityRecordDto{" + "activityRecordId=" + activityRecordId + ", userId=" + userId
-                + ", activityName=" + activityName + ", weightCatNum=" + weightCatNum + ", duration="
+                + ", activityName=" + activityName + ", weightCatNum=" + weightCategory + ", duration="
                 + duration + ", activityDate=" + activityDate + ", caloriesBurnt=" + caloriesBurnt + '}';
     }
 }

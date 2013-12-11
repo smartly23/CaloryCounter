@@ -5,6 +5,7 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface ActivityService {
     ActivityDto get(String activityName);
 
     List<ActivityDto> getAll();
+
+    List<ActivityDto> getAll(WeightCategory weightCategory);
 }
