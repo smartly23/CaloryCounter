@@ -49,7 +49,7 @@ public class ProfileRestResource {
     @Path("/getuserbyquery")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto getUserByQuery(@QueryParam("uname") String username) {
-        log.debug("getUserByQuery() with username: " + username);
+        log.debug("Server: getUserByQuery() with username: " + username);
         if (username == null) {
             throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
         }
@@ -71,7 +71,7 @@ public class ProfileRestResource {
     @Path("/getuser/{uname}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto getUserByPath(@PathParam("uname") String username) {
-        log.debug("getUserByQuery() with username: " + username);
+        log.debug("Server: get user with username: " + username);
         if (username == null) {
             throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
         }
@@ -95,7 +95,7 @@ public class ProfileRestResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto registerUser(AuthUserDto newUser) {
-        log.debug("getUserByQuery() with user: " + newUser);
+        log.debug("Server: register user: " + newUser);
         if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null) {
             throw new WebApplicationException("User, username or passwd is null", Response.Status.BAD_REQUEST);
         }
@@ -118,7 +118,7 @@ public class ProfileRestResource {
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public AuthUserDto updateUser(AuthUserDto userToUpdate) {
-        log.debug("getUserByQuery() with user: " + userToUpdate);
+        log.debug("Server: update with user: " + userToUpdate);
         if (userToUpdate == null || userToUpdate.getUserId() == null) {
             throw new WebApplicationException("User or user id is null", Response.Status.BAD_REQUEST);
         }
@@ -137,20 +137,20 @@ public class ProfileRestResource {
 
     @DELETE
     @Path("/removeuser/{uname}")
-    public void unregisterUser(@PathParam("uname") String username) {
-        log.debug("getUserByQuery() with username: " + username);
+    public Response unregisterUser(@PathParam("uname") String username) {
+        log.debug("Server: unregister user: " + userToUpdate);
         if (username == null) {
-            log.debug("getUserByQuery() with username: " + username);
-            throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
         try {
             userService.remove(userService.getByUsername(username));
         } catch (RecoverableDataAccessException ex) {
-            if (ex.getCause().getClass().equals(IllegalArgumentException.class)) {
-                log.debug("getUserByQuery() with username: " + username);
-                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+            if (ex.getCause().getClass().equals(IllegalArgumentException.class)
+                    || ex.getCause().getClass().equals(NoResultException.class)) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
+        return Response.status(Response.Status.OK).build();
     }
 }

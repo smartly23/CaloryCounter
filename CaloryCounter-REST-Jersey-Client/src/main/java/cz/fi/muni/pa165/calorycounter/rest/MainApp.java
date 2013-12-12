@@ -37,8 +37,9 @@ public class MainApp {
     }
     
     private static int unregisterUser(String username) {
-        WebTarget actionTarget = getTarget(nastav_si_cestu).path("removeuser/"+username);
+        WebTarget actionTarget = getTarget(nastav_si_cestu).path("profile/removeuser/"+username);
         Invocation.Builder builder = actionTarget.request(MediaType.APPLICATION_JSON); // media type expected in RESPONSE
+        log.debug("Client: unregisterUser: " + actionTarget.getUri().toString());
 //        toto uz netreba, ked sme to specifikovali v requeste:
 //        builder.header("accept", MediaType.APPLICATION_JSON);
         
