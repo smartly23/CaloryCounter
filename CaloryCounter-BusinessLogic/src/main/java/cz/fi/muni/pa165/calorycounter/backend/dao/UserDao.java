@@ -26,4 +26,11 @@ public interface UserDao extends Dao<AuthUser> {
      */
     AuthUser login(String username, String password);
     
+    /*
+     * Verify, if given username exists
+     * @param username
+     * @return true if username exists, false if it does not exist
+     */
+    boolean existsUsername(String username);
+    
 }

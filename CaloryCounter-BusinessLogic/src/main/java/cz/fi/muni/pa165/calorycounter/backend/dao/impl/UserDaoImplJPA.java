@@ -34,7 +34,7 @@ public class UserDaoImplJPA implements UserDao {
     }
 
     @Override
-    public AuthUser getByUsername(String username) {
+    public AuthUser getByUsername(String username) throws NoResultException {
         if (validate(username)) {
             throw new IllegalArgumentException("Invalid username: null");
         }
@@ -60,7 +60,7 @@ public class UserDaoImplJPA implements UserDao {
     }
 
     @Override
-    public AuthUser get(Long id) {
+    public AuthUser get(Long id) throws NoResultException {
         if (validate(id)) {
             throw new IllegalArgumentException("Invalid id: null");
         }
@@ -99,6 +99,22 @@ public class UserDaoImplJPA implements UserDao {
 
     private boolean validate(Object obj) {
         return obj == null;
+    }
+
+    @Override
+    public boolean existsUsername(String username) throws NoResultException {
+        TypedQuery<Long> query;
+        AuthUser returnedUser;
+        query = em.createQuery("SELECT COUNT(tbl.username) FROM AuthUser tbl "
+                + " WHERE tbl.username = :uname", Long.class);
+        query.setParameter("uname", username);
+        Long result = query.getSingleResult();
+        if (result == 0) {
+            return false;
+        } else if (result == 1) {
+            return true;
+        }
+        throw new RuntimeException("There is more than one identical username in the database.");
     }
 
     @Override

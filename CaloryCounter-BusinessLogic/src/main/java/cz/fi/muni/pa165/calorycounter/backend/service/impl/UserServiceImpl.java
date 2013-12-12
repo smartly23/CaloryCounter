@@ -79,21 +79,16 @@ public class UserServiceImpl implements UserService {
             log.error("UserServiceImpl.register() called on null parameter: AuthUserDto user or String username or String password", iaex);
             throw iaex;
         }
-        AuthUserDto userDto;
-        try {
-            userDto = getByUsername(user.getUsername());
-        } catch (NoResultException ex) {
-            userDto = null;
-        }
-        if (userDto != null) {
-            throw new IllegalArgumentException("Username is already used");
-        }
+        final AuthUserDto userDto = user;
 
         AuthUser entity = AuthUserConvert.fromDtoToEntity(user);
         entity.setPassword(password);
         return (Long) new DataAccessExceptionNonVoidTemplate(entity) {
             @Override
             public Long doMethod() {
+                if (userDao.existsUsername(userDto.getUsername())) {
+                    throw new IllegalArgumentException("Username is already used.");
+                }
                 Long entityId = userDao.create((AuthUser) getU());
                 return entityId;
             }

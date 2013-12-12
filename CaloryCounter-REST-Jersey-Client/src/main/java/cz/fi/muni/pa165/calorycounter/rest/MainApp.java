@@ -37,12 +37,14 @@ public class MainApp {
     public static void main(String[] args) {
         String username;
         AuthUserDto returnedUser;
+        AuthUserDto returnedUser2;
         AuthUserDto wantedUser = new AuthUserDto();
         
         username = "John";
         returnedUser = findUserByQuery(username);
         log.debug("finding user by query with username " + username + ", found: " + returnedUser);
 
+        // fail:
         username = "Nonexistent";
         returnedUser = findUserByQuery(username);
         log.debug("finding user by query with username " + username + ", found: " + returnedUser + "\n");
@@ -51,10 +53,12 @@ public class MainApp {
         returnedUser = findUserByPath(username);
         log.debug("finding user by path with username " + username + ", found: " + returnedUser);
         
+        // fail:
         username = "Nonexistent";
         returnedUser = findUserByPath(username);
         log.debug("finding user by path with username " + username + ", found: " + returnedUser + "\n");
         
+        // correct: registering Fero
         wantedUser.setAge(18);
         wantedUser.setName("Fero Mrkvicka");
         wantedUser.setSex("Male");
@@ -64,17 +68,19 @@ public class MainApp {
         returnedUser = registerUser(wantedUser);
         log.debug("registering user " + wantedUser + ", returned: " + returnedUser);
         
-        // already registered user:
+        // fail: already registered user:
         wantedUser.setAge(25);
         wantedUser.setName("Ferdo Mravenec");
         wantedUser.setPassword("ferino ma rad muchy");
-        returnedUser = registerUser(wantedUser);
-        log.debug("registering already registered user " + wantedUser + ", returned: " + returnedUser + "\n");
+        returnedUser2 = registerUser(wantedUser);
+        log.debug("registering already registered user " + wantedUser + ", returned: " + returnedUser2 + "\n");
         
         // correct is to use update instead of register:
-        returnedUser = updateUser(wantedUser);
+        wantedUser.setUserId(returnedUser.getUserId());
+        returnedUser = updateUser(wantedUser); // must use user that has id given
         log.debug("updating user " + wantedUser + ", returned: " + returnedUser);
         
+        // deleting Anna:
         username = "Anna";
         int status = unregisterUser(username);
         log.debug("Removing user " + username + " returned status: " + status);
