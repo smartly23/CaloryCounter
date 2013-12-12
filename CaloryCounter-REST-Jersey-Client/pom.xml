@@ -121,30 +121,27 @@
     <build>
         <!-- Defaultne je nazov .war-ka v tvare artifactId-version (napr. CaloryCounter-Web-1.0.war),
         tu mu mozme nastavit vlastny nazov, napr. to iste ale bez version number -->
-        <finalName>CaloryCounter-Web</finalName>
+        <finalName>CaloryCounter-RestJerseyWebClient</finalName>
 
         <plugins>
-            <!-- source code version -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
+                <version>3.1</version>
                 <configuration>
-                    <source>7</source>
-                    <target>7</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <mainClass>cz.fi.muni.pa165.calorycounter.rest.MainApp</mainClass>
+                    <arguments>
+                        <argument></argument>
+                    </arguments>
                 </configuration>
             </plugin>
         </plugins>
