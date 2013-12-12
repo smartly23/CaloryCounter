@@ -13,30 +13,27 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
-//import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-//import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.RecoverableDataAccessException;
 
 /**
- * REST resource for operations on AuthUser entities.
+ * REST resource for operations on AuthUser entities. 
+ * Jersey version 2.X.X
  *
  * @author smartly23 Martin Pasko
  */
 @Path("/profile")
 public class ProfileRestResource {
 
-    private AuthUserDto user;
+    private AuthUserDto user = null;
 //    Spring beans can't be injected directly into JAX-RS classes by using just Spring XML configuration,
 //    instead Jersey jersey-spring3 dependency needs to be added
     @Autowired
     private UserService userService;
-//    @Context
-//    private UriInfo context;
     final static Logger log = LoggerFactory.getLogger(ProfileRestResource.class);
 
 //    with no path after /profile given:
@@ -44,47 +41,51 @@ public class ProfileRestResource {
     public String getText() {
         throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
-
+    
+    /*
+     * Finds a user bu username, returns that user (after deserialization, ofc).
+     */
     @GET
     @Path("/getuserbyquery")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public AuthUserDto getUserByQuery(@QueryParam("uname") String username) {
+    public Response getUserByQuery(@QueryParam("uname") String username) {
         log.debug("Server: getUserByQuery() with username: " + username);
         if (username == null) {
-            throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        AuthUserDto returnedUser;
         try {
-            returnedUser = userService.getByUsername(username);
+            user = userService.getByUsername(username);
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
-                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return returnedUser;
+        return Response.status(Response.Status.OK).entity(user).build();
     }
 
 //    e.g. curl -i http://localhost:8080/CaloryCounter-Web/resources/profile/jsonget/Anna
 //    for XML use 'curl -i -H "Accept: application/xml" -H "Content-Type: application/xml" http://localhost:8080/path'
+    /*
+     * Finds a user bu username, returns that user.
+     */
     @GET
     @Path("/getuser/{uname}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public AuthUserDto getUserByPath(@PathParam("uname") String username) {
+    public Response getUserByPath(@PathParam("uname") String username) {
         log.debug("Server: get user with username: " + username);
         if (username == null) {
-            throw new WebApplicationException("Username is null", Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        AuthUserDto returnedUser;
         try {
-            returnedUser = userService.getByUsername(username);
+            user = userService.getByUsername(username);
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
-                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return returnedUser;
+        return Response.status(Response.Status.OK).entity(user).build();
     }
 
     /*
@@ -94,51 +95,55 @@ public class ProfileRestResource {
     @Path("/createuser")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public AuthUserDto registerUser(AuthUserDto newUser) {
+    public Response registerUser(AuthUserDto newUser) {
         log.debug("Server: register user: " + newUser);
         if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null) {
-            throw new WebApplicationException("User, username or passwd is null", Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        AuthUserDto returnedUser;
         try {
             userService.register(newUser, newUser.getPassword());
         } catch (IllegalArgumentException ex) {
-            throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
         try {
-            returnedUser = userService.getByUsername(newUser.getUsername());
+            user = userService.getByUsername(newUser.getUsername());
         } catch (RecoverableDataAccessException ex) {
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return returnedUser;
+        return Response.status(Response.Status.OK).entity(user).build();
     }
 
+    /*
+     * Updates user, returning dto object as it was updated in the database. 
+     */
     @PUT
     @Path("/updateuser")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public AuthUserDto updateUser(AuthUserDto userToUpdate) {
+    public Response updateUser(AuthUserDto userToUpdate) {
         log.debug("Server: update with user: " + userToUpdate);
         if (userToUpdate == null || userToUpdate.getUserId() == null) {
-            throw new WebApplicationException("User or user id is null", Response.Status.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        AuthUserDto returnedUser;
         try {
             userService.update(userToUpdate);
-            returnedUser = userService.getByUsername(userToUpdate.getUsername());
+            user = userService.getByUsername(userToUpdate.getUsername());
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(IllegalArgumentException.class)) {
-                throw new WebApplicationException(ex, Response.Status.BAD_REQUEST);
+                return Response.status(Response.Status.BAD_REQUEST).build();
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return returnedUser;
+        return Response.status(Response.Status.OK).entity(user).build();
     }
 
+    /*
+     * Removes user from DB (unregisters), returns only status information.
+     */
     @DELETE
     @Path("/removeuser/{uname}")
     public Response unregisterUser(@PathParam("uname") String username) {
-        log.debug("Server: unregister user: " + userToUpdate);
+        log.debug("Server: unregister user with username: " + username);
         if (username == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
