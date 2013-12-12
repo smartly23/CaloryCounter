@@ -11,6 +11,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.List;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.validation.Validate;
@@ -31,15 +32,15 @@ public class RecordActionBean extends BaseActionBean {
     protected ActivityService activityService;
     @SpringBean
     protected UserService userService;
+    private ActivityRecordDto record;
+    private List<ActivityDto> activities;
+    private AuthUserDto user;
+
     @ValidateNestedProperties(value = {
         @Validate(on = {"createRecord", "save"}, field = "activityName", required = true),
         @Validate(on = {"createRecord", "save"}, field = "duration", required = true, minvalue = 1),
         @Validate(on = {"createRecord", "save"}, field = "activityDate", required = true)
     })
-    private ActivityRecordDto record;
-    private List<ActivityDto> activities;
-    private AuthUserDto user;
-
     public AuthUserDto getUser() {
         return user;
     }
@@ -56,23 +57,22 @@ public class RecordActionBean extends BaseActionBean {
         this.activities = activities;
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"def", "createRecord"})
-    public void setUp() {
-        //String login = getContext().getRequest().getParameter("user.username");
-        String login = "John";
-        if (login == null) {
-            return;
-        }
-        user = userService.getByUsername(login);
-        activities = activityService.getAll(user.getWeightCategory());
-    }
-
     public ActivityRecordDto getRecord() {
         return record;
     }
 
     public void setRecord(ActivityRecordDto record) {
         this.record = record;
+    }
+
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"def", "createRecord"})
+    public void setUp() {
+        String login = "John";
+        if (login == null) {
+            return;
+        }
+        user = userService.getByUsername(login);
+        activities = activityService.getAll(user.getWeightCategory());
     }
 
     @DefaultHandler
@@ -84,36 +84,65 @@ public class RecordActionBean extends BaseActionBean {
     @HandlesEvent("createRecord")
     public Resolution createRecord() {
         log.debug("createRecord() record={}", record);
+        record.setCaloriesBurnt(getCaloriesBurnt(activities, record.getActivityName(), record.getWeightCategory(), record.getDuration()));
+        Long createdId = activityRecordService.create(record);
+        getContext().getMessages().add(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName().toString()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))));
+        log.debug("Created activity record with id " + createdId + ". <a href=\"/records/edit.jsp/" + createdId + "\">edit");
+        return new RedirectResolution("/record/create.jsp");
+    }
+
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save", "delete"})
+    public void loadRecordFromDatabase() {
+        String id = getContext().getRequest().getParameter("record.activityRecordId");
+        if (id == null) {
+            return;
+        }
+        record = activityRecordService.get(Long.parseLong(id));
+        activities = activityService.getAll(record.getWeightCategory());
+    }
+
+    public Resolution edit() {
+        log.debug("edit() record={}", record);
+        return new ForwardResolution("/record/edit.jsp");
+    }
+
+    @HandlesEvent("save")
+    public Resolution save() {
+        log.debug("save() record={}", record);
+        record.setCaloriesBurnt(getCaloriesBurnt(activities, record.getActivityName(), record.getWeightCategory(), record.getDuration()));
+        activityRecordService.update(record);
+        return new RedirectResolution("/records/list.jsp");
+    }
+
+    public Resolution delete() {
+        log.debug("delete() record={}", record);
+        return new ForwardResolution("/record/delete.jsp");
+    }
+
+    public Resolution confirmDelete() {
+        log.debug("confirmDelete() record={}", record);
+        activityRecordService.remove(record);
+        return new RedirectResolution("/records/list.jsp");
+    }
+
+    public Resolution cancelCreate() {
+        log.debug("cancelCreate()");
+        return new RedirectResolution("/record/create.jsp");
+    }
+
+    public Resolution cancel() {
+        log.debug("cancel()");
+        return new RedirectResolution("/records/list.jsp");
+    }
+
+    private int getCaloriesBurnt(List<ActivityDto> activities, String activityName, WeightCategory weightCategory, int duration) {
         ActivityDto activity = null;
         for (ActivityDto act : activities) {
-            if (act.getActivityName().equals(record.getActivityName())) {
+            if (act.getActivityName().equals(activityName)) {
                 activity = act;
                 break;
             }
         }
-        record.setCaloriesBurnt(record.getDuration() * (activity.getCaloriesAmount(record.getWeightCategory())));
-        Long createdId = activityRecordService.create(record);
-        getContext().getMessages().add(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName().toString()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))));
-        log.debug("Created activity record with id " + createdId + ". <a href=\"/records/edit.jsp/" + createdId + "\">edit");
-        return new ForwardResolution("/record/create.jsp");
+        return (duration * (activity.getCaloriesAmount(weightCategory)) / 60);
     }
-//    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
-//    public void loadRecordFromDatabase() {
-//        String ids = getContext().getRequest().getParameter("record.activityRecordId");
-//        if (ids == null) {
-//            return;
-//        }
-//        record = activityRecordService.get(Long.parseLong(ids));
-//    }
-//
-//    public Resolution edit() {
-//        log.debug("edit() record={}", record);
-//        return new ForwardResolution("/record/edit.jsp");
-//    }
-//
-//    public Resolution save() {
-//        log.debug("save() record={}", record);
-//        activityRecordService.update(record);
-//        return new RedirectResolution("records/list.jsp");
-//    }
 }

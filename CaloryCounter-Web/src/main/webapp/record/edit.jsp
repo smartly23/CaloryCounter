@@ -1,5 +1,4 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <s:layout-render name="/layout.jsp" titlekey="record.edit.title">
@@ -10,12 +9,20 @@
             <s:hidden name="record.activityRecordId"/>
             <fieldset>
                 <legend>
-                    <f:message key="record.edit.edit"/>
+                    <f:message key="record.edit.legend"/>
                 </legend>
                 <%@include file="form.jsp"%>
-                <s:submit name="save">
-                    <f:message key="record.edit.save"/>
-                </s:submit>
+                <div>
+                    <%--<s:submit name="save">
+                        <f:message key="record.edit.save"/>
+                    </s:submit>--%>
+                    <s:link href="/record" event="save">
+                        <f:message key="record.edit.save"/>
+                    </s:link>
+                    <s:link href="/record" event="cancel">
+                        <f:message key="record.edit.cancel"/>
+                    </s:link>
+                </div>
             </fieldset>
         </s:form>
 
