@@ -30,7 +30,10 @@
                 </div>
                 <div>
                     <label for="activity"><f:message key="record.activity"/>:</label>
-                    <input id="activity" name="activity" value=""/>
+                    <select id="activity" name="activity">
+                        <option value="Badminton">Badminton</option>
+                        <option value="Tennis">Tennis</option>
+                    </select>
                 </div>
                 <div>
                     <label for="duration"><f:message key="record.duration"/>:</label>
@@ -212,6 +215,21 @@
 
             $(function() {
                 $("#date").datepicker();
+
+                /*
+                 
+                 var request = $.ajax({
+                 url: "http://localhost:8080/CaloryCounter-Web/resources/record/create",
+                 type: "POST",
+                 dataType: "json",
+                 contentType: "application/json; charset=utf-8",
+                 crossDomain: true,
+                 data: data,
+                 success: createUserSuccess
+                 });
+                 request.fail(function(jqXHR, textStatus) {
+                 $("#state").text("<f:message key="records.state.notCreated"/>");
+                 });*/
 
             });
 
