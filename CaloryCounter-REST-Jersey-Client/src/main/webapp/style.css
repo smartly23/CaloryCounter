@@ -195,3 +195,46 @@ table.basic th {
 table.basic .col1 {
     background-color: #F1F1F1;
 }
+
+
+#userForm label {
+    display: block;
+    float: left;
+    width: 400px;
+    text-align: right;
+    margin-right: 5px;
+}
+#userForm div {
+    height: 30px;
+    text-align: left;
+}
+
+#stateBar{
+    height: 45px;
+    border: 3px solid rgb(128,128,128);
+    background-color: rgb(208,208,208);
+    margin: 15px 0;
+    color: black;
+    line-height: 45px;
+    font-size: 17px;
+    padding: 0 15px;
+}
+#state{
+    font-weight: bold;
+}
+
+#searchForm input[type="submit"], #userForm input[type="submit"]{
+    padding: 4px 30px;
+    border: 2px solid rgb(128,128,128);
+    background-color: #E6D35E;
+    font-weight: bold;
+    cursor: hand;
+    cursor: pointer;
+}
+#searchForm input[type="submit"]:hover, #userForm input[type="submit"]:hover{
+    background-color: #D6C30E;
+}
+#userForm #buttons{
+    margin-top: 20px;
+    text-align: center;
+}

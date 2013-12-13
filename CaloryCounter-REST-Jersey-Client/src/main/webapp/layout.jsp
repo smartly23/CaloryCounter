@@ -8,6 +8,7 @@
         <head>
             <title><f:message key="${titlekey}"/></title>
             <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
+            <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
             <s:layout-component name="header"/>
         </head>
 

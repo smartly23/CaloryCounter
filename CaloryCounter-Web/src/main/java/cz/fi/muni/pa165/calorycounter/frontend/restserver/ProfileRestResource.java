@@ -6,6 +6,8 @@ import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -15,14 +17,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.RecoverableDataAccessException;
 
 /**
- * REST resource for operations on AuthUser entities. 
- * Jersey version 2.X.X
+ * REST resource for operations on AuthUser entities. Jersey version 2.X.X
  *
  * @author smartly23 Martin Pasko
  */
@@ -41,7 +43,49 @@ public class ProfileRestResource {
     public String getText() {
         throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
-    
+
+    private String _corsHeaders;
+
+    private Response makeCORS(ResponseBuilder req, String returnMethod) {
+        ResponseBuilder rb = req.header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+
+        if (!"".equals(returnMethod)) {
+            rb.header("Access-Control-Allow-Headers", returnMethod);
+        }
+
+        return rb.build();
+    }
+
+    private Response makeCORS(ResponseBuilder req) {
+        return makeCORS(req, _corsHeaders);
+    }
+
+    // This OPTIONS request/response is necessary
+    // if you consumes other format than text/plain or
+    // if you use other HTTP verbs than GET and POST
+    // nevím jak mapovat vice cest najednou, podle různých zdroju to snad ani nejde?
+    @OPTIONS
+    @Path("/createuser")
+    public Response corsMyResource(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
+
+    @OPTIONS
+    @Path("/updateuser")
+    public Response corsMyResource2(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
+
+    @OPTIONS
+    @Path("/removeuser/{uname}")
+    public Response corsMyResource3(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
+
     /*
      * Finds a user bu username, returns that user (after deserialization, ofc).
      */
@@ -110,7 +154,10 @@ public class ProfileRestResource {
         } catch (RecoverableDataAccessException ex) {
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return Response.status(Response.Status.OK).entity(user).build();
+        Response.ResponseBuilder builder = Response.status(Response.Status.OK);
+        builder.entity(user);
+        return makeCORS(builder);
+        //Response.status(Response.Status.OK).entity(user).build();
     }
 
     /*
@@ -134,7 +181,10 @@ public class ProfileRestResource {
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return Response.status(Response.Status.OK).entity(user).build();
+        Response.ResponseBuilder builder = Response.status(Response.Status.OK);
+        builder.entity(user);
+        return makeCORS(builder);
+        //return Response.status(Response.Status.OK).entity(user).build();
     }
 
     /*
@@ -156,6 +206,8 @@ public class ProfileRestResource {
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return Response.status(Response.Status.OK).build();
+        Response.ResponseBuilder builder = Response.status(Response.Status.OK);
+        return makeCORS(builder);
+        //return Response.status(Response.Status.OK).build();
     }
 }

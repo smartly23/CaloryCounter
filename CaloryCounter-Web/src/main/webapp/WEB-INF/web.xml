@@ -63,16 +63,38 @@
         <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
 
+    <filter>
+        <filter-name>cross-origin</filter-name>
+        <filter-class>org.eclipse.jetty.servlets.CrossOriginFilter</filter-class>
+        <init-param>
+            <param-name>allowedOrigins</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowedMethods</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <param-name>allowedHeaders</param-name>
+            <param-value>*</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>cross-origin</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
     <!--Deployment of a JAX-RS application using web.xml with Servlet 3.0-->
 
     <!-- Servlet declaration can be omitted in which case
     it would be automatically added by Jersey -->
-    
+
     <servlet>
         <display-name>CaloryCounter JAX-RS Servlet</display-name>
         <servlet-name>RS</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-<!--        Following is required only if javax.ws.rs.Application subclass is packaged with the web.xml file.
+        <!--        Following is required only if javax.ws.rs.Application subclass is packaged with the web.xml file.
         See http://docs.oracle.com/cd/E24329_01/web.1211/e24983/configure.htm#CACIEAFE-->
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
