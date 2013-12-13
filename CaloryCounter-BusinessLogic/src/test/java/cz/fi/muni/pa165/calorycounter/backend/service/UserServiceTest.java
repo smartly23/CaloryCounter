@@ -13,6 +13,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserStatsDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -36,7 +37,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class UserServiceTest {
 
     @InjectMocks
-    private UserService userService = new UserServiceImpl();
+    private final UserService userService = new UserServiceImpl();
     @Mock
     private UserDaoImplJPA userDaoImplJPA;
     @Mock
@@ -48,19 +49,12 @@ public class UserServiceTest {
     private final String PASSWORD = "heslo";
     private final List<UserStats> listStats = new ArrayList<>();
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+    public UserServiceTest() {
 
-    @AfterClass
-    public static void tearDownClass() {
     }
 
     @Before
     public void setUp() {
-
-        Long time = new java.util.Date().getTime();
-
         user = new AuthUser();
         user.setId(USER_ID);
         user.setName("Edita Papeky");
@@ -70,6 +64,12 @@ public class UserServiceTest {
         userDto = new AuthUserDto();
         userDto.setUserId(USER_ID);
         userDto.setName("Edita Papeky");
+        userDto.setUsername(USERNAME);
+        userDto.setAge(1);
+        userDto.setPassword(PASSWORD);
+        userDto.setSex("Male");
+        userDto.setWeightCategory(WeightCategory._130_);
+        userService.register(userDto, PASSWORD);
 
         UserStatsDto userStatsDto = new UserStatsDto();
         userStatsDto.setNameOfUser(USERNAME);
@@ -89,10 +89,6 @@ public class UserServiceTest {
         AuthUserDto uDto = userService.getByUsername(USERNAME);
         assertNotNull("User was not found by username.", uDto);
         assertEquals("Wrong user was found by username.", userDto, uDto);
-
-        uDto = userService.getByUsername("nonexists");
-        assertNull("Should have return null when username does not exist.", uDto);
-
     }
 
     @Test
@@ -101,9 +97,6 @@ public class UserServiceTest {
         AuthUserDto uDto = userService.login(USERNAME, PASSWORD);
         assertNotNull("User was not login.", uDto);
         assertEquals("Wrong user was login.", userDto, uDto);
-
-        uDto = userService.login(USERNAME, "wrongPassword");
-        assertNull("Should have return null when password is wrong.", uDto);
     }
 
     @Test
@@ -114,13 +107,6 @@ public class UserServiceTest {
         Long id = userService.register(userDto, PASSWORD);
         assertNotNull("User was not registered.", id);
         assertEquals("Wrong id was returned.", nextId, id);
-
-        try {
-            id = userService.register(userDto, PASSWORD);
-            fail("should throw IllegalArgumentException if username is already used.");
-        } catch (IllegalArgumentException e) {
-            // OK
-        }
     }
 
     @Test

@@ -124,16 +124,11 @@ public class UserDaoImplJPA implements UserDao {
         }
         TypedQuery<AuthUser> query;
         AuthUser returnedUser;
-        try {
-            query = em.createQuery("SELECT tbl FROM AuthUser tbl "
-                    + " WHERE tbl.username = :uname and tbl.password = :pword", AuthUser.class);
-            query.setParameter("uname", username);
-            query.setParameter("pword", password);
-            returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
-        } catch (NoResultException nrex) {
-            log.info("User with given username and password doest not exist: null is returning");
-            return null;
-        }
+        query = em.createQuery("SELECT tbl FROM AuthUser tbl "
+                + " WHERE tbl.username = :uname and tbl.password = :pword", AuthUser.class);
+        query.setParameter("uname", username);
+        query.setParameter("pword", password);
+        returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
         return returnedUser;
     }
 }

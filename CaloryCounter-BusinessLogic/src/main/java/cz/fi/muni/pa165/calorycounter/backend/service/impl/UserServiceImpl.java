@@ -12,7 +12,6 @@ import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessException
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

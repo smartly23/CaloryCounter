@@ -60,9 +60,6 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
     public void update(ActivityRecord record) {
         if (validate(record) || record.getId() == null) {
             throw new IllegalArgumentException("Invalid record: null or with no id.");
-        } else if (em.createQuery("SELECT tbl.id FROM ActivityRecord tbl WHERE tbl.id = "
-                + ":givenId", Long.class).setParameter("givenId", record.getId()).getResultList().size() < 1) {
-            throw new IllegalArgumentException("Invalid user: nonexistent");
         }
         em.merge(record);
     }

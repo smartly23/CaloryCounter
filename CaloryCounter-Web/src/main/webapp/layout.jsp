@@ -44,9 +44,6 @@
                         (c) MUFI
                     </div>
                     <div class="footer_links">
-                        <a href="#">About us</a>
-                        <a href="privacy.html">Privacy policy</a>
-                        <a href="contact.html">Contact us </a>
                     </div>
                 </div>
             </div> <!--end of main container-->

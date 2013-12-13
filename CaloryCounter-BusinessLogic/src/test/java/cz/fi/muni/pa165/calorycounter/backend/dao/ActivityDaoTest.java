@@ -64,7 +64,7 @@ public class ActivityDaoTest {
     @Test
     public void testCreate() {
         Activity activity = new Activity();
-        activity.setName("Chopping wood slow");
+        activity.setName("Chopping wood sloww");
 
         em.getTransaction().begin();
         Long activityId = activityDao.create(activity);
@@ -111,7 +111,7 @@ public class ActivityDaoTest {
     @Test
     public void testUpdate() {
         Activity activity = new Activity();
-        activity.setName("Chopping wood slow");
+        activity.setName("Chopping wood slowwww");
 
         Long activityId;
         try {
@@ -151,7 +151,7 @@ public class ActivityDaoTest {
     @Test
     public void testRemove() {
         Activity activity = new Activity();
-        activity.setName("Chopping wood slow");
+        activity.setName("Chopping wood slowww");
 
         em.getTransaction().begin();
         em.persist(activity);

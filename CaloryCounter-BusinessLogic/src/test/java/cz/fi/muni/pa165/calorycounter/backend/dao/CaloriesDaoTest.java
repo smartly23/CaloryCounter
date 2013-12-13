@@ -31,11 +31,14 @@ public class CaloriesDaoTest {
     final static Logger log = LoggerFactory.getLogger(ActivityDaoTest.class);
 
     public CaloriesDaoTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
         emf = Persistence.createEntityManagerFactory("TestPU");
+        em = emf.createEntityManager();
+        caloriesDao = new CaloriesDaoImplJPA(em);
+        activity = new Activity();
+        activity.setName("Swimming");
+        em.getTransaction().begin();
+        em.persist(activity);
+        em.getTransaction().commit();
     }
 
     @AfterClass
@@ -43,19 +46,6 @@ public class CaloriesDaoTest {
         if (emf != null) {
             emf.close();
         }
-    }
-
-    @Before
-    public void setUp() {
-        em = emf.createEntityManager();
-        caloriesDao = new CaloriesDaoImplJPA(em);
-
-        activity = new Activity();
-        activity.setName("Plavání");
-        em.getTransaction().begin();
-        em.persist(activity);
-        em.getTransaction().commit();
-
     }
 
     @After
