@@ -41,6 +41,15 @@ public class RecordActionBean extends BaseActionBean {
     private ActivityRecordDto record;
     private List<ActivityDto> activities;
     private AuthUserDto user;
+    private boolean isEdit = false;
+
+    public boolean isIsEdit() {
+        return isEdit;
+    }
+
+    public void setIsEdit(boolean isEdit) {
+        this.isEdit = isEdit;
+    }
 
     
     public AuthUserDto getUser() {
@@ -80,6 +89,7 @@ public class RecordActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution def() {
         log.debug("def()");
+        isEdit=false;
         return new ForwardResolution("/record/create.jsp");
     }
 
@@ -105,6 +115,7 @@ public class RecordActionBean extends BaseActionBean {
 
     public Resolution edit() {
         log.debug("edit() record={}", record);
+        isEdit=true;
         return new ForwardResolution("/record/edit.jsp");
     }
 
@@ -113,6 +124,7 @@ public class RecordActionBean extends BaseActionBean {
         log.debug("save() record={}", record);
         record.setCaloriesBurnt(getCaloriesBurnt(activities, record.getActivityName(), record.getWeightCategory(), record.getDuration()));
         activityRecordService.update(record);
+        isEdit=false;
         return new RedirectResolution("/records");
     }
 

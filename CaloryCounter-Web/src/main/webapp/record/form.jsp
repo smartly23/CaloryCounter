@@ -11,7 +11,7 @@
 <table>
     <tr>
         <th><s:label for="activityName" name="record.activity"/></th>
-        <td><s:select id="activityName" name="record.activityName"><s:options-collection collection="${actionBean.activities}" value="activityName" label="activityName"/></s:select></td>
+        <td><s:select id="activityName" name="record.activityName" disabled="${actionBean.isEdit}"><s:options-collection collection="${actionBean.activities}" value="activityName" label="activityName"/></s:select></td>
         </tr>
         <tr>
             <th><s:label for="duration" name="record.duration"/></th>

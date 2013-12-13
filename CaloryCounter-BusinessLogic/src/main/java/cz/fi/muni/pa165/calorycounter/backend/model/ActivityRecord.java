@@ -3,7 +3,6 @@ package cz.fi.muni.pa165.calorycounter.backend.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
