@@ -14,21 +14,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is a temporary class, we need to create a web GUI around rest client and
- * then this class must be deleted. The methods in this class are pretty
- * complete to be integrated into GUI.
+ * This class is used only for testing purposes. It contains a REST Client, JAX-RX with
+ * some Jersey-specific implementation (Jersey 2.X) and a main method to run tests.
  *
- * To run entire project from command line, go to parent project directory and
- * run "mvn exec:java -pl CaloryCounter-REST-Jersey-Client" First, of course,
- * you need to have the project already deployed on Tomcat or other server. To
- * do this in command line, run in different shell or in background: "mvn
- * tomcat:run" in the parent project directory.
+ * some Jersey-specific implementation (Jersey 2.X) and a main method to test 
+ * To run this test from command line, go to parent project directory and
+ * run "mvn exec:java -pl CaloryCounter-REST-Jersey-Client". You need to have the
+ * "CaloryCounter-Web" module already deployed on Tomcat or other server, for the test 
+ * to run correctly. 
  *
- * @author xpasko
+ * @author smartly23 Martin Pasko
  */
 public class MainApp {
 
-    private static AuthUserDto user = null;
 //    creating client is expensive operation, we need only one so far
     private static final Client client = ClientBuilder.newClient();
     private static final int nastav_si_cestu = 1;
