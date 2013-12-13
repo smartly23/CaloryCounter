@@ -35,11 +35,20 @@
                 </div>
                 <div>
                     <label for="sex"><f:message key="users.sex"/>:</label>
-                    <input id="sex" name="sex" value=""/> (Male, Female, Other)
+                    <select id="sex" name="sex">
+                        <option value="Male"><f:message key="users.sex.male"/></option>
+                        <option value="Female"><f:message key="users.sex.female"/></option>
+                        <option value="Other"><f:message key="users.sex.other"/></option>
+                    </select>
                 </div>
                 <div>
                     <label for="weightCategory"><f:message key="users.weightCategory"/>:</label>
-                    <input id="weightCategory" name="weightCategory" value=""/> (_130_, _155_, _180_, _205_)
+                    <select id="weightCategory" name="weightCategory">
+                        <option value="_130_"><f:message key="users.weightCat._130_"/></option>
+                        <option value="_155_"><f:message key="users.weightCat._155_"/></option>
+                        <option value="_180_"><f:message key="users.weightCat._180_"/></option>
+                        <option value="_205_"><f:message key="users.weightCat._205_"/></option>
+                    </select>
                 </div>
                 <div id="buttons">
                     <input type="hidden" id="userId" name="userId" value=""/>
@@ -76,8 +85,8 @@
                     $("#password").val("");
                     $("#name").val("");
                     $("#age").val("");
-                    $("#sex").val("");
-                    $("#weightCategory").val("");
+                    $("#sex").val("<f:message key='users.sex.male'/>");
+                    $("#weightCategory").val("_155_");
                     $("#userId").val("");
                     $("#usernameKey").val("");
                 }
