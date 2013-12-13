@@ -38,14 +38,6 @@
             <version>1.0</version>
             <type>jar</type>
         </dependency>
-
-        <!-- embedded tomcat plugina -->
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-servlet-api</artifactId>
-            <version>7.0.47</version>
-            <scope>provided</scope>
-        </dependency>
         <!--Jersey container servlet-->
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
@@ -59,6 +51,13 @@
             <artifactId>jersey-spring3</artifactId>
             <version>2.4.1</version>
         </dependency>
+        
+        <!--JSON provider--> 
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>2.4.1</version>
+        </dependency>
         <!--Spring-->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -66,28 +65,21 @@
             <version>3.1.4.RELEASE</version>
         </dependency>
 
-        <!--tento hnus tu sposoboval java.lang.IncompatibleClassChangeError: Implementing class error --> 
+        <!--tento hnus tu sposoboval java.lang.IncompatibleClassChangeError: Implementing class error-->  
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.0</version>
         </dependency>
         
-        <!-- JSON processor -->
-        <dependency>
+         <!--JSON processor--> 
+<!--        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.2.3</version>
-        </dependency>
+        </dependency>-->
         
-        <!-- JSON provider -->
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-            <version>2.4.1</version>
-        </dependency>
-        
-        <!-- servlet, JSP, JSTL -->
+        <!--servlet, JSP, JSTL--> 
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -105,7 +97,7 @@
             <version>1.1.2</version>
         </dependency>
 
-        <!-- stripes -->
+        <!--stripes--> 
         <dependency>
             <groupId>net.sourceforge.stripes</groupId>
             <artifactId>stripes</artifactId>
@@ -122,61 +114,11 @@
             <artifactId>cos</artifactId>
             <version>05Nov2002</version>
         </dependency>
-
-        <!-- slf4j -->
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.0.13</version>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.0.13</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.janino</groupId>
-            <artifactId>janino</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>log4j-over-slf4j</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
     </dependencies>
+    
     <build>
         <!-- Defaultne je nazov .war-ka v tvare artifactId-version (napr. CaloryCounter-Web-1.0.war),
         tu mu mozme nastavit vlastny nazov, napr. to iste ale bez version number -->
         <finalName>CaloryCounter-Web</finalName>
-
-        <plugins>
-            <!-- source code version -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>7</source>
-                    <target>7</target>
-                </configuration>
-            </plugin>
-            <!--
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.version}</version>
-            </plugin>
-            -->
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.1</version>
-<!--                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>-->
-            </plugin>
-        </plugins>
     </build>
 </project>

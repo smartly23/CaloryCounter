@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is a temporary class, we need to create a web GUI around rest cleint and
+ * This is a temporary class, we need to create a web GUI around rest client and
  * then this class must be deleted. The methods in this class are pretty
  * complete to be integrated into GUI.
  *
@@ -31,7 +31,7 @@ public class MainApp {
     private static AuthUserDto user = null;
 //    creating client is expensive operation, we need only one so far
     private static final Client client = ClientBuilder.newClient();
-    private static final int nastav_si_cestu = 3;
+    private static final int nastav_si_cestu = 1;
     final static Logger log = LoggerFactory.getLogger(MainApp.class);
 
     public static void main(String[] args) {
