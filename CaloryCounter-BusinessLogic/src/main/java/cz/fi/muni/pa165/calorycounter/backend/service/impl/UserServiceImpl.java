@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
             new DataAccessExceptionVoidTemplate(dto) {
                 @Override
                 public void doMethod() {
-                    userDao.remove(userDao.get(((AuthUserDto) getU()).getUserId()));
+                    userDao.remove(((AuthUserDto) getU()).getUserId());
                 }
             }.tryMethod();
         }
@@ -141,6 +141,23 @@ public class UserServiceImpl implements UserService {
             @Override
             public AuthUserDto doMethod() {
                 AuthUser entity = userDao.getByUsername((String) getU());
+                AuthUserDto dto = AuthUserConvert.fromEntityToDto(entity);
+                return dto;
+            }
+        }.tryMethod();
+    }
+    
+        @Override
+    public AuthUserDto getById(Long id) {
+        if (id == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Invalid username in parameter: null");
+            log.error("UserServiceImpl.getByUsername() called on null parameter: String username", iaex);
+            throw iaex;
+        }
+        return (AuthUserDto) new DataAccessExceptionNonVoidTemplate(id) {
+            @Override
+            public AuthUserDto doMethod() {
+                AuthUser entity = userDao.get((Long) getU());
                 AuthUserDto dto = AuthUserConvert.fromEntityToDto(entity);
                 return dto;
             }

@@ -130,7 +130,7 @@ public class AuthUserDaoTest {
     @Test
     public void testRemove() {
         em.getTransaction().begin();
-        authUserDao.remove(obiWan);
+        authUserDao.remove(obiWan.getId());
         em.getTransaction().commit();
         AuthUser deletedUser = getUserById(obiWan.getId());
         assertNull("User was not deleted", deletedUser);
@@ -138,7 +138,7 @@ public class AuthUserDaoTest {
         AuthUser user = new AuthUser();
         user.setId(obiWan.getId() + 100);
         try {
-            authUserDao.remove(user);
+            authUserDao.remove(user.getId());
             fail("Should have thrown an exception when user has invalid id.");
         } catch (IllegalArgumentException e) {
             //OK

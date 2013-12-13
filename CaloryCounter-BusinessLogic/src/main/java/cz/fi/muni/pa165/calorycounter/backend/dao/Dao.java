@@ -30,5 +30,5 @@ public interface Dao<T> {
      * @throws IllegalArgumentException if parameter is null or invalid. Does not throw this exception if
      * parameter is valid but given entity is nonexistent. 
      */
-    void remove(T entity);
+    void remove(Long id);
 }

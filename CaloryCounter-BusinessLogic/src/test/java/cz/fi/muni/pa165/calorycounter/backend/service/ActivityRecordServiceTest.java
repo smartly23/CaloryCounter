@@ -172,7 +172,7 @@ public class ActivityRecordServiceTest {
     public void testRemove() {
         when(activityRecordDao.get(activityRecordDto.getActivityRecordId())).thenReturn(activityRecord);
 
-        activityRecordService.remove(activityRecordDto);
+        activityRecordService.remove(activityRecordDto.getActivityRecordId());
 
         when(activityRecordDao.get(activityRecordDto.getActivityRecordId())).thenThrow(RuntimeException.class);
 
@@ -186,7 +186,7 @@ public class ActivityRecordServiceTest {
         // illegal argument input test: strong
         activityRecordDto.setActivityRecordId(null);
         try {
-            activityRecordService.remove(activityRecordDto); // this also tests correctness of design pattern,
+            activityRecordService.remove(activityRecordDto.getActivityRecordId()); // this also tests correctness of design pattern,
             // i.e. illegal-argument test should be BEFORE any application logic
             fail("Update method tried to remove non-existent entity.");
         } catch (IllegalArgumentException iaex) {

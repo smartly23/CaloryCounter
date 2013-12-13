@@ -171,7 +171,7 @@ public class CaloriesDaoTest {
         assertNotNull(calories2);
 
         em.getTransaction().begin();
-        caloriesDao.remove(calories2);
+        caloriesDao.remove(calories2.getId());
         em.getTransaction().commit();
 
         em.clear();

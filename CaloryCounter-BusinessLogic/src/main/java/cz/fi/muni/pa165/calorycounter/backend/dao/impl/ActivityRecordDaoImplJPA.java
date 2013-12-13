@@ -68,11 +68,11 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
     }
 
     @Override
-    public void remove(ActivityRecord record) {
-        if (validate(record) || record.getId() == null) {
+    public void remove(Long id) {
+        if (id == null) {
             throw new IllegalArgumentException("Invalid record: null or with no id.");
         }
-        ActivityRecord activityRecord = em.find(ActivityRecord.class, record.getId());
+        ActivityRecord activityRecord = em.find(ActivityRecord.class, id);
         if (activityRecord == null) {
             log.error("ActivityRecord is not in DB");
         }

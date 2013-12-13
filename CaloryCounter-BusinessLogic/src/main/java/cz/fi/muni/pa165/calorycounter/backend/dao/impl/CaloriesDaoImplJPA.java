@@ -94,11 +94,11 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
     }
 
     @Override
-    public void remove(Calories calories) {
-        if (validate(calories) || calories.getId() == null) {
+    public void remove(Long id) {
+        if (id == null) {
             throw new IllegalArgumentException("Invalid calories: null or with no id.");
         }
-        Calories foundCalories = em.find(Calories.class, calories.getId());
+        Calories foundCalories = em.find(Calories.class, id);
         if (foundCalories == null) {
             log.error("Calories is not in DB");
         }

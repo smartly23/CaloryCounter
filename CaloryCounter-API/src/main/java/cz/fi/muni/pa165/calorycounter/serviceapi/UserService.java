@@ -37,6 +37,8 @@ public interface UserService{
      */
     AuthUserDto getByUsername(String username);
     
+    AuthUserDto getById(Long id);
+    
     /** Returns all users with their stats
      * 
      * @return All users with their stats

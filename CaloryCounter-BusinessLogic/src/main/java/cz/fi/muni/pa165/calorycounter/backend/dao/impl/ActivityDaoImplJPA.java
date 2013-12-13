@@ -67,13 +67,13 @@ public class ActivityDaoImplJPA implements ActivityDao {
     }
 
     @Override
-    public void remove(Activity entity) {
-        if ((entity == null) || entity.getId() == null) {
+    public void remove(Long id) {
+        if (id == null) {
             throw new IllegalArgumentException("Invalid entity (Activity): null or with no id.");
         }
-        Activity activity = em.find(Activity.class, entity.getId());
+        Activity activity = em.find(Activity.class, id);
         if (activity == null) {
-            LOG.error("Given activity" + entity + "is not in DB.");
+            LOG.error("Given activity with id " + id + " is not in DB.");
         }
         em.remove(activity);
     }

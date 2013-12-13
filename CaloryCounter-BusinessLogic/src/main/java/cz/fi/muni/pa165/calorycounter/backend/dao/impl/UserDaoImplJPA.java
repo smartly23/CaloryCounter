@@ -85,13 +85,13 @@ public class UserDaoImplJPA implements UserDao {
     }
 
     @Override
-    public void remove(AuthUser user) {
-        if (validate(user) || user.getId() == null) {
+    public void remove(Long id) {
+        if (id == null) {
             throw new IllegalArgumentException("Invalid user: null or with no id.");
         }
-        AuthUser authUser = em.find(AuthUser.class, user.getId());
+        AuthUser authUser = em.find(AuthUser.class, id);
         if (authUser == null) {
-            log.error("Given user" + user + "is not in DB.");
+            log.error("Given user with id " + id + " is not in DB.");
         }
         em.remove(authUser);  // em.find je nutne, remove zmaze iba manazovanu entitu
         // je potrebne pri inverznej zavislosti osetrit pre-removal

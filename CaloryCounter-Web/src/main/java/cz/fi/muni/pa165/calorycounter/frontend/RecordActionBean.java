@@ -123,7 +123,7 @@ public class RecordActionBean extends BaseActionBean {
 
     public Resolution confirmDelete() {
         log.debug("confirmDelete() record={}", record);
-        activityRecordService.remove(record);
+        activityRecordService.remove(record.getActivityRecordId());
         return new RedirectResolution("/records");
     }
 

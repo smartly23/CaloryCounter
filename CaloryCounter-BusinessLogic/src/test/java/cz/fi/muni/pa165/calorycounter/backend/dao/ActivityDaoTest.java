@@ -164,7 +164,7 @@ public class ActivityDaoTest {
         assertNotNull(testActivity);
 
         em.getTransaction().begin();
-        activityDao.remove(activity);
+        activityDao.remove(activity.getId());
         em.getTransaction().commit();
 
         em2.clear();                    // preco nefunguje aj em2.flush (obalene v transakcii)?

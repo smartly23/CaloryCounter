@@ -122,28 +122,28 @@ public class ActivityRecordDaoTest {
          * **** Remove ****
          */
         em.getTransaction().begin();
-        activityRecordDao.remove(createdActRec);
+        activityRecordDao.remove(createdActRec.getId());
         em.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(actRecId);
         exception = ExpectedException.none();
 
         em.getTransaction().begin();
-        userDao.remove(createdUser);
+        userDao.remove(createdUser.getId());
         em.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(userId);
         exception = ExpectedException.none();
 
         em.getTransaction().begin();
-        caloriesDao.remove(createdCalories);
+        caloriesDao.remove(createdCalories.getId());
         em.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(caloriesId);
         exception = ExpectedException.none();
 
         em.getTransaction().begin();
-        activityDao.remove(createdActivity);
+        activityDao.remove(createdActivity.getId());
         em.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(activityId);

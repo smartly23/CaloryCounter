@@ -16,5 +16,5 @@ public interface Service<T> {
 
     public void update(T dto);
 
-    public void remove(T dto);
+    public void remove(Long id);
 }

@@ -127,17 +127,17 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
      */
     @Override
     @Transactional(readOnly = false)
-    public void remove(ActivityRecordDto dto) {
-        if (dto.getActivityRecordId() == null) {
+    public void remove(Long activityRecordId) {
+        if (activityRecordId== null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove activity record that"
                     + " doesn't exist.");
             log.error("ActivityRecordServiceImpl.remove() called on non-existent entity", iaex);
             throw iaex;
         } else {
-            new DataAccessExceptionVoidTemplate(dto) {
+            new DataAccessExceptionVoidTemplate(activityRecordId) {
                 @Override
                 public void doMethod() {
-                    activityRecordDao.remove(activityRecordDao.get(((ActivityRecordDto) getU()).getActivityRecordId()));
+                    activityRecordDao.remove((Long) getU());
                 }
             }.tryMethod();
 
