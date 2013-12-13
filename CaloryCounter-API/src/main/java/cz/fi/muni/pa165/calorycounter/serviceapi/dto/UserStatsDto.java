@@ -5,6 +5,7 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
 /**
+ * Statistics of users and their activities
  *
  * @author Jan Kucera (Greld)
  */

@@ -12,5 +12,11 @@ import java.util.List;
  */
 public interface ActivityRecordDao extends Dao<ActivityRecord> {
 
+    /**
+     * Find all user's records of activities
+     *
+     * @param authUser
+     * @return list of ActivityRecord
+     */
     List<ActivityRecord> getAllActivityRecordsByUser(AuthUser authUser);
 }
