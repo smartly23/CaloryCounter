@@ -91,7 +91,7 @@
                     console.log(data.activityRecords[i].userId);
                     line = '<tr id="row' + data.activityRecords[i].activityRecordId + '"><td><input name="date' + data.activityRecords[i].activityRecordId + '" id="date' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityDate + '"/></td>';
                     line += '<td>  <input name="activity' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityName + '"/></td>';
-                    line += '<td><input  name="burnt_calories' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].caloriesBurnt + '"/></td>';
+                    line += '<td><input  style="width:50px"  name="burnt_calories' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].caloriesBurnt + '"/></td>';
                     line += '<td><select name="weight' + data.activityRecords[i].activityRecordId + '"><option value="_130_"><f:message key="records.weightCat._130_"/></option><option value="_155_"><f:message key="records.weightCat._155_"/></option><option value="_180_"><f:message key="records.weightCat._180_"/></option><option value="_205_"><f:message key="records.weightCat._205_"/></option></select></td>';
                     line += '<td>  <input name="duration' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].duration + '"/></td>';
 //' + data.activityRecords[i].weightCategory + '
