@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.calorycounter.backend.dao;
 
-import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
@@ -25,9 +24,24 @@ public interface CaloriesDao extends Dao<Calories> {
      */
     Calories getByActivityWeightCat(Activity activity, WeightCategory weightCat);
 
+    /**
+     * Find calories burning during given activity for each weight category
+     *
+     * @param activity
+     * @return calories for each weight category
+     */
     List<Calories> getByActivity(Activity activity);
 
+    /**
+     * Find calories burning by users with given weight category
+     *
+     * @param weightCategory
+     * @return calories for given weight category
+     */
     List<Calories> getByWeightCategory(WeightCategory weightCategory);
 
+    /**
+     * @return all burnt calories in whatever activity
+     */
     List<Calories> getAll();
 }

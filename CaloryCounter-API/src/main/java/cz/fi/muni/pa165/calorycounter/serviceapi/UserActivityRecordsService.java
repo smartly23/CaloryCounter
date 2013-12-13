@@ -8,6 +8,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserActivityRecordsDto;
 
 /**
+ * User service interface for operations on UserActivityRecords DTO.
  *
  * @author Zdenek Lastuvka
  */
@@ -15,8 +16,9 @@ public interface UserActivityRecordsService {
     // metody ako filterByDuration, date a pod.
 
     /**
-     * Returns UserActivityRecordsDto for user
+     * Find records of activities for given user
      *
+     * @param authUserDto - his activity records returns
      * @return UserActivityRecordsDto
      */
     public UserActivityRecordsDto getAllActivityRecords(AuthUserDto authUserDto);
