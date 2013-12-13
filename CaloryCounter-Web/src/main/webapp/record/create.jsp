@@ -14,7 +14,7 @@
                 <s:submit name="createRecord">
                     <f:message key="record.create"/>
                 </s:submit>
-                <s:link href="/record" event="cancelCreate">
+                <s:link href="/myrecord" event="cancelCreate">
                     <f:message key="record.create.cancel"/>
                 </s:link>
             </fieldset>

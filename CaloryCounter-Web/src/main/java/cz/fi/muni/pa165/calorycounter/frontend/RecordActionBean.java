@@ -22,7 +22,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
  *
  * @author Bryndza
  */
-@UrlBinding("/record/{$event}/{record.activityRecordId}")
+@UrlBinding("/myrecord/{$event}/{record.activityRecordId}")
 public class RecordActionBean extends BaseActionBean {
 
     final static Logger log = LoggerFactory.getLogger(RecordActionBean.class);
@@ -32,15 +32,17 @@ public class RecordActionBean extends BaseActionBean {
     protected ActivityService activityService;
     @SpringBean
     protected UserService userService;
-    private ActivityRecordDto record;
-    private List<ActivityDto> activities;
-    private AuthUserDto user;
-
+    
     @ValidateNestedProperties(value = {
         @Validate(on = {"createRecord", "save"}, field = "activityName", required = true),
         @Validate(on = {"createRecord", "save"}, field = "duration", required = true, minvalue = 1),
         @Validate(on = {"createRecord", "save"}, field = "activityDate", required = true)
     })
+    private ActivityRecordDto record;
+    private List<ActivityDto> activities;
+    private AuthUserDto user;
+
+    
     public AuthUserDto getUser() {
         return user;
     }
@@ -88,7 +90,7 @@ public class RecordActionBean extends BaseActionBean {
         Long createdId = activityRecordService.create(record);
         getContext().getMessages().add(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName().toString()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))));
         log.debug("Created activity record with id " + createdId + ". <a href=\"/records/edit.jsp/" + createdId + "\">edit");
-        return new RedirectResolution("/record/create.jsp");
+        return new RedirectResolution("/myrecord");
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save", "delete"})
@@ -111,7 +113,7 @@ public class RecordActionBean extends BaseActionBean {
         log.debug("save() record={}", record);
         record.setCaloriesBurnt(getCaloriesBurnt(activities, record.getActivityName(), record.getWeightCategory(), record.getDuration()));
         activityRecordService.update(record);
-        return new RedirectResolution("/records/list.jsp");
+        return new RedirectResolution("/records");
     }
 
     public Resolution delete() {
@@ -122,7 +124,7 @@ public class RecordActionBean extends BaseActionBean {
     public Resolution confirmDelete() {
         log.debug("confirmDelete() record={}", record);
         activityRecordService.remove(record);
-        return new RedirectResolution("/records/list.jsp");
+        return new RedirectResolution("/records");
     }
 
     public Resolution cancelCreate() {
@@ -132,7 +134,7 @@ public class RecordActionBean extends BaseActionBean {
 
     public Resolution cancel() {
         log.debug("cancel()");
-        return new RedirectResolution("/records/list.jsp");
+        return new RedirectResolution("/records");
     }
 
     private int getCaloriesBurnt(List<ActivityDto> activities, String activityName, WeightCategory weightCategory, int duration) {

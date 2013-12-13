@@ -18,8 +18,8 @@
         <td><s:text id="duration" name="record.duration" size="4"/> <f:message key="minutes"/></td>
     </tr>
     <tr>
-        <th><s:label for="date" name="record.date"/></th>
-        <td><s:text id="date" name="record.activityDate"/></td>
+        <th><s:label for="activityDate" name="record.date"/></th>
+        <td><s:text id="activityDate" name="record.activityDate"/></td>
     </tr>
 </table>
 <script>

@@ -13,13 +13,10 @@
                 </legend>
                 <%@include file="form.jsp"%>
                 <div>
-                    <%--<s:submit name="save">
+                    <s:submit name="save">
                         <f:message key="record.edit.save"/>
-                    </s:submit>--%>
-                    <s:link href="/record" event="save">
-                        <f:message key="record.edit.save"/>
-                    </s:link>
-                    <s:link href="/record" event="cancel">
+                    </s:submit>
+                    <s:link href="/myrecord" event="cancel">
                         <f:message key="record.edit.cancel"/>
                     </s:link>
                 </div>
