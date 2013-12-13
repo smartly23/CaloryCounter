@@ -95,14 +95,20 @@ public class ActivityRestResource {
     @GET
     @Path("/id/{activityId}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response getById(@PathParam("activityId") Long activityId) {
+    public Response getById(@PathParam("activityId") String activityId) {
         log.debug("Server: getById(activityId) with id: " + activityId);
-        if (activityId == null) {
+        if (activityId == null || activityId.isEmpty()) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Long id;
+        try{
+           id = Long.parseLong(activityId);
+        } catch (NumberFormatException ex){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         ActivityDto activity = null;
         try {
-            activity = activityService.get(activityId);
+            activity = activityService.get(id);
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
