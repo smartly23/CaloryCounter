@@ -24,6 +24,6 @@
 </table>
 <script>
     $(function() {
-        $("#date").datepicker();
+        $("#activityDate").datepicker();
     });
 </script>

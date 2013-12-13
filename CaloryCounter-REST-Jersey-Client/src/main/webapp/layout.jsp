@@ -17,13 +17,13 @@
                 <div id="header">
                     <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>
                     <h1 id="topTitle"><s:link href="/index.jsp"><f:message key="topTitle"/></s:link></h1>
-
-                        <ul id="menu">
-                            <li id="first"><s:link href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
-                        <li><s:link href="/users.jsp"><f:message key="navigation.users"/></s:link></li>
-                        <li><s:link href="/activities.jsp"><f:message key="navigation.activities"/></s:link></li>
-                        </ul>
-
+                        <div id="menu">
+                            <ul id="menu">
+                                <li id="first"><s:link href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
+                            <li><s:link href="/users.jsp"><f:message key="navigation.users"/></s:link></li>
+                            <li><s:link href="/activities.jsp"><f:message key="navigation.activities"/></s:link></li>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="green_box">
