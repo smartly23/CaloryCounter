@@ -7,6 +7,7 @@
 
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean">
             <s:hidden name="record.activityRecordId"/>
+            <s:hidden id="activityName" name="record.activityName"/>
             <fieldset>
                 <legend>
                     <f:message key="record.edit.legend"/>
