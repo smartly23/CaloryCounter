@@ -32,7 +32,6 @@ public class RecordActionBean extends BaseActionBean {
     protected ActivityService activityService;
     @SpringBean
     protected UserService userService;
-    
     @ValidateNestedProperties(value = {
         @Validate(on = {"createRecord", "save"}, field = "activityName", required = true),
         @Validate(on = {"createRecord", "save"}, field = "duration", required = true, minvalue = 1),
@@ -51,7 +50,6 @@ public class RecordActionBean extends BaseActionBean {
         this.isEdit = isEdit;
     }
 
-    
     public AuthUserDto getUser() {
         return user;
     }
@@ -89,13 +87,14 @@ public class RecordActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution def() {
         log.debug("def()");
-        isEdit=false;
+        isEdit = false;
         return new ForwardResolution("/record/create.jsp");
     }
 
     @HandlesEvent("createRecord")
     public Resolution createRecord() {
         log.debug("createRecord() record={}", record);
+        isEdit = false;
         record.setCaloriesBurnt(getCaloriesBurnt(activities, record.getActivityName(), record.getWeightCategory(), record.getDuration()));
         Long createdId = activityRecordService.create(record);
         getContext().getMessages().add(new LocalizableMessage("record.create.message", escapeHTML(record.getActivityName().toString()), escapeHTML(String.valueOf(record.getDuration())), escapeHTML(String.valueOf(record.getCaloriesBurnt()))));
@@ -115,7 +114,7 @@ public class RecordActionBean extends BaseActionBean {
 
     public Resolution edit() {
         log.debug("edit() record={}", record);
-        isEdit=true;
+        isEdit = true;
         return new ForwardResolution("/record/edit.jsp");
     }
 
@@ -124,12 +123,12 @@ public class RecordActionBean extends BaseActionBean {
         log.debug("save() record={}", record);
         record.setCaloriesBurnt(getCaloriesBurnt(activities, record.getActivityName(), record.getWeightCategory(), record.getDuration()));
         activityRecordService.update(record);
-        isEdit=false;
         return new RedirectResolution("/records");
     }
 
     public Resolution delete() {
         log.debug("delete() record={}", record);
+        isEdit = false;
         return new ForwardResolution("/record/delete.jsp");
     }
 
@@ -146,6 +145,7 @@ public class RecordActionBean extends BaseActionBean {
 
     public Resolution cancel() {
         log.debug("cancel()");
+        isEdit = false;
         return new RedirectResolution("/records");
     }
 
