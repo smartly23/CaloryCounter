@@ -25,20 +25,20 @@ import org.slf4j.LoggerFactory;
 public class CaloriesDaoTest {
 
     private static EntityManagerFactory emf;
-    private EntityManager em;
+    private EntityManager context;
     private CaloriesDao caloriesDao;
     Activity activity;
     final static Logger log = LoggerFactory.getLogger(ActivityDaoTest.class);
 
     public CaloriesDaoTest() {
         emf = Persistence.createEntityManagerFactory("TestPU");
-        em = emf.createEntityManager();
-        caloriesDao = new CaloriesDaoImplJPA(em);
+        context = emf.createEntityManager();
+        caloriesDao = new CaloriesDaoImplJPA(context);
         activity = new Activity();
         activity.setName("Swimming");
-        em.getTransaction().begin();
-        em.persist(activity);
-        em.getTransaction().commit();
+        context.getTransaction().begin();
+        context.persist(activity);
+        context.getTransaction().commit();
     }
 
     @AfterClass
@@ -50,7 +50,7 @@ public class CaloriesDaoTest {
 
     @After
     public void tearDown() {
-        em.close();
+        context.close();
         caloriesDao = null;
     }
 
@@ -61,9 +61,9 @@ public class CaloriesDaoTest {
         calories.setAmount(150);
         calories.setActivity(activity);
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long caloriesId = caloriesDao.create(calories);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         assertFalse("Calories was not created.", caloriesId == null);
 
         try {
@@ -84,9 +84,9 @@ public class CaloriesDaoTest {
 
         Long caloriesId;
         try {
-            em.getTransaction().begin();
-            em.persist(calories);
-            em.getTransaction().commit();
+            context.getTransaction().begin();
+            context.persist(calories);
+            context.getTransaction().commit();
             caloriesId = calories.getId();
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
@@ -107,9 +107,9 @@ public class CaloriesDaoTest {
 
         Long caloriesId;
         try {
-            em.getTransaction().begin();
-            em.persist(calories);
-            em.getTransaction().commit();
+            context.getTransaction().begin();
+            context.persist(calories);
+            context.getTransaction().commit();
             assertNotNull("internal integrity error", calories.getId());
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
@@ -118,20 +118,20 @@ public class CaloriesDaoTest {
         calories.setWeightCat(WeightCategory._205_);
         calories.setAmount(50);
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         caloriesDao.update(calories);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
 
-        em.clear();
-        Calories calories2 = em.find(Calories.class, calories.getId());
+        context.clear();
+        Calories calories2 = context.find(Calories.class, calories.getId());
 
         assertEquals(calories2.getAmount(), calories.getAmount());
 
         calories.setId(calories.getId() + 1);
         try {
-            em.getTransaction().begin();
+            context.getTransaction().begin();
             caloriesDao.update(calories);
-            em.getTransaction().commit();
+            context.getTransaction().commit();
             fail("Should throw exception when non-existent id is entered.");
         } catch (IllegalArgumentException iae) {
             try {
@@ -150,22 +150,22 @@ public class CaloriesDaoTest {
         calories.setAmount(150);
         calories.setActivity(activity);
 
-        em.getTransaction().begin();
-        em.persist(calories);
-        em.getTransaction().commit();
+        context.getTransaction().begin();
+        context.persist(calories);
+        context.getTransaction().commit();
 
-        em.clear();
+        context.clear();
 
-        Calories calories2 = em.find(Calories.class, calories.getId());
+        Calories calories2 = context.find(Calories.class, calories.getId());
         // veryfying, that it is indeed in the database now:
         assertNotNull(calories2);
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         caloriesDao.remove(calories2.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
 
-        em.clear();
-        assertNull(em.find(Calories.class, calories.getId()));
+        context.clear();
+        assertNull(context.find(Calories.class, calories.getId()));
     }
 
     /**
@@ -180,9 +180,9 @@ public class CaloriesDaoTest {
 
         Long caloriesId;
         try {
-            em.getTransaction().begin();
-            em.persist(calories);
-            em.getTransaction().commit();
+            context.getTransaction().begin();
+            context.persist(calories);
+            context.getTransaction().commit();
             caloriesId = calories.getId();
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);

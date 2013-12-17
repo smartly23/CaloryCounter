@@ -29,20 +29,20 @@ public class AuthUserDaoTest {
     private static AuthUser luke = null;
     private static AuthUser anakin = null;
     private static AuthUser obiWan = null;
-    private static EntityManager em = null;
+    private static EntityManager context = null;
 
     @BeforeClass
     public static void before() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestPU");
-        em = emf.createEntityManager();
-        authUserDao = new UserDaoImplJPA(em);
+        context = emf.createEntityManager();
+        authUserDao = new UserDaoImplJPA(context);
         prepareTestEntities();
     }
 
     @AfterClass
     public static void after() {
-        if (em != null) {
-            em.close();
+        if (context != null) {
+            context.close();
         }
     }
 
@@ -55,9 +55,9 @@ public class AuthUserDaoTest {
         c3po.setUsername("c3po");
         c3po.setWeightCat(WeightCategory._205_);
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long returnedId = authUserDao.create(c3po);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         assertTrue("User was not created.", (returnedId != null && !returnedId.equals(new Long(0))));
 
         AuthUser createdUser = getUserById(returnedId);
@@ -81,9 +81,9 @@ public class AuthUserDaoTest {
         user.setGender("MALE");
         user.setUsername("vady");
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         authUserDao.update(user);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
 
         AuthUser updatedUser = getUserById(user.getId());
 
@@ -129,9 +129,9 @@ public class AuthUserDaoTest {
 
     @Test
     public void testRemove() {
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         authUserDao.remove(obiWan.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         AuthUser deletedUser = getUserById(obiWan.getId());
         assertNull("User was not deleted", deletedUser);
 
@@ -193,16 +193,16 @@ public class AuthUserDaoTest {
         obiWan.setUsername("keny");
         obiWan.setWeightCat(WeightCategory._180_);
 
-        em.getTransaction().begin();
-        em.persist(luke);
-        em.persist(anakin);
-        em.persist(obiWan);
-        em.getTransaction().commit();
+        context.getTransaction().begin();
+        context.persist(luke);
+        context.persist(anakin);
+        context.persist(obiWan);
+        context.getTransaction().commit();
 
     }
 
     private AuthUser getUserById(long id) {
-        Query q = em.createQuery("SELECT a FROM AuthUser a WHERE a.id=:id", AuthUser.class).setParameter("id", id);
+        Query q = context.createQuery("SELECT a FROM AuthUser a WHERE a.id=:id", AuthUser.class).setParameter("id", id);
 
         try {
             return (AuthUser) q.getSingleResult();

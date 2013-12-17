@@ -29,8 +29,8 @@ import org.junit.BeforeClass;
 public class ActivityDaoTest {
 
     private static EntityManagerFactory emf;
-    private EntityManager em;
-    EntityManager em2;
+    private EntityManager context;
+    EntityManager another_context;
     private ActivityDao activityDao;
     final static Logger log = LoggerFactory.getLogger(ActivityDaoTest.class);
 
@@ -48,15 +48,15 @@ public class ActivityDaoTest {
 
     @Before
     public void setUp() {   // doporucuje sa per-method inicializaciu robit v setUp radsej ako v Konstruktore
-        em = emf.createEntityManager();
-        activityDao = new ActivityDaoImplJPA(em);
+        context = emf.createEntityManager();
+        activityDao = new ActivityDaoImplJPA(context);
     }
 
     @After
     public void tearDown() {
-        em.close();
-        if (em2 != null && em2.isOpen()) {
-            em2.close();
+        context.close();
+        if (another_context != null && another_context.isOpen()) {
+            another_context.close();
         }
         activityDao = null;
     }
@@ -66,9 +66,9 @@ public class ActivityDaoTest {
         Activity activity = new Activity();
         activity.setName("Chopping wood sloww");
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long activityId = activityDao.create(activity);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         assertFalse("Activity was not created.", activityId == null);
 
         try {
@@ -86,17 +86,17 @@ public class ActivityDaoTest {
 
         Long activityId;
         try {
-            em.getTransaction().begin();
-            em.persist(activity);
-            em.getTransaction().commit();
+            context.getTransaction().begin();
+            context.persist(activity);
+            context.getTransaction().commit();
             activityId = activity.getId();
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
         }
         assertNotNull("internal integrity error", activityId);
 
-        em2 = emf.createEntityManager();              // kvoli cache lvl 1
-        ActivityDao activityDao2 = new ActivityDaoImplJPA(em2);
+        another_context = emf.createEntityManager();              // kvoli cache lvl 1
+        ActivityDao activityDao2 = new ActivityDaoImplJPA(another_context);
         Activity testActivity = activityDao2.get(activityId);
         assertEquals(activityId, testActivity.getId());
 
@@ -115,9 +115,9 @@ public class ActivityDaoTest {
 
         Long activityId;
         try {
-            em.getTransaction().begin();
-            em.persist(activity);
-            em.getTransaction().commit();
+            context.getTransaction().begin();
+            context.persist(activity);
+            context.getTransaction().commit();
             activityId = activity.getId();
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
@@ -125,13 +125,13 @@ public class ActivityDaoTest {
         assertNotNull("internal integrity error", activityId);
 
         activity.setName("Chopping wood fast");
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         activityDao.update(activity);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
 
-        em2 = emf.createEntityManager();              // to avoid returning result from cache lvl 1
-        ActivityDao activityDao2 = new ActivityDaoImplJPA(em2);
-        Activity testActivity = em2.find(Activity.class, activityId);
+        another_context = emf.createEntityManager();              // to avoid returning result from cache lvl 1
+        ActivityDao activityDao2 = new ActivityDaoImplJPA(another_context);
+        Activity testActivity = another_context.find(Activity.class, activityId);
         assertThat(testActivity.getName(), IsEqualIgnoringCase.equalToIgnoringCase(activity.getName()));
 
         activity.setId(activityId + 1);
@@ -153,21 +153,21 @@ public class ActivityDaoTest {
         Activity activity = new Activity();
         activity.setName("Chopping wood slowww");
 
-        em.getTransaction().begin();
-        em.persist(activity);
-        em.getTransaction().commit();
+        context.getTransaction().begin();
+        context.persist(activity);
+        context.getTransaction().commit();
 
-        em2 = emf.createEntityManager();              // to avoid returning result from cache lvl 1
-        ActivityDao activityDao2 = new ActivityDaoImplJPA(em2);
-        Activity testActivity = em2.find(Activity.class, activity.getId());
+        another_context = emf.createEntityManager();              // to avoid returning result from cache lvl 1
+        ActivityDao activityDao2 = new ActivityDaoImplJPA(another_context);
+        Activity testActivity = another_context.find(Activity.class, activity.getId());
         // veryfying, that it is indeed in the database now:
         assertNotNull(testActivity);
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         activityDao.remove(activity.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
 
-        em2.clear();                    // preco nefunguje aj em2.flush (obalene v transakcii)?
-        assertNull(em2.find(Activity.class, activity.getId()));
+        another_context.clear();                    // preco nefunguje aj em2.flush (obalene v transakcii)?
+        assertNull(another_context.find(Activity.class, activity.getId()));
     }
 }

@@ -16,6 +16,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
@@ -52,24 +53,25 @@ public class ActivityRestResource {
                 throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
             }
         }
-        return Response.status(Response.Status.OK).entity(activities).build();
+        GenericEntity<List<ActivityDto>> entity = new GenericEntity<List<ActivityDto>>(activities) {};
+        return Response.status(Response.Status.OK).entity(entity).build();
     }
 
     /**
      *
      * @param weightCategory name of the WeightCategory of which activities
-     * shall be returned
+     * shall be returned (in format _130_)
      * @return activities containing information only about given weight
      * category
      */
     @GET
-    @Path("/weightcategory/{weightCategory}")
+    @Path("/weightcategory/{weightcategory}")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getAll(@PathParam("weightcategory") String weightCategory) {
         log.debug("Server: getAll() with weight category: " + weightCategory);
         WeightCategory wc = null;
         try {
-            WeightCategory.valueOf(weightCategory);
+            wc = WeightCategory.valueOf(weightCategory);    
         } catch (IllegalArgumentException e) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -83,7 +85,8 @@ public class ActivityRestResource {
                 throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
             }
         }
-        return Response.status(Response.Status.OK).entity(activities).build();
+        GenericEntity<List<ActivityDto>> entity = new GenericEntity<List<ActivityDto>>(activities) {};
+        return Response.status(Response.Status.OK).entity(entity).build();
     }
 
     /**

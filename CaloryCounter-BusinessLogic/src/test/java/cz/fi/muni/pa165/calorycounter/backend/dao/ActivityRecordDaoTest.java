@@ -24,15 +24,15 @@ import org.junit.rules.ExpectedException;
  */
 public class ActivityRecordDaoTest {
 
-    private EntityManager em;
+    private EntityManager context;
 
     public ActivityRecordDaoTest() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("TestPU");
-        em = emf.createEntityManager();
-        userDao = new UserDaoImplJPA(em);
-        caloriesDao = new CaloriesDaoImplJPA(em);
-        activityRecordDao = new ActivityRecordDaoImplJPA(em);
-        activityDao = new ActivityDaoImplJPA(em);
+        context = emf.createEntityManager();
+        userDao = new UserDaoImplJPA(context);
+        caloriesDao = new CaloriesDaoImplJPA(context);
+        activityRecordDao = new ActivityRecordDaoImplJPA(context);
+        activityDao = new ActivityDaoImplJPA(context);
     }
     private ActivityRecordDao activityRecordDao;
     private UserDao userDao;
@@ -58,9 +58,9 @@ public class ActivityRecordDaoTest {
         authUser.setName("Jan Novák");
         authUser.setWeightCat(WeightCategory._130_);
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long userId = userDao.create(authUser);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         assertFalse("User was not created.", (userId == null || userId.equals(new Long(0))));
 
         AuthUser createdUser = userDao.get(userId);
@@ -71,18 +71,18 @@ public class ActivityRecordDaoTest {
         Calories calories = new Calories();
         Activity activity = new Activity();
         activity.setName("Plavání");
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long activityId = activityDao.create(activity);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         Activity createdActivity = activityDao.get(activityId);
         assertNotNull("Activity was not received by id", createdActivity);
 
         calories.setActivity(createdActivity);
         calories.setAmount(150);
         calories.setWeightCat(WeightCategory._130_);
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long caloriesId = caloriesDao.create(calories);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         Calories createdCalories = caloriesDao.get(caloriesId);
         assertNotNull("Calories was not received by id", createdCalories);
 
@@ -93,9 +93,9 @@ public class ActivityRecordDaoTest {
         /**
          * *** Create **
          */
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         Long actRecId = activityRecordDao.create(activityRecord);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
 
         assertNotNull("ID is null", actRecId);
         assertFalse("ID is 0", actRecId == 0);
@@ -111,9 +111,9 @@ public class ActivityRecordDaoTest {
          */
         activityRecord.setId(actRecId);
         activityRecord.setDuration(60 * 10);
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         activityRecordDao.update(activityRecord);
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         ActivityRecord updatedActRec = activityRecordDao.get(actRecId);
         assertNotNull("ActivityRecord was not received by id after update", updatedActRec);
         assertEquals(60 * 10, updatedActRec.getDuration());
@@ -121,30 +121,30 @@ public class ActivityRecordDaoTest {
         /**
          * **** Remove ****
          */
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         activityRecordDao.remove(createdActRec.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(actRecId);
         exception = ExpectedException.none();
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         userDao.remove(createdUser.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(userId);
         exception = ExpectedException.none();
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         caloriesDao.remove(createdCalories.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(caloriesId);
         exception = ExpectedException.none();
 
-        em.getTransaction().begin();
+        context.getTransaction().begin();
         activityDao.remove(createdActivity.getId());
-        em.getTransaction().commit();
+        context.getTransaction().commit();
         exception.expect(IllegalArgumentException.class);
         activityDao.get(activityId);
         exception = ExpectedException.none();

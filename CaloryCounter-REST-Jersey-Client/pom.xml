@@ -68,6 +68,23 @@
             <artifactId>standard</artifactId>
             <version>1.1.2</version>
         </dependency>
+        
+        <dependency>
+            <groupId>net.sourceforge.stripes</groupId>
+            <artifactId>stripes</artifactId>
+            <version>1.5.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>servlets.com</groupId>
+            <artifactId>cos</artifactId>
+            <version>05Nov2002</version>
+        </dependency>
     </dependencies>
     <build>
         <!-- Defaultne je nazov .war-ka v tvare artifactId-version (napr. CaloryCounter-Web-1.0.war),

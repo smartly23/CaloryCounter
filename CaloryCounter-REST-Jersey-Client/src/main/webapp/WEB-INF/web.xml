@@ -11,7 +11,7 @@
         <param-value>StripesResources</param-value>
     </context-param>
 
-    <!-- Stripes -->
+     <!--Stripes--> 
     <filter>
         <description>Stripes main conf</description>
         <display-name>Stripes Filter</display-name>
