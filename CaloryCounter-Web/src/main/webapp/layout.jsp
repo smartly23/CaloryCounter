@@ -16,10 +16,20 @@
                 <div id="header">
                     <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>
                     <h1 id="topTitle"><s:link href="/index.jsp"><f:message key="topTitle"/></s:link></h1>
-                    <div id="profile"><p><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean"><f:message key="navigation.editprofile"/></s:link></p></div>
-                        <div id="menu">
-                            <ul>
-                                <li id="first"><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
+                        <div id="profile"><p>
+                            <c:if test="${actionBean.user!=null}"><f:message key="profile.as"/> <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">${actionBean.user.username}</s:link></c:if>
+                            <c:choose>
+                                <c:when test="${actionBean.user!=null}">
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean" event="logout"><f:message key="profile.logout"/></s:link>
+                                </c:when>
+                                <c:otherwise>
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean"><f:message key="profile.login"/></s:link>
+                                </c:otherwise>
+                            </c:choose>
+                        </p></div>
+                    <div id="menu">
+                        <ul>
+                            <li id="first"><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean"><f:message key="navigation.new_record"/></s:link></li>
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li>
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.StatsActionBean"><f:message key="navigation.global_ladder"/></s:link></li>

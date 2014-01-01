@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Jan Kučera
  */
+@DoesNotRequireLogin
 @UrlBinding("/activities")
 public class ActivitiesActionBean extends BaseActionBean implements ValidationErrorHandler {
 
@@ -26,7 +27,7 @@ public class ActivitiesActionBean extends BaseActionBean implements ValidationEr
     //--- part for showing a list of records ----
     private List<ActivityDto> activities;
 
-    // some login user 
+    // some login user
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");

@@ -10,8 +10,11 @@ import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +64,7 @@ public class UserServiceImpl implements UserService {
             log.error("UserServiceImpl.login() called on null parameter: String username or String password", iaex);
             throw iaex;
         }
-        return (AuthUserDto) new DataAccessExceptionNonVoidTemplate(username, password) {
+        return (AuthUserDto) new DataAccessExceptionNonVoidTemplate(username, hash(password + "{" + username + "}")) {
             @Override
             public AuthUserDto doMethod() {
                 AuthUser entity = userDao.login((String) getU(), (String) getV());
@@ -81,7 +84,7 @@ public class UserServiceImpl implements UserService {
         final AuthUserDto userDto = user;
 
         AuthUser entity = AuthUserConvert.fromDtoToEntity(user);
-        entity.setPassword(password);
+        entity.setPassword(hash(password + "{" + user.getUsername() + "}"));
         return (Long) new DataAccessExceptionNonVoidTemplate(entity) {
             @Override
             public Long doMethod() {
@@ -145,8 +148,8 @@ public class UserServiceImpl implements UserService {
             }
         }.tryMethod();
     }
-    
-        @Override
+
+    @Override
     public AuthUserDto getById(Long id) {
         if (id == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Invalid username in parameter: null");
@@ -169,5 +172,24 @@ public class UserServiceImpl implements UserService {
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    private String hash(String string) {
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex) {
+            log.error(ex.getMessage());
+            return string;
+        }
+        md.update(string.getBytes());
+
+        byte byteData[] = md.digest();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < byteData.length; i++) {
+            sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        log.debug("Produced hash: " + sb.toString());
+        return sb.toString();
     }
 }

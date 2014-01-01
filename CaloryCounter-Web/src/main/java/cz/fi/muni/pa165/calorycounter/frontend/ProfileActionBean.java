@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martin Pasko (smartly23)
  */
-@UrlBinding("/myprofile/{$event}/{user.username}")
+@UrlBinding("/myprofile/{$event}")
 public class ProfileActionBean extends BaseActionBean {
 
     @ValidateNestedProperties(value = {
@@ -29,33 +29,14 @@ public class ProfileActionBean extends BaseActionBean {
         @Validate(on = "save", field = "sex", required = true),
         @Validate(on = "save", field = "weightCategory", required = true)
     })
-    private AuthUserDto user;
-    private static String username;
     private Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
     @SpringBean //Spring can inject even to private and protected fields
     private UserService userService;
     final static Logger log = LoggerFactory.getLogger(ProfileActionBean.class);
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "save"})
-    public void loadUser() {
-        String login = getContext().getRequest().getParameter("user.username");
-        if (login == null) {
-            return;
-        }
-        user = userService.getByUsername(login);
-        /* vytiahne sa objekt z DB a automaticky sa nan namapuju zeditovane polozky, teda nam toto vrati
-         * objekt, ktory po prislusnej akcii (napr. submit button z formulara) automaticky bude mat 
-         * namapovane nove hodnoty = nemusime kopirovat vsetky parametre cez url
-         */
-    }
-
     @DefaultHandler
     public Resolution show() {
         log.debug("show()");
-        if (username == null) {
-            username = "John"; // pre-persisted user until we have real user management
-        }
-        user = userService.getByUsername(username);
         return new ForwardResolution("/profile/show.jsp");
     }
 
@@ -72,10 +53,6 @@ public class ProfileActionBean extends BaseActionBean {
 
     public Resolution cancel() {
         return new RedirectResolution(this.getClass(), "show");
-    }
-
-    public AuthUserDto getUser() {
-        return user;
     }
 
     public Gender[] getGenders() {

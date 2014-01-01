@@ -20,7 +20,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 /**
  * Stripes ActionBean for handling record operations.
  *
- * @author Bryndza
+ * @author Martin Bryndza
  */
 @UrlBinding("/myrecord/{$event}/{record.activityRecordId}")
 public class RecordActionBean extends BaseActionBean {
@@ -39,7 +39,6 @@ public class RecordActionBean extends BaseActionBean {
     })
     private ActivityRecordDto record;
     private List<ActivityDto> activities;
-    private AuthUserDto user;
     private boolean isEdit = false;
 
     public boolean isIsEdit() {
@@ -48,14 +47,6 @@ public class RecordActionBean extends BaseActionBean {
 
     public void setIsEdit(boolean isEdit) {
         this.isEdit = isEdit;
-    }
-
-    public AuthUserDto getUser() {
-        return user;
-    }
-
-    public void setUser(AuthUserDto user) {
-        this.user = user;
     }
 
     public List<ActivityDto> getActivities() {
@@ -76,11 +67,7 @@ public class RecordActionBean extends BaseActionBean {
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"def", "createRecord"})
     public void setUp() {
-        String login = "John";
-        if (login == null) {
-            return;
-        }
-        user = userService.getByUsername(login);
+        super.loadUser();
         activities = activityService.getAll(user.getWeightCategory());
     }
 

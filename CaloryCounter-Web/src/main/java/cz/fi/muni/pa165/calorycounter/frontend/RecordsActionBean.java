@@ -10,13 +10,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserActivityRecordsService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
+import net.sourceforge.stripes.controller.LifecycleStage;
 
 /**
  * Stripes ActionBean for handling book operations.
  *
  * @author Lastuvka
  */
-@UrlBinding("/records/{$event}/{user.id}")
+@UrlBinding("/records/{$event}")
 public class RecordsActionBean extends BaseActionBean implements ValidationErrorHandler {
 
     final static Logger log = LoggerFactory.getLogger(RecordsActionBean.class);
@@ -26,19 +27,12 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
 
     @SpringBean //Spring can inject even to private and protected fields
     protected UserService userService;
-
-    //--- part for showing a list of records ----
     private UserActivityRecordsDto uards;
-    private AuthUserDto authUserDto;
 
-    // some login user 
     @DefaultHandler
     public Resolution list() {
-        // nastaveni prihlaseneho uzivatele
-        authUserDto = userService.getByUsername("John");
-
         log.debug("list()");
-        uards = userActivityRecordsService.getAllActivityRecords(authUserDto);
+        uards = userActivityRecordsService.getAllActivityRecords(user);
         return new ForwardResolution("/records/list.jsp");
 
     }
@@ -50,7 +44,7 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
     @Override
     public Resolution handleValidationErrors(ValidationErrors ve) throws Exception {
         //fill up the data for the table if validation errors occured
-        uards = userActivityRecordsService.getAllActivityRecords(authUserDto);
+        uards = userActivityRecordsService.getAllActivityRecords(user);
         //return null to let the event handling continue
         return null;
     }
