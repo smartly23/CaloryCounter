@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martin Bryndza
  */
+@DoesNotRequireLogin
 @UrlBinding("/")
 public class IndexActionBean extends BaseActionBean {
 

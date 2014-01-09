@@ -24,14 +24,15 @@
                                 </c:when>
                                 <c:otherwise>
                                     <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean"><f:message key="profile.login"/></s:link>
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean" event="showRegisterForm"><f:message key="profile.register"/></s:link>
                                 </c:otherwise>
                             </c:choose>
                         </p></div>
                     <div id="menu">
                         <ul>
                             <li id="first"><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
-                            <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean"><f:message key="navigation.new_record"/></s:link></li>
-                            <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li>
+                            <c:if test="${actionBean.user!=null}"><li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean"><f:message key="navigation.new_record"/></s:link></li></c:if>
+                            <c:if test="${actionBean.user!=null}"><li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li></c:if>
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.StatsActionBean"><f:message key="navigation.global_ladder"/></s:link></li>
                             <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean"><f:message key="navigation.activities"/></s:link></li>
                             </ul>

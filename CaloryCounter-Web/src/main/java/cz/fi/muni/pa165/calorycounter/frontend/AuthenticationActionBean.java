@@ -42,8 +42,8 @@ public class AuthenticationActionBean extends BaseActionBean {
     }
 
     @DefaultHandler
-    public Resolution showForm() {
-        log.debug("showForm()");
+    public Resolution showLoginForm() {
+        log.debug("showLoginForm()");
         return new ForwardResolution("/authentication/login.jsp");
     }
 
@@ -66,6 +66,15 @@ public class AuthenticationActionBean extends BaseActionBean {
         } else {
             return new RedirectResolution("/index.jsp");
         }
+    }
+
+    public Resolution showRegisterForm() {
+        log.debug("showRegisterForm()");
+        return new ForwardResolution("/authentication/register.jsp");
+    }
+
+    public Resolution register() {
+        return new RedirectResolution("/index.jsp");
     }
 
     public Resolution logout() {

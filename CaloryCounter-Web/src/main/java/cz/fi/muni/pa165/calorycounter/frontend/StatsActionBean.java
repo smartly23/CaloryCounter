@@ -17,6 +17,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  *
  * @author Kucera
  */
+@DoesNotRequireLogin
 @UrlBinding("/stats/{$event}")
 public class StatsActionBean extends BaseActionBean implements ValidationErrorHandler {
 
