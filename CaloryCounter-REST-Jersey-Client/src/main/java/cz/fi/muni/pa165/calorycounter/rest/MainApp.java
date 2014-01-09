@@ -62,15 +62,13 @@ public class MainApp {
         wantedUser.setSex("Male");
         wantedUser.setWeightCategory(WeightCategory._130_);
         wantedUser.setUsername("Fero");
-        wantedUser.setPassword("ferino je boss");
-        returnedUser = registerUser(wantedUser);
+        returnedUser = registerUser(wantedUser, "ferino je boss");
         log.debug("registering user " + wantedUser + ", returned: " + returnedUser);
         
         // fail: already registered user:
         wantedUser.setAge(25);
         wantedUser.setName("Ferdo Mravenec");
-        wantedUser.setPassword("ferino ma rad muchy");
-        returnedUser2 = registerUser(wantedUser);
+        returnedUser2 = registerUser(wantedUser, "ferino ma rad muchy");
         log.debug("registering already registered user " + wantedUser + ", returned: " + returnedUser2 + "\n");
         
         // correct is to use update instead of register:
@@ -143,7 +141,7 @@ public class MainApp {
     /*
      * @return dto object as it was registered in the database, or null if Response status was not 200.
      */
-    private static AuthUserDto registerUser(AuthUserDto userToRegister) {
+    private static AuthUserDto registerUser(AuthUserDto userToRegister, String password) {
         WebTarget actionTarget = getTarget(nastav_si_cestu).path("profile/createuser");
         Invocation.Builder builder = actionTarget.request(MediaType.APPLICATION_JSON);
         log.debug("Client: registerUser: " + actionTarget.getUri().toString());

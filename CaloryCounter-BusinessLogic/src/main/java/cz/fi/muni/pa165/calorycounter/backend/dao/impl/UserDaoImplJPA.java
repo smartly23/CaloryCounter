@@ -77,9 +77,16 @@ public class UserDaoImplJPA implements UserDao {
     public void update(AuthUser user) {
         if (validate(user) || user.getId() == null) {
             throw new IllegalArgumentException("Invalid user: null or with no id.");
-        } else if (em.createQuery("SELECT tbl.id FROM AuthUser tbl WHERE tbl.id = "
-                + ":givenId", Long.class).setParameter("givenId", user.getId()).getResultList().size() < 1) {
+        }
+        String currentPass;
+        try {
+        currentPass = em.createQuery("SELECT tbl.password FROM AuthUser tbl WHERE tbl.id = "
+                + ":givenId", String.class).setParameter("givenId", user.getId()).getSingleResult();
+        } catch (NoResultException e){
             throw new IllegalArgumentException("Invalid user: nonexistent");
+        }
+        if (user.getPassword()==null || user.getPassword().isEmpty()){
+            user.setPassword(currentPass);
         }
         em.merge(user);
     }

@@ -38,7 +38,7 @@ public class UserActivityRecordsServiceImpl implements UserActivityRecordsServic
         if (authUserDto == null) {
             throw new IllegalArgumentException("authUserDto is null");
         }
-        AuthUser authUser = AuthUserConvert.fromDtoToEntity(authUserDto);
+        AuthUser authUser = AuthUserConvert.fromDtoToEntity(authUserDto, null);
         if (authUser.getName() == null) {
             throw new IllegalArgumentException("authUser's name is null.");
         }

@@ -22,6 +22,14 @@ public interface UserService {
     AuthUserDto login(String username, String password);
 
     /**
+     * Set a new password to user.
+     *
+     * @param username
+     * @param password
+     */
+    void setPassword(String username, String password);
+
+    /**
      * Create new user.
      *
      * @param user

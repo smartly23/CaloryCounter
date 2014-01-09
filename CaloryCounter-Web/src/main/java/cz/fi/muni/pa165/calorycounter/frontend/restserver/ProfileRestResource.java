@@ -139,13 +139,13 @@ public class ProfileRestResource {
     @Path("/createuser")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response registerUser(AuthUserDto newUser) {
+    public Response registerUser(AuthUserDto newUser, String password) {
         log.debug("Server: register user: " + newUser);
-        if (newUser == null || newUser.getUsername() == null || newUser.getPassword() == null) {
+        if (newUser == null || newUser.getUsername() == null || password == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         try {
-            userService.register(newUser, newUser.getPassword());
+            userService.register(newUser, password);
         } catch (IllegalArgumentException ex) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

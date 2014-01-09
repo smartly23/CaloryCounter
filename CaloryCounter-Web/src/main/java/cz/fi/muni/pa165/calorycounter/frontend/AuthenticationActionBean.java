@@ -27,10 +27,19 @@ public class AuthenticationActionBean extends BaseActionBean {
     @SpringBean
     protected UserService userService;
 
-    @ValidateNestedProperties(value = {
-        @Validate(on = {"login"}, field = "username", required = true),
-        @Validate(on = {"login"}, field = "password", required = true)
-    })
+    @Validate(on = {"login"}, required = true)
+    private String password;
+
+    @Validate(on = {"login"}, required = true)
+    private String username;
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @DefaultHandler
     public Resolution showForm() {
@@ -42,7 +51,7 @@ public class AuthenticationActionBean extends BaseActionBean {
         log.debug("login()");
         HttpSession session = getContext().getRequest().getSession();
         String path = (String) session.getAttribute("authPath");
-        user = userService.login(user.getUsername(), user.getPassword());
+        user = userService.login(username, password);
         log.debug("Login user: " + user);
 
         if (user != null) {

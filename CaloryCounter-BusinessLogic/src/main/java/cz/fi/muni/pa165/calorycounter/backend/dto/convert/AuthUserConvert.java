@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthUserConvert {
 
-    public static AuthUser fromDtoToEntity(AuthUserDto dto) {
+    public static AuthUser fromDtoToEntity(AuthUserDto dto, String password) {
         if (dto == null) {
             throw new IllegalArgumentException("AuthUserConvert: fromDtoToEntity: null parameter!");
         }
@@ -23,7 +23,7 @@ public class AuthUserConvert {
         authUser.setGender(dto.getSex());//proc ty renamy?
         authUser.setWeightCat(dto.getWeightCategory());
         authUser.setUsername(dto.getUsername());
-        authUser.setPassword(dto.getPassword());
+        authUser.setPassword(password);
         return authUser;
     }
 
@@ -38,7 +38,6 @@ public class AuthUserConvert {
         authUserDto.setSex(entity.getGender());//proc ty renamy?
         authUserDto.setWeightCategory(entity.getWeightCat());
         authUserDto.setUsername(entity.getUsername());
-        authUserDto.setPassword(entity.getPassword());
         return authUserDto;
     }
 }

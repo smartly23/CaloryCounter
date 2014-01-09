@@ -12,11 +12,11 @@
                 <table>
                     <tr>
                         <th><s:label for="username" name="profile.username"/></th>
-                        <td><s:text id="username" name="user.username"/></td>
+                        <td><s:text id="username" name="username"/></td>
                     </tr>
                     <tr>
                         <th><s:label for="password" name="profile.password"/></th>
-                        <td><s:password id="password" name="user.password"/></td>
+                        <td><s:password id="password" name="password"/></td>
                     </tr>
                 </table>
                 <s:submit name="login"><f:message key="profile.login"/></s:submit>

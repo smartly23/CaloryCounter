@@ -16,6 +16,7 @@ import cz.fi.muni.pa165.calorycounter.backend.service.impl.UserServiceImpl;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.NoResultException;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -24,9 +25,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.dao.RecoverableDataAccessException;
+import sun.java2d.loops.CompositeType;
 
 /**
  * Unit Tests using Mockito to mock DAO layer and thus avoid real DB operations.
@@ -66,7 +71,6 @@ public class UserServiceTest {
         userDto.setName("Edita Papeky");
         userDto.setUsername(USERNAME);
         userDto.setAge(1);
-        userDto.setPassword(PASSWORD);
         userDto.setSex("Male");
         userDto.setWeightCategory(WeightCategory._130_);
         userService.register(userDto, PASSWORD);
@@ -93,7 +97,7 @@ public class UserServiceTest {
 
     @Test
     public void testLogin() {
-        Mockito.stub(userDaoImplJPA.login(USERNAME, PASSWORD)).toReturn(user);
+        Mockito.stub(userDaoImplJPA.login(eq(USERNAME), any(String.class))).toReturn(user);
         AuthUserDto uDto = userService.login(USERNAME, PASSWORD);
         assertNotNull("User was not login.", uDto);
         assertEquals("Wrong user was login.", userDto, uDto);
@@ -107,6 +111,35 @@ public class UserServiceTest {
         Long id = userService.register(userDto, PASSWORD);
         assertNotNull("User was not registered.", id);
         assertEquals("Wrong id was returned.", nextId, id);
+    }
+
+    @Test
+    public void testChangePassword() {
+        Mockito.stub(userDaoImplJPA.getByUsername(eq(USERNAME))).toReturn(user);
+        userService.setPassword(USERNAME, "new" + PASSWORD);
+    }
+
+    @Test
+    public void testChangeEmptyPassword() {
+        Mockito.stub(userDaoImplJPA.getByUsername(eq(USERNAME))).toReturn(user);
+        userService.setPassword(USERNAME, "");
+    }
+
+    @Test
+    public void testChangeNullPassword() {
+        Mockito.stub(userDaoImplJPA.getByUsername(eq(USERNAME))).toReturn(user);
+        userService.setPassword(USERNAME, null);
+    }
+
+    @Test
+    public void testChangeWrongUserPassword() {
+        Mockito.stub(userDaoImplJPA.getByUsername(eq(USERNAME + "wrong"))).toThrow(new RecoverableDataAccessException("Stubbed operation login failed"));
+        try {
+            userService.setPassword(USERNAME + "wrong", "anything");
+        } catch (RecoverableDataAccessException e) {
+            return;
+        }
+        fail("Should have thrown RecoverableDataAccessException.");
     }
 
     @Test

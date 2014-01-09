@@ -14,7 +14,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
             log.error("UserServiceImpl.login() called on null parameter: String username or String password", iaex);
             throw iaex;
         }
-        return (AuthUserDto) new DataAccessExceptionNonVoidTemplate(username, hash(password + "{" + username + "}")) {
+        return (AuthUserDto) new DataAccessExceptionNonVoidTemplate(username, hash(username, password)) {
             @Override
             public AuthUserDto doMethod() {
                 AuthUser entity = userDao.login((String) getU(), (String) getV());
@@ -83,8 +82,7 @@ public class UserServiceImpl implements UserService {
         }
         final AuthUserDto userDto = user;
 
-        AuthUser entity = AuthUserConvert.fromDtoToEntity(user);
-        entity.setPassword(hash(password + "{" + user.getUsername() + "}"));
+        AuthUser entity = AuthUserConvert.fromDtoToEntity(user, password);
         return (Long) new DataAccessExceptionNonVoidTemplate(entity) {
             @Override
             public Long doMethod() {
@@ -108,7 +106,7 @@ public class UserServiceImpl implements UserService {
             new DataAccessExceptionVoidTemplate(dto) {
                 @Override
                 public void doMethod() {
-                    AuthUser entity = AuthUserConvert.fromDtoToEntity((AuthUserDto) getU());
+                    AuthUser entity = AuthUserConvert.fromDtoToEntity((AuthUserDto) getU(), null);
                     userDao.update(entity);
                 }
             }.tryMethod();
@@ -174,7 +172,8 @@ public class UserServiceImpl implements UserService {
         this.userDao = userDao;
     }
 
-    private String hash(String string) {
+    private String hash(String username, String password) {
+        String string = password + "{" + username + "}";
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("MD5");
@@ -191,5 +190,27 @@ public class UserServiceImpl implements UserService {
         }
         log.debug("Produced hash: " + sb.toString());
         return sb.toString();
+    }
+
+    @Override
+    public void setPassword(String username, String password) {
+        if (username == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Invalid username in parameter: null");
+            log.error("UserServiceImpl.login() called on null parameter: String username or String password", iaex);
+            throw iaex;
+        }
+        if (password == null || password.isEmpty()) {
+            log.info("Password stays unchanged.");
+            return;
+        }
+        new DataAccessExceptionNonVoidTemplate(username, hash(username, password)) {
+            @Override
+            public Object doMethod() {
+                AuthUser user = userDao.getByUsername((String) getU());
+                user.setPassword((String) getV());
+                userDao.update(user);
+                return user;
+            }
+        }.tryMethod();
     }
 }
