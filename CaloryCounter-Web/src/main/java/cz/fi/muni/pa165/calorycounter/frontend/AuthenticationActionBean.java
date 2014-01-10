@@ -1,10 +1,12 @@
 package cz.fi.muni.pa165.calorycounter.frontend;
 
+import static cz.fi.muni.pa165.calorycounter.frontend.BaseActionBean.escapeHTML;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import javax.servlet.http.HttpSession;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
+import net.sourceforge.stripes.action.LocalizableMessage;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
@@ -14,6 +16,7 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.RecoverableDataAccessException;
 
 /**
  *
@@ -51,7 +54,12 @@ public class AuthenticationActionBean extends BaseActionBean {
         log.debug("login()");
         HttpSession session = getContext().getRequest().getSession();
         String path = (String) session.getAttribute("authPath");
-        user = userService.login(username, password);
+        try {
+            user = userService.login(username, password);
+        } catch (RecoverableDataAccessException e) {
+            this.getContext().getValidationErrors().addGlobalError(new SimpleError("login.failed"));
+            return new ForwardResolution(this.getClass(), "showLoginForm");
+        }
         log.debug("Login user: " + user);
 
         if (user != null) {
