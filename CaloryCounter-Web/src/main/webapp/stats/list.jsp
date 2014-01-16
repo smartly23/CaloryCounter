@@ -25,13 +25,12 @@
                 ['<c:out value="${userStats.nameOfUser}"/>',
                 <c:out value="${userStats.sumBurntCalories}"/>,
                 <c:out value="${userStats.sumDuration}"/>]<c:if test="${!loop.last}">,</c:if>
-                <c:if test="${userStats.userId == actionBean.user.userId}"><c:set var="rowIndex" value="${loopCounter.count-1}"/></c:if>
+                <c:if test="${actionBean.user!=null && userStats.userId == actionBean.user.userId}"><c:set var="rowIndex" value="${loopCounter.count-1}"/></c:if>
             </c:forEach>
                 ]);
                         data.setProperty(<c:out value="${rowIndex}"/>, 0, 'style', 'font-weight: bold; background-color: #9CD16A');
                 data.setProperty(<c:out value="${rowIndex}"/>, 1, 'style', 'font-weight: bold; background-color: #9CD16A');
                 data.setProperty(<c:out value="${rowIndex}"/>, 2, 'style', 'font-weight: bold; background-color: #9CD16A');
-
 
                 var table = new google.visualization.Table(document.getElementById('globalLadder'));
                 table.draw(data, {showRowNumber: true, allowHtml: true});
