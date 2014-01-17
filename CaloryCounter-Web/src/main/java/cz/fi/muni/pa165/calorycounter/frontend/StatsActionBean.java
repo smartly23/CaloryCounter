@@ -29,6 +29,10 @@ public class StatsActionBean extends BaseActionBean implements ValidationErrorHa
     //--- part for showing a list of records ----
     private List<UserStatsDto> usersStats;
 
+    public AuthUserDto getUser() {
+        return getSessionUser();
+    }
+
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");

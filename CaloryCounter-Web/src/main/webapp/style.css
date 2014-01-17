@@ -75,13 +75,17 @@ img.box_img{
     float:left;
 }
 #logo img{
-     border: 0;
-     width: 95px;
-     height: 84px;
+    border: 0;
+    width: 95px;
+    height: 84px;
 }
 #profile{
     padding:15px 15px;
     float:right;
+}
+
+#profile p {
+    text-align: right;
 }
 
 #profile a{
@@ -112,7 +116,7 @@ img.box_img{
     height:42px; width: auto;float:left;text-decoration:none;padding:0; margin:0px 3px 0px 3px;color:#fff;text-align:center;
 }
 #menu ul li :hover{
-    color: #C3C1BD; 
+    color: #C3C1BD;
 }
 #menu ul li .current{
     color: #C3C1BD;
@@ -393,5 +397,5 @@ table.basic th {
     background-color: #B8B8B8;
 }
 table.basic .col1 {
-   background-color: #F1F1F1; 
+    background-color: #F1F1F1;
 }

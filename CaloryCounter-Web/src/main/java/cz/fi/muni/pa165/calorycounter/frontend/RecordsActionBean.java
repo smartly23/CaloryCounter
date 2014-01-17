@@ -32,7 +32,7 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        uards = userActivityRecordsService.getAllActivityRecords(user);
+        uards = userActivityRecordsService.getAllActivityRecords(getSessionUser());
         return new ForwardResolution("/records/list.jsp");
 
     }
@@ -44,7 +44,7 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
     @Override
     public Resolution handleValidationErrors(ValidationErrors ve) throws Exception {
         //fill up the data for the table if validation errors occured
-        uards = userActivityRecordsService.getAllActivityRecords(user);
+        uards = userActivityRecordsService.getAllActivityRecords(getSessionUser());
         //return null to let the event handling continue
         return null;
     }

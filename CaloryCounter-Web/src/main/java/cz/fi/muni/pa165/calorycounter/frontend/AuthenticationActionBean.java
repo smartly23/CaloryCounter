@@ -54,6 +54,7 @@ public class AuthenticationActionBean extends BaseActionBean {
         log.debug("login()");
         HttpSession session = getContext().getRequest().getSession();
         String path = (String) session.getAttribute("authPath");
+        AuthUserDto user;
         try {
             user = userService.login(username, password);
         } catch (RecoverableDataAccessException e) {
@@ -63,7 +64,7 @@ public class AuthenticationActionBean extends BaseActionBean {
         log.debug("Login user: " + user);
 
         if (user != null) {
-            session.setAttribute("user", user);
+            setSessionUser(user);
         } else {
             this.getContext().getValidationErrors().addGlobalError(new SimpleError("login.failed"));
             return new ForwardResolution("/authentication/login.jsp");

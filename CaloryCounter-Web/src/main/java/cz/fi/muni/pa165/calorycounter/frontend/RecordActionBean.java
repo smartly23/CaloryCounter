@@ -41,6 +41,10 @@ public class RecordActionBean extends BaseActionBean {
     private List<ActivityDto> activities;
     private boolean isEdit = false;
 
+    public AuthUserDto getUser() {
+        return getSessionUser();
+    }
+
     public boolean isIsEdit() {
         return isEdit;
     }
@@ -67,8 +71,7 @@ public class RecordActionBean extends BaseActionBean {
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"def", "createRecord"})
     public void setUp() {
-        super.loadUser();
-        activities = activityService.getAll(user.getWeightCategory());
+        activities = activityService.getAll(getSessionUser().getWeightCategory());
     }
 
     @DefaultHandler

@@ -17,13 +17,13 @@
                     <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>
                     <h1 id="topTitle"><s:link href="/index.jsp"><f:message key="topTitle"/></s:link></h1>
                         <div id="profile"><p>
-                            <c:if test="${sessionScope.user!=null}"><f:message key="profile.as"/> <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">${sessionScope.user.username}</s:link></c:if>
+                            <c:if test="${sessionScope.user!=null}"><f:message key="profile.as"/> <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">${sessionScope.user.username}</s:link><br /></c:if>
                             <c:choose>
                                 <c:when test="${sessionScope.user!=null}">
                                     <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean" event="logout"><f:message key="profile.logout"/></s:link>
                                 </c:when>
                                 <c:otherwise>
-                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean"><f:message key="profile.login"/></s:link>
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean"><f:message key="profile.login"/></s:link><br />
                                     <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AuthenticationActionBean" event="showRegisterForm"><f:message key="profile.register"/></s:link>
                                 </c:otherwise>
                             </c:choose>

@@ -21,16 +21,7 @@ import org.slf4j.LoggerFactory;
 public abstract class BaseActionBean implements ActionBean {
 
     private ActionBeanContext context;
-    protected AuthUserDto user;
-    final static Logger log = LoggerFactory.getLogger(BaseActionBean.class);
-
-    public AuthUserDto getUser() {
-        return user;
-    }
-
-    public void setUser(AuthUserDto user) {
-        this.user = user;
-    }
+    final static Logger baseLog = LoggerFactory.getLogger(BaseActionBean.class);
 
     @Override
     public void setContext(ActionBeanContext context) {
@@ -46,9 +37,13 @@ public abstract class BaseActionBean implements ActionBean {
         return Functions.escapeXml(s);
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation)
-    public void loadUser() {
-        user = (AuthUserDto) getContext().getRequest().getSession().getAttribute("user");
-        log.debug("User: " + user);
+    protected AuthUserDto getSessionUser() {
+        AuthUserDto user = (AuthUserDto) getContext().getRequest().getSession().getAttribute("user");
+        baseLog.debug("Session user: " + user);
+        return user;
+    }
+
+    protected void setSessionUser(AuthUserDto user) {
+        getContext().getRequest().getSession().setAttribute("user", user);
     }
 }
