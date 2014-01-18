@@ -44,11 +44,7 @@ public class SecurityInterceptor implements Interceptor {
 
     protected boolean isLoggedIn(ActionBeanContext abc) {
         AuthUserDto user = (AuthUserDto) abc.getRequest().getSession().getAttribute("user");
-        if (user != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return user != null;
     }
 
 }

@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         }
         final AuthUserDto userDto = user;
 
-        AuthUser entity = AuthUserConvert.fromDtoToEntity(user, password);
+        AuthUser entity = AuthUserConvert.fromDtoToEntity(user, hash(user.getUsername(), password));
         return (Long) new DataAccessExceptionNonVoidTemplate(entity) {
             @Override
             public Long doMethod() {
