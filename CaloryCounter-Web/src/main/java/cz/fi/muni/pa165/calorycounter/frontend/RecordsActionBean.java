@@ -1,16 +1,12 @@
 package cz.fi.muni.pa165.calorycounter.frontend;
 
-import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserActivityRecordsDto;
 import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.integration.spring.SpringBean;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserActivityRecordsService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
-import net.sourceforge.stripes.controller.LifecycleStage;
 
 /**
  * Stripes ActionBean for handling book operations.
@@ -18,7 +14,7 @@ import net.sourceforge.stripes.controller.LifecycleStage;
  * @author Lastuvka
  */
 @UrlBinding("/records/{$event}")
-public class RecordsActionBean extends BaseActionBean implements ValidationErrorHandler {
+public class RecordsActionBean extends BaseActionBean {
 
     final static Logger log = LoggerFactory.getLogger(RecordsActionBean.class);
 
@@ -39,14 +35,6 @@ public class RecordsActionBean extends BaseActionBean implements ValidationError
 
     public UserActivityRecordsDto getUards() {
         return uards;
-    }
-
-    @Override
-    public Resolution handleValidationErrors(ValidationErrors ve) throws Exception {
-        //fill up the data for the table if validation errors occured
-        uards = userActivityRecordsService.getAllActivityRecords(getSessionUser());
-        //return null to let the event handling continue
-        return null;
     }
 
 }
