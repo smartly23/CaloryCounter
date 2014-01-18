@@ -135,31 +135,32 @@ public class ProfileRestResource {
     /*
      * Registers a new user, returns that user dto object, having its id (userId) assigned.
      */
-    @POST
-    @Path("/createuser")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response registerUser(AuthUserDto newUser, String password) {
-        log.debug("Server: register user: " + newUser);
-        if (newUser == null || newUser.getUsername() == null || password == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        try {
-            userService.register(newUser, password);
-        } catch (IllegalArgumentException ex) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        try {
-            user = userService.getByUsername(newUser.getUsername());
-        } catch (RecoverableDataAccessException ex) {
-            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
-        }
-        Response.ResponseBuilder builder = Response.status(Response.Status.OK);
-        builder.entity(user);
-        return makeCORS(builder);
-        //Response.status(Response.Status.OK).entity(user).build();
-    }
-
+    /*
+     @POST
+     @Path("/createuser")
+     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+     public Response registerUser(AuthUserDto newUser, String password) {
+     log.debug("Server: register user: " + newUser);
+     if (newUser == null || newUser.getUsername() == null || password == null) {
+     return Response.status(Response.Status.BAD_REQUEST).build();
+     }
+     try {
+     userService.register(newUser, password);
+     } catch (IllegalArgumentException ex) {
+     return Response.status(Response.Status.BAD_REQUEST).build();
+     }
+     try {
+     user = userService.getByUsername(newUser.getUsername());
+     } catch (RecoverableDataAccessException ex) {
+     throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+     }
+     Response.ResponseBuilder builder = Response.status(Response.Status.OK);
+     builder.entity(user);
+     return makeCORS(builder);
+     //Response.status(Response.Status.OK).entity(user).build();
+     }
+     */
     /*
      * Updates user, returning dto object as it was updated in the database. 
      */
