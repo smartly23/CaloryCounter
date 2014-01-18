@@ -120,13 +120,15 @@ img.box_img{
 }
 #menu ul li .current{
     color: #C3C1BD;
+    padding:0 0 0 25px;
+    background:url(images/menu_arrow.gif) no-repeat left;
 }
 
 /*----------------middle green box-----------*/
 .green_box{
     width:900px;
     clear:both;
-    background:url(/images/green_box_bg.gif) no-repeat left #50a842;
+    background:url(images/green_box_bg.gif) no-repeat left #50a842;
     background-position:50px 0px;
 }
 .text_content{
@@ -179,7 +181,7 @@ img.box_img{
 }
 #right_nav ul li a.current{
     height:29px;display:block;width:263px;text-decoration:none;padding:0px;color: #d4f0ba;padding:0 0 0 35px;margin:7px 0 7px 0;
-    background:url(/images/right_nav_a.gif) no-repeat center;
+    background:url(images/right_nav_a.gif) no-repeat center;
     background-position:0px 0px;
 }
 
@@ -193,7 +195,7 @@ img.box_img{
     height:124px;
     float:left;
     margin:15px 10px 10px 0;
-    background:url(/images/search_box_bg.gif) no-repeat center;
+    background:url(images/search_box_bg.gif) no-repeat center;
     background-position:0px 0px;
 }
 .search_title{
@@ -271,7 +273,7 @@ input.submit{
 }
 .news_archive ul li a{
     width: 180px;text-decoration:none;padding:0 0 0 20px; margin:6px 0px 6px 0px;color:#000;text-align:left;
-    background:url(/images/bullet.gif) no-repeat left; background-position:0px 0px;
+    background:url(images/bullet.gif) no-repeat left; background-position:0px 0px;
 }
 .news_archive ul li a:hover{
     width: 180px;text-decoration:underline;color: #000;
@@ -281,7 +283,7 @@ input.submit{
     width:481px;
     height:116px;
     margin:5px;
-    background:url(/images/contact_info_bg.gif) no-repeat center;
+    background:url(images/contact_info_bg.gif) no-repeat center;
 }
 .contact_info_title{
     font-size:14px;
