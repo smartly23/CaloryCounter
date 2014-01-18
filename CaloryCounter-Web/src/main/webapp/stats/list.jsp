@@ -28,10 +28,11 @@
                 <c:if test="${actionBean.user!=null && userStats.userId == actionBean.user.userId}"><c:set var="rowIndex" value="${loopCounter.count-1}"/></c:if>
             </c:forEach>
                 ]);
-                        data.setProperty(<c:out value="${rowIndex}"/>, 0, 'style', 'font-weight: bold; background-color: #9CD16A');
+            <c:if test="${rowIndex!=null}">
+                data.setProperty(<c:out value="${rowIndex}"/>, 0, 'style', 'font-weight: bold; background-color: #9CD16A');
                 data.setProperty(<c:out value="${rowIndex}"/>, 1, 'style', 'font-weight: bold; background-color: #9CD16A');
                 data.setProperty(<c:out value="${rowIndex}"/>, 2, 'style', 'font-weight: bold; background-color: #9CD16A');
-
+            </c:if>
                 var table = new google.visualization.Table(document.getElementById('globalLadder'));
                 table.draw(data, {showRowNumber: true, allowHtml: true});
             }
