@@ -1,6 +1,6 @@
 package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -12,7 +12,7 @@ public class ActivityDto {
 
     private Long activityId;
     private String activityName;
-    private Map<WeightCategory, Integer> weightCalories = new HashMap<>();
+    private final Map<WeightCategory, Integer> weightCalories = new LinkedHashMap<>();
 
     public Long getActivityId() {
         return activityId;

@@ -15,7 +15,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +107,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     private List<ActivityDto> getDtosFromCalories(List<Calories> cals) {
         List<ActivityDto> dtos = new LinkedList<>();
-        Map<Activity, List<Calories>> calsByActivity = new HashMap<>();
+        Map<Activity, List<Calories>> calsByActivity = new LinkedHashMap<>();
         for (Calories cal : cals) {
             if (!calsByActivity.containsKey(cal.getActivity())) {
                 calsByActivity.put(cal.getActivity(), new LinkedList<Calories>());
