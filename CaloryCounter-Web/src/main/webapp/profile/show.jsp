@@ -7,14 +7,14 @@
     <s:layout-component name="body">
         <%--<s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" var="actionBean"/>--%>
         <!--vzhladom na najnovsi layout.jsp (link je na actionbeanu (spravne!), nie JSPcko), uz toto netreba -->
-        <p><f:message key="navigation.editprofile"/></p>
+        <h2><f:message key="navigation.editprofile"/></h2>
 
-        <div>
-            <br><f:message key="profile.username"/><c:out value=" ${actionBean.user.username}"/><br>
-            <f:message key="profile.name"/><c:out value=" ${actionBean.user.name}"/><br>
-            <f:message key="profile.age"/><c:out value=" ${actionBean.user.age}"/><br>
-            <f:message key="profile.sex"/><c:out value=" ${actionBean.user.sex}"/><br>
-            <f:message key="profile.weight"/><c:out value=" ${actionBean.user.weightCategory.showedCategory}"/>
+        <div id="profileAttr">
+            <f:message key="profile.username"/><strong><c:out value=" ${actionBean.user.username}"/></strong><br>
+            <f:message key="profile.name"/><strong><c:out value=" ${actionBean.user.name}"/></strong><br>
+            <f:message key="profile.age"/><strong><c:out value=" ${actionBean.user.age}"/></strong><br>
+            <f:message key="profile.sex"/><strong><c:out value=" ${actionBean.user.sex}"/></strong><br>
+            <f:message key="profile.weight"/><strong><c:out value=" ${actionBean.user.weightCategory.showedCategory}"/></strong>
             <br>
             <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" event="edit">
                 <s:param name="user.username" value="${actionBean.user.username}"/><f:message key="profile.edit"/>

@@ -2,7 +2,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="record.create.title">
+<s:layout-render name="/layout.jsp" titlekey="record.create.title" currentPage="new_record">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" var="recordActionBean"/>
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" focus="" >

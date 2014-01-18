@@ -309,7 +309,7 @@ input.submit{
     padding:4px 0 4px 0;
 }
 label{
-    width:70px;
+    width:140px;
     float:left;
     padding:3px 5px 0 0;
     color:#59a5bf;
@@ -343,6 +343,12 @@ textarea.contact_textarea{
     padding-left:40px;
     float:right;
     margin:10px;
+}
+input[type="submit"]{
+    padding: 5px 15px;
+    margin: 8px 5px;
+    font-weight: bold;
+    cursor: pointer;
 }
 /*--------------wide_content-----------*/
 #wide_content{
@@ -382,6 +388,9 @@ textarea.contact_textarea{
 
 
 /**** tables ****/
+table td {
+    padding: 3px;
+}
 
 table.basic {
     border: 1px solid #3A3C3E;
@@ -398,4 +407,39 @@ table.basic th {
 }
 table.basic .col1 {
     background-color: #F1F1F1;
+}
+
+
+/** home page **/
+#photo {
+    float: right;
+    width: 305px;
+    height: 216px;
+    margin-left: 30px;
+}
+#lastP {
+    margin-top: 15px;
+    text-align: right;
+}
+.homeP {
+    line-height: 180%;
+}
+
+/** profile **/
+#profileAttr{
+    line-height: 180%;
+}
+#profileAttr a{
+    border: 2px solid #999292;
+    padding: 5px 15px;
+    display: inline-block;
+    margin: 8px 5px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: buttonface;
+    color: black;
+    text-decoration: none;
+}
+#profileAttr a:hover{
+    border-color: #404040;
 }

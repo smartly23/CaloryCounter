@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="activities.list.title" pagename="activities">
+<s:layout-render name="/layout.jsp" titlekey="activities.list.title" pagename="activities" currentPage="activities">
     <s:layout-component name="body">
 
         <h2><f:message key="activities.list.title"/></h2>
