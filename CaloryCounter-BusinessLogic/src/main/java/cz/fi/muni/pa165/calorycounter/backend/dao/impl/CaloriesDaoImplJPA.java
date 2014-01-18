@@ -112,7 +112,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
 
     @Override
     public List<Calories> getAll() {
-        return em.createQuery("SELECT tbl FROM Calories tbl", Calories.class).getResultList();
+        return em.createQuery("SELECT tbl FROM Calories tbl ORDER BY tbl.activity.name, tbl.weightCat", Calories.class).getResultList();
     }
 
     @Override

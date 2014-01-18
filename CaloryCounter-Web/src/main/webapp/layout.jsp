@@ -8,6 +8,12 @@
         <head>
             <title><f:message key="${titlekey}"/></title>
             <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
+            <script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>
+            <script type='text/javascript'>
+                $(function() {
+                    $('#nav_${currentPage}').addClass("current");
+                });
+            </script>
             <s:layout-component name="header"/>
         </head>
 
@@ -30,11 +36,11 @@
                         </p></div>
                     <div id="menu">
                         <ul>
-                            <li id="first"><s:link class="current" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
-                            <c:if test="${sessionScope.user!=null}"><li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean"><f:message key="navigation.new_record"/></s:link></li></c:if>
-                            <c:if test="${sessionScope.user!=null}"><li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li></c:if>
-                            <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.StatsActionBean"><f:message key="navigation.global_ladder"/></s:link></li>
-                            <li><s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean"><f:message key="navigation.activities"/></s:link></li>
+                            <li id="first"><s:link id="nav_home" href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
+                            <c:if test="${sessionScope.user!=null}"><li><s:link id="nav_new_record" beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean"><f:message key="navigation.new_record"/></s:link></li></c:if>
+                            <c:if test="${sessionScope.user!=null}"><li><s:link id="nav_my_records" beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li></c:if>
+                            <li><s:link id="nav_global_ladder" beanclass="cz.fi.muni.pa165.calorycounter.frontend.StatsActionBean"><f:message key="navigation.global_ladder"/></s:link></li>
+                            <li><s:link id="nav_activities" beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean"><f:message key="navigation.activities"/></s:link></li>
                             </ul>
                         </div>
                     </div>

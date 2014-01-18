@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="stats.ladder.title">
+<s:layout-render name="/layout.jsp" titlekey="stats.ladder.title" currentPage="global_ladder">
     <s:layout-component name="header">
         <script type='text/javascript' src='https://www.google.com/jsapi'></script>
     </s:layout-component>

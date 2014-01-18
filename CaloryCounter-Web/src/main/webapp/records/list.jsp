@@ -3,7 +3,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="records.list.title">
+<s:layout-render name="/layout.jsp" titlekey="records.list.title" currentPage="my_records">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean" var="actionBean"/>
 
@@ -16,6 +16,7 @@
                 <th><f:message key="record.duration"/></th>
                 <th><f:message key="record.burnt_calories"/></th>
                 <th><f:message key="record.weight"/></th>
+                <th>&nbsp;</th>
             </tr>
             <c:forEach items="${actionBean.uards.activityRecords}" var="activityRecord">
                 <tr>
