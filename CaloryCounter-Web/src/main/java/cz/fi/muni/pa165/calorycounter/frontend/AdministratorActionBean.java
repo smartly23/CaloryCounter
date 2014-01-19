@@ -34,7 +34,7 @@ public class AdministratorActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution def() {
         log.debug("def()");
-        return new ForwardResolution("index.jsp");
+        return new ForwardResolution("/index.jsp");
     }
 
     public Resolution updateActivitiesFromPage() {
@@ -44,6 +44,6 @@ public class AdministratorActionBean extends BaseActionBean {
         } catch (IOException e) {
             getContext().getMessages().add(new LocalizableMessage("activities.update.IOError"));
         }
-        return new RedirectResolution(ActivitiesActionBean.class, "list");
+        return new ForwardResolution("/activities/list.jsp");
     }
 }

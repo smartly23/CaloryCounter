@@ -100,7 +100,7 @@ public class AuthenticationActionBean extends BaseActionBean {
             return new ForwardResolution("/authentication/login.jsp");
         }
 
-        if (originalBean != null) {
+        if (originalBean != null && !originalBean.getClass().equals(this.getClass())) {
             return new RedirectResolution(originalBean.getClass());
         } else {
             return new RedirectResolution("/index.jsp");
