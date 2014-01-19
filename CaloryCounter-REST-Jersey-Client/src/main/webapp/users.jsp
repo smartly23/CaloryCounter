@@ -82,7 +82,9 @@
                     $("#state").text("");
                     $("#userInfo").show();
                     $("#username").val("");
+                    $("#username").prop('disabled', false);
                     $("#password").val("");
+                    $("#password").prop('disabled', false);
                     $("#name").val("");
                     $("#age").val("");
                     $("#sex").val("<f:message key='users.sex.male'/>");
@@ -99,7 +101,9 @@
                 $("#userForm input[name='create']").hide();
                 $("#userInfo").show();
                 $("#username").val(data.username);
+                $("#username").prop('disabled', true);
                 $("#password").val(data.password);
+                $("#password").prop('disabled', true);
                 $("#name").val(data.name);
                 $("#age").val(data.age);
                 $("#sex").val(data.sex);

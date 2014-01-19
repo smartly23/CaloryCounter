@@ -139,7 +139,8 @@ public class ProfileRestResource {
     @Path("/createuser")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response registerUser(AuthUserDto newUser, String password) {
+    public Response registerUser(AuthUserDto newUser) {
+        String password = "password";
         log.debug("Server: register user: " + newUser);
         if (newUser == null || newUser.getUsername() == null || password == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();

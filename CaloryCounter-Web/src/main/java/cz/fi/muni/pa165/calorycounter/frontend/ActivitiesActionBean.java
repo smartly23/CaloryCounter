@@ -5,8 +5,6 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import java.util.List;
 import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.integration.spring.SpringBean;
-import net.sourceforge.stripes.validation.ValidationErrorHandler;
-import net.sourceforge.stripes.validation.ValidationErrors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 @DoesNotRequireLogin
 @UrlBinding("/activities")
-public class ActivitiesActionBean extends BaseActionBean implements ValidationErrorHandler {
+public class ActivitiesActionBean extends BaseActionBean {
 
     final static Logger log = LoggerFactory.getLogger(ActivitiesActionBean.class);
 
@@ -37,14 +35,6 @@ public class ActivitiesActionBean extends BaseActionBean implements ValidationEr
 
     public List<ActivityDto> getActivities() {
         return activities;
-    }
-
-    @Override
-    public Resolution handleValidationErrors(ValidationErrors ve) throws Exception {
-        //fill up the data for the table if validation errors occured
-        activities = activityService.getAll();
-        //return null to let the event handling continue
-        return null;
     }
 
 }
