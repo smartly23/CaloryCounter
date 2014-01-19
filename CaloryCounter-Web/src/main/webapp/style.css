@@ -113,14 +113,13 @@ img.box_img{
     margin:0;
 }
 #menu ul li a{
-    height:42px; display:inline-block; text-decoration:none;padding:0 20px; color:#fff;text-align:center;
+    height:42px; display:inline-block; text-decoration:none;padding:0 25px;color: #C3C1BD; text-align:center;
 }
 #menu ul li :hover{
-    color: #C3C1BD;
+    color:#fff;
 }
 #menu ul li .current{
-    color: #C3C1BD;
-    padding:0 0 0 25px;
+    color:#fff;
     background:url(images/menu_arrow.gif) no-repeat left;
 }
 
