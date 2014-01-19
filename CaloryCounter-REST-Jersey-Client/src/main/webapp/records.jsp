@@ -48,6 +48,25 @@
         </div>
 
         <script type="text/javascript">
+            $(function() {
+                var request = $.ajax({
+                    url: "http://localhost:8080/CaloryCounter-Web/resources/activities",
+                    type: "GET",
+                    dataType: "json",
+                    crossDomain: true,
+                    success: getActSuccess
+                });
+                function getActSuccess(data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var $table = $('<option/>');
+                        $table.val(data[i].activityName);
+                        $table.append(data[i].activityName);
+                        $("#activity").append($table);
+                    }
+
+                }
+            });
+
             $("#searchForm").submit(function(event) {
                 if ($("#searchForm input[type=submit][clicked=true]").attr("name") == "search") {
                     $("#state").text("<f:message key="records.state.searching"/>");
@@ -92,7 +111,7 @@
                     line = '<tr id="row' + data.activityRecords[i].activityRecordId + '"><td><input name="date' + data.activityRecords[i].activityRecordId + '" id="date' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityDate + '"/></td>';
                     line += '<td>  <input name="activity' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityName + '" disabled /></td>';
                     line += '<td><input  style="width:50px"  name="burnt_calories' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].caloriesBurnt + '"/></td>';
-                    line += '<td><select name="weight' + data.activityRecords[i].activityRecordId + '"><option value="_130_"><f:message key="records.weightCat._130_"/></option><option value="_155_"><f:message key="records.weightCat._155_"/></option><option value="_180_"><f:message key="records.weightCat._180_"/></option><option value="_205_"><f:message key="records.weightCat._205_"/></option></select></td>';
+                    line += '<td><select disabled name="weight' + data.activityRecords[i].activityRecordId + '"><option value="_130_"><f:message key="records.weightCat._130_"/></option><option value="_155_"><f:message key="records.weightCat._155_"/></option><option value="_180_"><f:message key="records.weightCat._180_"/></option><option value="_205_"><f:message key="records.weightCat._205_"/></option></select></td>';
                     line += '<td>  <input name="duration' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].duration + '"/></td>';
 //' + data.activityRecords[i].weightCategory + '
                     line += '<td><input type="submit" name="edit" data-id="' + data.activityRecords[i].activityRecordId + '" data-userid="' + data.activityRecords[i].userId + '" value="<f:message key="records.editBtn"/>"/></td>';
@@ -104,6 +123,8 @@
                     $('#date' + data.activityRecords[i].activityRecordId).datepicker();
                     $('#date' + data.activityRecords[i].activityRecordId).datepicker("option", "dateFormat", "yy-mm-ddT00:00:00");
                     $('#date' + data.activityRecords[i].activityRecordId).datepicker("setDate", data.activityRecords[i].activityDate);
+                    $('#weight' + data.activityRecords[i].activityRecordId).val(data.activityRecords[i].weightCategory);
+
                 }
 
                 $("#userForm input[name='edit']").hide();
@@ -136,7 +157,7 @@
                             '"caloriesBurnt" : "' + $("#recordForm input[name=burnt_calories" + activityRecordId + "]").val() + '", ' +
                             '"duration" : "' + $("#recordForm input[name=duration" + activityRecordId + "]").val() + '", ' +
                             '"userId" : "' + $("#recordForm input[type=submit][clicked=true]").data("userid") + '", ' +
-                            '"weightCategory" : "' + $("#recordForm input[name=weight" + activityRecordId + "]").val() + '" }';
+                            '"weightCategory" : "' + $("#recordForm select[name=weight" + activityRecordId + "]").val() + '" }';
                     var request = $.ajax({
                         url: "http://localhost:8080/CaloryCounter-Web/resources/record/update",
                         type: "PUT",
@@ -219,7 +240,7 @@
                 $("#date").datepicker();
                 $("#date").datepicker("option", "dateFormat", "yy-mm-ddT00:00:00");
                 /*
-
+                 
                  var request = $.ajax({
                  url: "http://localhost:8080/CaloryCounter-Web/resources/record/create",
                  type: "POST",
