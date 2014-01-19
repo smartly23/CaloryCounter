@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import javax.servlet.http.HttpSession;
+import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -77,13 +78,13 @@ public class AuthenticationActionBean extends BaseActionBean {
     public Resolution login() {
         log.debug("login()");
         HttpSession session = getContext().getRequest().getSession();
-        String path = (String) session.getAttribute("authPath");
+        ActionBean originalBean = (ActionBean) session.getAttribute("authPath");
         AuthUserDto user;
         try {
             user = userService.login(username, password);
         } catch (RecoverableDataAccessException e) {
             this.getContext().getValidationErrors().addGlobalError(new SimpleError("login.failed"));
-            return new ForwardResolution(this.getClass(), "showLoginForm");
+            return new RedirectResolution(this.getClass(), "showLoginForm");
         }
         log.debug("Login user: " + user);
 
@@ -94,8 +95,8 @@ public class AuthenticationActionBean extends BaseActionBean {
             return new ForwardResolution("/authentication/login.jsp");
         }
 
-        if (path != null) {
-            return new RedirectResolution(path.substring(0));
+        if (originalBean != null) {
+            return new RedirectResolution(originalBean.getClass());
         } else {
             return new RedirectResolution("/index.jsp");
         }

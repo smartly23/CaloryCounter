@@ -37,7 +37,7 @@ public class SecurityInterceptor implements Interceptor {
             return resolution;
         } else {
             ActionBeanContext currentContext = ec.getActionBean().getContext();
-            currentContext.getRequest().getSession().setAttribute("authPath", ec.getActionBeanContext().getRequest().getServletPath());
+            currentContext.getRequest().getSession().setAttribute("authPath", ec.getActionBean());
             return new RedirectResolution("/authentication/login.jsp");
         }
     }
