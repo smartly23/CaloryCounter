@@ -11,14 +11,21 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
+import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.persistence.NoResultException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,5 +125,65 @@ public class ActivityServiceImpl implements ActivityService {
             dtos.add(convert.fromEntitiesListToDto(calsByActivity.get(act)));
         }
         return dtos;
+    }
+
+    @Override
+    public List<ActivityDto> updateFromPage() throws IOException {
+        Document doc = Jsoup.connect("http://www.nutristrategy.com/activitylist.htm").get();
+        Elements activityElements = doc.select("blockquote div div table tbody tr");
+        activityElements.set(0, null); // the first row is head of table
+        List<ActivityDto> activities = new LinkedList<>(); // list to be returned
+        for (Element activityElement : activityElements) {
+            if (activityElement == null) {
+                continue;
+            }
+
+            Elements dataElements = activityElement.getElementsByTag("td");
+            List<String> data = new LinkedList<>(); // contains name of activity and 130lbs, 155lbs, 180lbs, 205lbs weight categories in this order
+            for (Element dataElement : dataElements) {
+                data.add(dataElement.text());
+            }
+
+            List<Calories> calories = new LinkedList<>(); // list of calories to be converted to DTO for return
+            Activity activity;
+            // try to get recent activities from DB
+            try {
+                activity = activityDao.get(data.get(0));
+            } catch (IllegalArgumentException e) {
+                activity = new Activity();
+                activity.setName(data.get(0));
+                activity.setId(activityDao.create(activity));
+            }
+
+            for (int i = 1; i < data.size(); i++) {
+                WeightCategory weight = WeightCategory.getCategory(i - 1);
+                int amount = Integer.parseInt(data.get(i));
+                Calories calory;
+                try {
+                    calory = caloriesDao.getByActivityWeightCat(activity, weight);
+                } catch (NoResultException e) {
+                    calory = new Calories();
+                    calory.setActivity(activity);
+                    calory.setWeightCat(weight);
+                    calory.setAmount(amount);
+                    calories.add(calory);
+                    log.debug("Creating calories " + calory.toString());
+                    caloriesDao.create(calory);
+                    log.debug("Calories created.");
+                    continue;
+                }
+                if (calory.getAmount() != amount) { // doesthe calory need to be updated?
+                    calory.setAmount(amount);
+                    calories.add(calory);
+                    log.debug("Updating calories " + calory.toString());
+                    caloriesDao.update(calory);
+                    log.debug("Calories updated.");
+                } else {
+                    log.debug("Calories are up to date: " + calory);
+                }
+            }
+            activities.add(convert.fromEntitiesListToDto(calories));
+        }
+        return activities;
     }
 }

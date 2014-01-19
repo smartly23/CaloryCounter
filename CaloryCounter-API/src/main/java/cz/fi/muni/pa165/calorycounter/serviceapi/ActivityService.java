@@ -6,6 +6,7 @@ package cz.fi.muni.pa165.calorycounter.serviceapi;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -46,4 +47,14 @@ public interface ActivityService {
      * @return list of ActivityDto
      */
     List<ActivityDto> getAll(WeightCategory weightCategory);
+
+    /**
+     * Updates the list of activities based on the page
+     * http://www.nutristrategy.com/activitylist.htm. An activity is considered
+     * to be the same based on its name.
+     *
+     * @return List of the activities that were added or updated.
+     */
+    List<ActivityDto> updateFromPage() throws IOException;
+
 }

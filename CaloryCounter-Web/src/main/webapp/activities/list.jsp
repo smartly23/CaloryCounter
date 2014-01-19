@@ -28,6 +28,6 @@
                 </tr>
             </c:forEach>
         </table>
-
+        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean" event="update"><f:message key="activities.update"/></s:link>
     </s:layout-component>
 </s:layout-render>

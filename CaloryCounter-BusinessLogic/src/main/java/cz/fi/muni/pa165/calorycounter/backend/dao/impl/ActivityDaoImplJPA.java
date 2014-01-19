@@ -21,7 +21,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ActivityDaoImplJPA implements ActivityDao {
 
-    final static Logger LOG = LoggerFactory.getLogger(UserDaoImplJPA.class);
+    final static Logger log = LoggerFactory.getLogger(UserDaoImplJPA.class);
     // injected from Spring
     @PersistenceContext
     private EntityManager em;
@@ -39,10 +39,10 @@ public class ActivityDaoImplJPA implements ActivityDao {
         if (entity == null) {
             throw new IllegalArgumentException("Invalid entity (Activity): " + entity);
         }
-        LOG.debug("Creating " + entity.toString());
+        log.debug("Creating " + entity.toString());
         Activity activity = em.merge(entity);
         Long id = activity.getId();
-        LOG.debug("Created " + activity.toString() + ". Assigned ID: " + id);
+        log.debug("Created " + activity.toString() + ". Assigned ID: " + id);
         return id;
     }
 
@@ -73,7 +73,7 @@ public class ActivityDaoImplJPA implements ActivityDao {
         }
         Activity activity = em.find(Activity.class, id);
         if (activity == null) {
-            LOG.error("Given activity with id " + id + " is not in DB.");
+            log.error("Given activity with id " + id + " is not in DB.");
         }
         em.remove(activity);
     }

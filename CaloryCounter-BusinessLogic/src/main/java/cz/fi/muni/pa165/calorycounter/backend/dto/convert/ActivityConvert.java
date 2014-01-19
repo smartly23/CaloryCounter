@@ -1,11 +1,14 @@
 package cz.fi.muni.pa165.calorycounter.backend.dto.convert;
 
+import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.LinkedList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +18,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ActivityConvert {
+
+    final static Logger log = LoggerFactory.getLogger(ActivityConvert.class);
 
     public List<Calories> fromDtoToEntitiesList(ActivityDto dto) {
         List<Calories> cals = new LinkedList<>();
@@ -37,6 +42,10 @@ public class ActivityConvert {
 
     public ActivityDto fromEntitiesListToDto(List<Calories> entities) {
         ActivityDto dto = new ActivityDto();
+        if (entities.isEmpty()) {
+            log.warn("List of Calories passed in argument is empty. Nothing to convert fromEntitiesListToDto");
+            return dto;
+        }
         Activity activity = entities.iterator().next().getActivity();
         dto.setActivityName(activity.getName());
         dto.setActivityId(activity.getId());
