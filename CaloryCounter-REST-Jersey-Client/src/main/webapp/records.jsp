@@ -19,7 +19,7 @@
         <form id="recordForm" action="/records.jsp" method="post">
             <div id="recordsList" style="display: none">
 
-            </div>             
+            </div>
         </form>
 
         <div id="recordInfo" style="display: none">
@@ -90,7 +90,7 @@
                     $("#userId").val(data.activityRecords[i].userId + '');
                     console.log(data.activityRecords[i].userId);
                     line = '<tr id="row' + data.activityRecords[i].activityRecordId + '"><td><input name="date' + data.activityRecords[i].activityRecordId + '" id="date' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityDate + '"/></td>';
-                    line += '<td>  <input name="activity' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityName + '"/></td>';
+                    line += '<td>  <input name="activity' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].activityName + '" disabled /></td>';
                     line += '<td><input  style="width:50px"  name="burnt_calories' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].caloriesBurnt + '"/></td>';
                     line += '<td><select name="weight' + data.activityRecords[i].activityRecordId + '"><option value="_130_"><f:message key="records.weightCat._130_"/></option><option value="_155_"><f:message key="records.weightCat._155_"/></option><option value="_180_"><f:message key="records.weightCat._180_"/></option><option value="_205_"><f:message key="records.weightCat._205_"/></option></select></td>';
                     line += '<td>  <input name="duration' + data.activityRecords[i].activityRecordId + '" value="' + data.activityRecords[i].duration + '"/></td>';
@@ -102,6 +102,8 @@
                 $("#recordsList").html($table);
                 for (var i = 0; i < data.activityRecords.length; i++) {
                     $('#date' + data.activityRecords[i].activityRecordId).datepicker();
+                    $('#date' + data.activityRecords[i].activityRecordId).datepicker("option", "dateFormat", "yy-mm-ddT00:00:00");
+                    $('#date' + data.activityRecords[i].activityRecordId).datepicker("setDate", data.activityRecords[i].activityDate);
                 }
 
                 $("#userForm input[name='edit']").hide();
@@ -215,9 +217,9 @@
 
             $(function() {
                 $("#date").datepicker();
-
+                $("#date").datepicker("option", "dateFormat", "yy-mm-ddT00:00:00");
                 /*
-                 
+
                  var request = $.ajax({
                  url: "http://localhost:8080/CaloryCounter-Web/resources/record/create",
                  type: "POST",
