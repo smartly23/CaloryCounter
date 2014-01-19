@@ -17,9 +17,9 @@
                     <s:submit name="save">
                         <f:message key="record.edit.save"/>
                     </s:submit>
-                    <s:link href="/myrecord" event="cancel">
+                    <s:submit name="cancel">
                         <f:message key="record.edit.cancel"/>
-                    </s:link>
+                    </s:submit>
                 </div>
             </fieldset>
         </s:form>

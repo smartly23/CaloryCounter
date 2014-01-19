@@ -30,9 +30,9 @@
                 <s:submit name="confirmDelete">
                     <f:message key="record.delete.confirm"/>
                 </s:submit>
-                <s:link href="/myrecord" event="cancel">
+                <s:submit name="cancel">
                     <f:message key="record.delete.cancel"/>
-                </s:link>
+                </s:submit>
             </fieldset>
         </s:form>
     </s:layout-component>

@@ -128,11 +128,6 @@ public class RecordActionBean extends BaseActionBean {
         return new RedirectResolution("/records");
     }
 
-    public Resolution cancelCreate() {
-        log.debug("cancelCreate()");
-        return new RedirectResolution("/record/create.jsp");
-    }
-
     public Resolution cancel() {
         log.debug("cancel()");
         isEdit = false;
