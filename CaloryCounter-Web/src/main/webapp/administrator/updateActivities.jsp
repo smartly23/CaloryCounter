@@ -1,17 +1,17 @@
-<%-- 
-    Document   : updateActivities
-    Created on : Jan 19, 2014, 4:08:39 PM
-    Author     : Martin
---%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<s:layout-render name="/layout.jsp" titlekey="activities.update">
+    <s:layout-component name="body">
+        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" var="actionBean"/>
+        <s:errors/>
+        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean">
+            <fieldset><legend><f:message key="activities.update.areyousure"/></legend>
+                <p><f:message key="activities.update.areyousure.message"/> </p>
+                <s:submit name="updateActivities"><f:message key="yes"/></s:submit>
+                <s:submit name="cancelUpdateActivities"><f:message key="no"/></s:submit>
+                </fieldset>
+        </s:form>
+    </s:layout-component>
+</s:layout-render>

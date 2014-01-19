@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.Before;
@@ -22,6 +23,17 @@ public abstract class BaseActionBean implements ActionBean {
 
     private ActionBeanContext context;
     final static Logger baseLog = LoggerFactory.getLogger(BaseActionBean.class);
+
+    private final UserRole adminRole = UserRole.ADMIN;
+    private final UserRole defaultRole = UserRole.USER;
+
+    public UserRole getAdminRole() {
+        return adminRole;
+    }
+
+    public UserRole getDefaultRole() {
+        return defaultRole;
+    }
 
     @Override
     public void setContext(ActionBeanContext context) {

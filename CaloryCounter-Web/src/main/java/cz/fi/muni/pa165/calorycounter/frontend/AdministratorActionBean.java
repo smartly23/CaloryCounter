@@ -5,9 +5,11 @@
  */
 package cz.fi.muni.pa165.calorycounter.frontend;
 
+import static cz.fi.muni.pa165.calorycounter.frontend.BaseActionBean.escapeHTML;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import java.io.IOException;
+import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
@@ -15,6 +17,8 @@ import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
+import net.sourceforge.stripes.validation.SimpleError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +35,12 @@ public class AdministratorActionBean extends BaseActionBean {
     @SpringBean //Spring can inject even to private and protected fields
     protected ActivityService activityService;
 
+    private String returnBean;
+
+    public String getReturnBean() {
+        return returnBean;
+    }
+
     @DefaultHandler
     public Resolution def() {
         log.debug("def()");
@@ -38,12 +48,25 @@ public class AdministratorActionBean extends BaseActionBean {
     }
 
     public Resolution updateActivitiesFromPage() {
+        log.debug("updateActivitiesFromPage");
+        return new ForwardResolution("/administrator/updateActivities.jsp");
+    }
+
+    public Resolution updateActivities() {
         log.debug("update()");
         try {
             activityService.updateFromPage();
+            this.getContext().getMessages().add(new LocalizableMessage("activities.update.success"));
         } catch (IOException e) {
-            getContext().getMessages().add(new LocalizableMessage("activities.update.IOError"));
+            this.getContext().getValidationErrors().addGlobalError(new LocalizableError("activities.update.IOError"));
         }
-        return new ForwardResolution("/activities/list.jsp");
+        returnBean = "cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean";
+        return new ForwardResolution("/administrator/message.jsp");
     }
+
+    public Resolution cancelUpdateActivities() {
+        log.debug("cancelUpdateActivities()");
+        return new RedirectResolution(ActivitiesActionBean.class);
+    }
+
 }

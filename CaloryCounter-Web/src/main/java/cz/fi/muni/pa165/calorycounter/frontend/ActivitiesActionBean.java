@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import java.io.IOException;
 import java.util.List;
 import net.sourceforge.stripes.action.*;

@@ -13,6 +13,7 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.SimpleError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
@@ -43,14 +44,9 @@ public class AuthenticationActionBean extends BaseActionBean {
     })
     private AuthUserDto user;
     private final Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
-    private final UserRole defaultRole = cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole.USER;
 
     public Gender[] getGenders() {
         return genders;
-    }
-
-    public UserRole getDefaultRole() {
-        return defaultRole;
     }
 
     public void setUser(AuthUserDto user) {
@@ -88,8 +84,8 @@ public class AuthenticationActionBean extends BaseActionBean {
         try {
             user = userService.login(username, password);
         } catch (RecoverableDataAccessException e) {
-            this.getContext().getValidationErrors().addGlobalError(new SimpleError("login.failed"));
-            return new RedirectResolution(this.getClass(), "showLoginForm");
+            this.getContext().getValidationErrors().addGlobalError(new LocalizableError("login.failed"));
+            return new ForwardResolution(this.getClass(), "showLoginForm");
         }
         log.debug("Login user: " + user);
 
