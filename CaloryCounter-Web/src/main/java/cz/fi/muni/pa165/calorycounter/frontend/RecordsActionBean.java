@@ -13,6 +13,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
  *
  * @author Lastuvka
  */
+@RequireLogin
 @UrlBinding("/records/{$event}")
 public class RecordsActionBean extends BaseActionBean {
 

@@ -22,6 +22,7 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
  *
  * @author Martin Bryndza
  */
+@RequireLogin
 @UrlBinding("/myrecord/{$event}/{record.activityRecordId}")
 public class RecordActionBean extends BaseActionBean {
 

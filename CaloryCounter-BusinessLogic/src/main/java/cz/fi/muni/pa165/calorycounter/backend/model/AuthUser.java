@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.calorycounter.backend.model;
 
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.io.Serializable;
 import java.util.List;
@@ -35,6 +36,8 @@ public class AuthUser implements Serializable {
     private String username;
     @Column(columnDefinition = "varchar(200)")  // sifra?
     private String password;
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
     @OneToMany(mappedBy = "authUser", cascade = {CascadeType.REMOVE /*, CascadeType.MERGE*/})
@@ -89,6 +92,14 @@ public class AuthUser implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public WeightCategory getWeightCat() {

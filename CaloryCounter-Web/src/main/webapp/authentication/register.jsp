@@ -41,7 +41,9 @@
                             </s:select></td>
                     </tr>
                 </table>
-                <s:submit name="register"><f:message key="profile.create"/></s:submit>
+                <s:submit name="register"><f:message key="profile.create"/>
+                    <s:param name="user.role" value="${actionBean.defaultRole}"/>
+                </s:submit>
                 <s:submit name="cancel"><f:message key="profile.cancel"/></s:submit>
                 </fieldset>
         </s:form>

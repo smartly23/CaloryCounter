@@ -5,6 +5,7 @@
  */
 package cz.fi.muni.pa165.calorycounter.frontend;
 
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,6 +17,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
-public @interface DoesNotRequireLogin {
+public @interface RequireLogin {
 
+    UserRole role() default UserRole.USER;
 }

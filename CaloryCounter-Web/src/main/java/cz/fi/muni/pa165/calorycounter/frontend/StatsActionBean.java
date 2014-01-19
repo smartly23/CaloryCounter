@@ -14,7 +14,6 @@ import java.util.List;
  *
  * @author Kucera
  */
-@DoesNotRequireLogin
 @UrlBinding("/stats/{$event}")
 public class StatsActionBean extends BaseActionBean {
 

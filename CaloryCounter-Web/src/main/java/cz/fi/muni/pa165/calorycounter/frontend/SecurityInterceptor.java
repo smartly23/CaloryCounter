@@ -6,6 +6,7 @@
 package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import net.sourceforge.stripes.action.ActionBeanContext;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
@@ -30,10 +31,11 @@ public class SecurityInterceptor implements Interceptor {
         log.debug("intercept()");
         Resolution resolution = ec.proceed();
         Class currentBean = ec.getActionBean().getClass();
-        if (currentBean.isAnnotationPresent(DoesNotRequireLogin.class)) {
+        if (!currentBean.isAnnotationPresent(RequireLogin.class)) {
             return resolution;
         }
-        if (isLoggedIn(ec.getActionBeanContext())) {
+        RequireLogin requireLoginAnnotation = (RequireLogin) currentBean.getAnnotation(RequireLogin.class);
+        if (isLoggedIn(ec.getActionBeanContext(), requireLoginAnnotation.role())) {
             return resolution;
         } else {
             ActionBeanContext currentContext = ec.getActionBean().getContext();
@@ -42,9 +44,18 @@ public class SecurityInterceptor implements Interceptor {
         }
     }
 
-    protected boolean isLoggedIn(ActionBeanContext abc) {
+    protected boolean isLoggedIn(ActionBeanContext abc, UserRole requiredRole) {
         AuthUserDto user = (AuthUserDto) abc.getRequest().getSession().getAttribute("user");
-        return user != null;
+        if (user == null) {
+            log.error("User not authenticated.");
+            return false;
+        } else if (requiredRole.equals(UserRole.ADMIN) && !user.getRole().equals(UserRole.ADMIN)) {
+            log.error("Unsufficient rights.");
+            return false;
+        } else {
+            log.debug("User access granted.");
+            return true;
+        }
     }
 
 }

@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Martin Pasko (smartly23)
  */
+@RequireLogin
 @UrlBinding("/myprofile/{$event}")
 public class ProfileActionBean extends BaseActionBean {
 

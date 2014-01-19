@@ -8,8 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Martin Pasko (smartly23)
  */
-
-// ak chceme konkretny tvar XML-ka, mozme si zadefinovat vlastnu schemu, v ktorej namespace bude rovnaky 
+// ak chceme konkretny tvar XML-ka, mozme si zadefinovat vlastnu schemu, v ktorej namespace bude rovnaky
 //ako tu @XmlRootElement(namespace = "somenamespace"), alebo je mozne definovat rovno package-namespace,
 //vid http://stackoverflow.com/questions/16584555/understanding-jaxb-xmlrootelement-annotation
 @XmlRootElement
@@ -20,6 +19,7 @@ public class AuthUserDto {
     private String name;
     private String sex;
     private int age;
+    private UserRole role;
     private WeightCategory weightCategory;
 
     public Long getUserId() {
@@ -62,6 +62,14 @@ public class AuthUserDto {
         this.age = age;
     }
 
+    public UserRole getRole() {
+        return role;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
     public WeightCategory getWeightCategory() {
         return weightCategory;
     }
@@ -94,7 +102,7 @@ public class AuthUserDto {
 
     @Override
     public String toString() {
-        return "AuthUserDto{" + "userId=" + userId + ", username=" + username + ", name=" + name + ", sex=" + sex + ", age=" + age + ", weightCategory=" + weightCategory + '}';
+        return "AuthUserDto{" + "userId=" + userId + ", username=" + username + ", name=" + name + ", sex=" + sex + ", age=" + age + ", role=" + role + ", weightCategory=" + weightCategory + '}';
     }
 
 }

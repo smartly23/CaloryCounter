@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import javax.servlet.http.HttpSession;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;
@@ -23,7 +24,6 @@ import org.springframework.dao.RecoverableDataAccessException;
  *
  * @author Martin Bryndza
  */
-@DoesNotRequireLogin
 @UrlBinding("/auth/{$event}")
 public class AuthenticationActionBean extends BaseActionBean {
 
@@ -43,9 +43,14 @@ public class AuthenticationActionBean extends BaseActionBean {
     })
     private AuthUserDto user;
     private final Gender[] genders = cz.fi.muni.pa165.calorycounter.frontend.Gender.values();
+    private final UserRole defaultRole = cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole.USER;
 
     public Gender[] getGenders() {
         return genders;
+    }
+
+    public UserRole getDefaultRole() {
+        return defaultRole;
     }
 
     public void setUser(AuthUserDto user) {

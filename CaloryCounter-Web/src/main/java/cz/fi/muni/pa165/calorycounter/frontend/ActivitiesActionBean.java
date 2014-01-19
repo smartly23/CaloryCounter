@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
  *
  * @author Jan Kučera
  */
-@DoesNotRequireLogin
 @UrlBinding("/activities")
 public class ActivitiesActionBean extends BaseActionBean {
 
@@ -36,12 +35,7 @@ public class ActivitiesActionBean extends BaseActionBean {
 
     public Resolution update() {
         log.debug("update()");
-        try {
-            activityService.updateFromPage();
-        } catch (IOException e) {
-            getContext().getMessages().add(new LocalizableMessage("activities.update.IOError"));
-        }
-        return new RedirectResolution(this.getClass(), "list");
+        return new RedirectResolution(AdministratorActionBean.class, "updateActivitiesFromPage");
     }
 
     public List<ActivityDto> getActivities() {
