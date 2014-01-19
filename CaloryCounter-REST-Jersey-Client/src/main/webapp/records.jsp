@@ -31,8 +31,6 @@
                 <div>
                     <label for="activity"><f:message key="record.activity"/>:</label>
                     <select id="activity" name="activity">
-                        <option value="Badminton">Badminton</option>
-                        <option value="Tennis">Tennis</option>
                     </select>
                 </div>
                 <div>
