@@ -28,7 +28,7 @@
                 </tr>
             </c:forEach>
         </table>
-        <c:if test="${sessionScope.user!=null}">
+        <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
             <p>
                 <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean" event="update"><f:message key="activities.update"/></s:link>
                 </p>
