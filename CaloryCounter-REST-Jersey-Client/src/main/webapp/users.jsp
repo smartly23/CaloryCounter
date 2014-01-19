@@ -22,10 +22,6 @@
                     <input id="username" name="username" value=""/>
                 </div>
                 <div>
-                    <label for="password"><f:message key="users.password"/>:</label>
-                    <input id="password" name="password" value=""/>
-                </div>
-                <div>
                     <label for="name"><f:message key="users.name"/>:</label>
                     <input id="name" name="name" value=""/>
                 </div>
@@ -56,6 +52,11 @@
                     <input type="submit" name="create" value="<f:message key="users.createBtn"/>"/>
                     <input type="submit" name="edit" value="<f:message key="users.editBtn"/>"/>
                     <input type="submit" name="delete" value="<f:message key="users.deleteBtn"/>"/>
+                </div>
+                <div> <!--
+      <label for="password"><f:message key="users.password"/>:</label>
+      <input id="password" name="password" value=""/>-->
+                    * default password - "password"
                 </div>
             </form>
         </div>
