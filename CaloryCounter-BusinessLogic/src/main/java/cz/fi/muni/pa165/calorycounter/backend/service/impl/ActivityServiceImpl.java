@@ -15,6 +15,7 @@ import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionNonVoidTemplate;
+import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessExceptionVoidTemplate;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -211,5 +212,66 @@ public class ActivityServiceImpl implements ActivityService {
     public List<ActivityDto> getAll() {
         List<Calories> cals = caloriesDao.getAll();
         return getDtosFromCalories(cals);
+    }
+
+    @Override
+    public Long create(ActivityDto dto) {
+        if (dto.getActivityId() != null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot create activity that"
+                    + " already exists. Use update instead.");
+            log.error("create() called on existing entity", iaex);
+            throw iaex;
+        }
+        return (Long) new DataAccessExceptionNonVoidTemplate(dto) {
+            @Override
+            public Long doMethod() {
+                List<Calories> entities = convert.fromDtoToEntitiesList((ActivityDto) getU());
+                Activity activity = entities.get(0).getActivity();
+                Long entityId = activityDao.create(activity);
+                for (Calories calory : entities) {
+                    caloriesDao.create(calory);
+                }
+                return entityId;
+            }
+        }.tryMethod();
+    }
+
+    @Override
+    public void update(ActivityDto dto) {
+        if (dto.getActivityId() == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot update activity that"
+                    + " doesn't exist. Use create instead.");
+            log.error("update() called on non-existent entity", iaex);
+            throw iaex;
+        } else {
+            new DataAccessExceptionVoidTemplate(dto) {
+                @Override
+                public void doMethod() {
+                    List<Calories> entities = convert.fromDtoToEntitiesList((ActivityDto) getU());
+                    Activity activity = entities.get(0).getActivity();
+                    activityDao.update(activity);
+                    for (Calories calory : entities) {
+                        caloriesDao.update(calory);
+                    }
+                }
+            }.tryMethod();
+        }
+    }
+
+    @Override
+    public void remove(Long id) {
+        if (id == null) {
+            IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove activity that"
+                    + " doesn't exist.");
+            log.error("remove() called on non-existent entity", iaex);
+            throw iaex;
+        } else {
+            new DataAccessExceptionVoidTemplate(id) {
+                @Override
+                public void doMethod() {
+                    activityDao.remove((Long) getU());
+                }
+            }.tryMethod();
+        }
     }
 }

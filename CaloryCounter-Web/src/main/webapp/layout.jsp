@@ -9,9 +9,37 @@
             <title><f:message key="${titlekey}"/></title>
             <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
             <script type='text/javascript' src='http://code.jquery.com/jquery.min.js'></script>
-            <script type='text/javascript'>
+            <!-- DataTables -->
+            <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/css/jquery.dataTables.css">
+            <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" charset="utf-8">
                 $(function() {
                     $('#nav_${currentPage}').addClass("current");
+                });
+                $(document).ready(function() {
+                    $.extend($.fn.dataTable.defaults, {
+                        "bStateSave": true,
+                        "sPaginationType": "two_button"
+                    });
+                    var activTable = $('#activities').dataTable({
+                        "aaSorting": [[0, "desc"]]
+                    });
+                    var recordsTable = $('#records').dataTable({
+                        "aaSorting": [[0, "desc"]],
+                        "bFilter": false
+                    });
+                    var ladderTable = $('#globalLadder').dataTable({
+                        "aoColumnDefs": [
+                            {"bSortable": false, "aTargets": [0, 1]}
+                        ],
+                        "aaSorting": [[2, "desc"]]
+                    });
+                    var tables = [activTable, recordsTable, ladderTable];
+                    tables.forEach($('td').hover(function() {
+                        $(this.parentNode).addClass('highlighted');
+                    }, function() {
+                        tables.forEach($('tr.highlighted').removeClass('highlighted'));
+                    }));
                 });
             </script>
             <s:layout-component name="header"/>

@@ -4,39 +4,26 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
 <s:layout-render name="/layout.jsp" titlekey="stats.ladder.title" currentPage="global_ladder">
-    <s:layout-component name="header">
-        <script type='text/javascript' src='https://www.google.com/jsapi'></script>
-    </s:layout-component>
     <s:layout-component name="body">
-
         <h2><f:message key="stats.ladder.title"/></h2>
-
-        <div id="globalLadder"></div>
-        <script type='text/javascript'>
-            google.load('visualization', '1', {packages: ['table']});
-            google.setOnLoadCallback(drawTable);
-            function drawTable() {
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', '<f:message key="stats.username"/>');
-                data.addColumn('number', '<f:message key="stats.caloriessum"/>');
-                data.addColumn('number', '<f:message key="stats.durationsum"/>');
-                data.addRows([
-            <c:forEach items="${actionBean.usersStats}" var="userStats" varStatus="loopCounter" >
-                ['<c:out value="${userStats.nameOfUser}"/>',
-                <c:out value="${userStats.sumBurntCalories}"/>,
-                <c:out value="${userStats.sumDuration}"/>]<c:if test="${!loop.last}">,</c:if>
-                <c:if test="${actionBean.user!=null && userStats.userId == actionBean.user.userId}"><c:set var="rowIndex" value="${loopCounter.count-1}"/></c:if>
-            </c:forEach>
-                ]);
-            <c:if test="${rowIndex!=null}">
-                data.setProperty(<c:out value="${rowIndex}"/>, 0, 'style', 'font-weight: bold; background-color: #9CD16A');
-                data.setProperty(<c:out value="${rowIndex}"/>, 1, 'style', 'font-weight: bold; background-color: #9CD16A');
-                data.setProperty(<c:out value="${rowIndex}"/>, 2, 'style', 'font-weight: bold; background-color: #9CD16A');
-            </c:if>
-                var table = new google.visualization.Table(document.getElementById('globalLadder'));
-                table.draw(data, {showRowNumber: true, allowHtml: true});
-            }
-        </script>
-
-    </s:layout-component>
+        <table id="globalLadder" class="basic">
+            <thead>
+            <th>#&nbsp;</th>
+            <th><f:message key="stats.username"/></th>
+            <th><f:message key="stats.caloriessum"/></th>
+            <th><f:message key="stats.durationsum"/></th>
+        </thead>
+        <tbody>
+            <c:set var="count" value="0" scope="page" />
+            <c:forEach items="${actionBean.usersStats}" var="userStat">
+                <c:set var="count" value="${count + 1}" scope="page"/>
+                <tr>
+                    <td>${count}</td>
+                    <td><c:out value="${userStat.nameOfUser}"/></td>
+                    <td><c:out value="${userStat.sumBurntCalories}"/></td>
+                    <td><c:out value="${userStat.sumDuration}"/></td>
+                </c:forEach>
+        </tbody>
+    </table>
+</s:layout-component>
 </s:layout-render>

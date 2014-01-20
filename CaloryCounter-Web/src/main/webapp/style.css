@@ -20,7 +20,7 @@ h1{
     color:#E6D35E;
 }
 h2{
-    margin:20px 15px 15px 15px;
+    margin:0px 15px 15px 15px;
     font-size:20px;
     color:#f7951e;
 }
@@ -135,23 +135,7 @@ img.box_img{
     float:left;
     padding:20px 0 0 0;
 }
-/*----------------------left navigation-------------------------*/
-#left_nav{
-    width:280px;height: auto;padding:5px 0 0 0; float:left;
-}
-#left_nav ul{
-    list-style:none;margin: auto;display:block; padding:0px;
-}
-#left_nav ul li{
-    list-style:none;display:block;width:auto;height:29px;padding:0px;line-height:29px;
-}
-#left_nav ul li a{
-    height:29px;display:block; width:280px;text-decoration:none;padding:0 0 0 35px; margin:7px 0 7px 0;color:#6898ac;background:url(/images/left_nav_arrow.gif) no-repeat left; border-bottom:1px #bedf77 dashed;
-    background-position:0px 0px;
-    font-size:13px;
-    font-family:Arial, Helvetica, sans-serif;
-    font-weight:bold;
-}
+
 /*--------------------------main_content-------------------*/
 #main_content{
     width:auto;
@@ -160,203 +144,6 @@ img.box_img{
     padding: 20px;
     font-size: 13px;
 }
-/*----------------------top right navigation-------------------------*/
-#right_nav{
-    width:263px;height: auto;padding:20px 0 0 50px; float:left;
-}
-#right_nav ul{
-    list-style:none;margin: auto;display:block; padding:0px;
-}
-#right_nav ul li{
-    list-style:none;display:block;width:auto;height:29px;padding:0px;line-height:29px;
-}
-#right_nav ul li a{
-    height:29px;display:block; width:263px;text-decoration:none;padding:0 0 0 35px; margin:7px 0 7px 0;color:#d4f0ba;background:url(/images/right_nav.gif) no-repeat center;
-    background-position:0px 0px;
-}
-#right_nav ul li a:hover{
-    height:29px;display:block;width:263px;text-decoration:none;color: #d4f0ba;padding:0 0 0 35px;margin:7px 0 7px 0; background:url(/images/right_nav_a.gif) no-repeat center;
-    background-position:0px 0px;
-}
-#right_nav ul li a.current{
-    height:29px;display:block;width:263px;text-decoration:none;padding:0px;color: #d4f0ba;padding:0 0 0 35px;margin:7px 0 7px 0;
-    background:url(images/right_nav_a.gif) no-repeat center;
-    background-position:0px 0px;
-}
-
-.products_box{
-    height:110px;
-    padding:10px 0 5px 0;
-    border-bottom:1px #a7ef6e dashed;
-}
-.search_box{
-    width:267px;
-    height:124px;
-    float:left;
-    margin:15px 10px 10px 0;
-    background:url(images/search_box_bg.gif) no-repeat center;
-    background-position:0px 0px;
-}
-.search_title{
-    font-size:14px;
-    color:#7ea743;
-    padding:10px 0 0 15px;
-    float:left;
-    font-weight:bold;
-}
-input.search_input{
-    width:170px;
-    height:20px;
-    background-color:#FFFFFF;
-    border:1px #c0c485 solid;
-    float:left;
-    margin:15px 0 0 15px;
-}
-input.submit{
-    float:left;
-    padding:0 0 0 10px;
-}
-.subsearch{
-    width:200px;
-    float:left;
-    color:#8b8e5d;
-    padding:0 0 0 15px;
-}
-.contact_information{
-    width:200px;
-    float:left;
-    padding:10px 0 0 10px;
-}
-.news{
-    width:310px;
-    clear:both;
-    padding:10px 0 10px 0;
-}
-.news_icon{
-    width:30px;
-    float:left;
-    padding:0 10px 0 0;
-}
-.news_content{
-    width:260px;
-    float:left;
-    padding:0 0 0 10px;
-    text-align:justify;
-    line-height:13px;
-}
-.news_content span{
-    color:#4ab7e8;
-}
-.services_box{
-    height:120px;
-    padding:10px 0 5px 0;
-    margin:0px 0px 10px 0;
-    border-bottom:1px #a7ef6e dashed;
-}
-.best_sol_box{
-    width:277px;
-    float:left;
-}
-/*----------------------news_archive list-------------------------*/
-.news_archive{
-    width:190px;
-    height: auto;
-    padding:10px 0 0 10px;
-    float:left;
-}
-.news_archive ul{
-    list-style:none;padding:10px 10px 10px 10px;margin:0px; width:190px;float:left;
-}
-.news_archive ul li{
-    list-style:none;width:180px;height: auto;padding:0px; line-height:26px;
-}
-.news_archive ul li a{
-    width: 180px;text-decoration:none;padding:0 0 0 20px; margin:6px 0px 6px 0px;color:#000;text-align:left;
-    background:url(images/bullet.gif) no-repeat left; background-position:0px 0px;
-}
-.news_archive ul li a:hover{
-    width: 180px;text-decoration:underline;color: #000;
-}
-
-.contact_info_box{
-    width:481px;
-    height:116px;
-    margin:5px;
-    background:url(images/contact_info_bg.gif) no-repeat center;
-}
-.contact_info_title{
-    font-size:14px;
-    color:#7ea743;
-    padding:10px 0 0 15px;
-    font-weight:bold;
-}
-.contact_info{
-    float:left;
-    padding:15px 10px 5px 13px;
-}
-.adress{
-    clear:both;
-    padding:10px 0 0 20px;
-}
-
-/*-----------------------contact_form-------------------*/
-#contact_form{
-    width:310px;
-    height:auto;
-    padding:10px 0 0 60px;
-}
-.form_row{
-    float:left;
-    padding:4px 0 4px 0;
-}
-label{
-    width:140px;
-    float:left;
-    padding:3px 5px 0 0;
-    color:#59a5bf;
-    text-align:right;
-}
-input.contact_input{
-    width:220px;
-    height:18px;
-    float:left;
-    border:1px #ced6ec solid;
-    background-color:#dbedf3;
-    color: #000;
-}
-textarea.contact_textarea{
-    width:220px;
-    height:80px;
-    float:left;
-    border:1px #ced6ec solid;
-    background-color:#dbedf3;
-    color: #000;
-}
-.send a{
-    width:62px;
-    height:24px;
-    display:block;
-    background:url(images/read_more_bg_white.gif) no-repeat center;
-    background-position:0px 0px;
-    line-height:22px;
-    color:#FFFFFF;
-    text-decoration:none;
-    padding-left:40px;
-    float:right;
-    margin:10px;
-}
-input[type="submit"]{
-    padding: 5px 15px;
-    margin: 8px 5px;
-    font-weight: bold;
-    cursor: pointer;
-}
-/*--------------wide_content-----------*/
-#wide_content{
-    width:auto;
-    padding:10px 20px 10px 20px;
-}
-
 
 /*-----------------------------footer------------------*/
 #footer{
@@ -394,7 +181,7 @@ table td {
 }
 
 table.basic {
-    border: 1px solid #3A3C3E;
+    border: 2px solid #3A3C3E;
     border-collapse: collapse;
     width: 100%;
 }
@@ -406,10 +193,30 @@ table.basic td, table.basic th {
 table.basic th {
     background-color: #B8B8B8;
 }
-table.basic .col1 {
-    background-color: #F1F1F1;
+
+table.basic thead {
+    border-bottom: 2px solid #3A3C3E;
 }
 
+table.basic .col1 {
+    border-right-width: 2px;
+}
+
+table.basic tr.odd.highlighted {
+    background-color: #E6D35E;
+}
+
+table.basic tr.even.highlighted {
+    background-color: #E6D35E;
+}
+
+table.basic tr.odd.highlighted td.sorting_1 {
+    background-color: #E6D35E;
+}
+
+table.basic tr.even.highlighted td.sorting_1 {
+    background-color: #E6D35E;
+}
 
 /** home page **/
 #photo {

@@ -14,7 +14,7 @@
                 </p>
 
                 <s:submit name="updateActivities"><f:message key="yes"/></s:submit>
-                <s:submit name="cancelUpdateActivities"><f:message key="no"/></s:submit>
+                <s:submit name="cancelOperationActivity"><f:message key="no"/></s:submit>
                 </fieldset>
         </s:form>
     </s:layout-component>

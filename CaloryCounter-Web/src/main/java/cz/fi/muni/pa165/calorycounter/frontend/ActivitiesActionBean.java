@@ -33,11 +33,6 @@ public class ActivitiesActionBean extends BaseActionBean {
         return new ForwardResolution("/activities/list.jsp");
     }
 
-    public Resolution update() {
-        log.debug("update()");
-        return new RedirectResolution(AdministratorActionBean.class, "updateActivitiesFromPage");
-    }
-
     public List<ActivityDto> getActivities() {
         return activities;
     }

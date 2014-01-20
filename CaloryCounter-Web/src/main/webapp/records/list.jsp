@@ -10,30 +10,34 @@
         <h2><f:message key="records.list.title"/></h2>
         <c:choose>
             <c:when test="${not empty actionBean.uards.activityRecords}">
-                <table class="basic">
-                    <tr>
-                        <th><f:message key="record.date"/></th>
-                        <th><f:message key="record.activity"/></th>
-                        <th><f:message key="record.duration"/></th>
-                        <th><f:message key="record.burnt_calories"/></th>
-                        <th><f:message key="record.weight"/></th>
-                        <th>&nbsp;</th>
-                    </tr>
-                    <c:forEach items="${actionBean.uards.activityRecords}" var="activityRecord">
+                <table class="basic" id="records">
+                    <thead>
                         <tr>
-                            <td>
-                                <f:formatDate pattern="dd.MM. yyyy" value="${activityRecord.activityDate}" />
-                            </td>
-                            <td><c:out value="${activityRecord.activityName}"/></td>
-                            <td><c:out value="${activityRecord.duration}"/></td>
-                            <td><c:out value="${activityRecord.caloriesBurnt}"/></td>
-                            <td><c:out value="${activityRecord.weightCategory.showedCategory}"/></td>
-                            <td>
-                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" event="edit"><s:param name="record.activityRecordId" value="${activityRecord.activityRecordId}" /><f:message key="records.list.edit"/></s:link>
-                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" event="delete"><s:param name="record.activityRecordId" value="${activityRecord.activityRecordId}" /><f:message key="records.list.delete"/></s:link>
+                            <th><f:message key="record.date"/></th>
+                            <th><f:message key="record.activity"/></th>
+                            <th><f:message key="record.duration"/></th>
+                            <th><f:message key="record.burnt_calories"/></th>
+                            <th><f:message key="record.weight"/></th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${actionBean.uards.activityRecords}" var="activityRecord">
+                            <tr>
+                                <td>
+                                    <f:formatDate pattern="dd.MM. yyyy" value="${activityRecord.activityDate}" />
                                 </td>
-                            </tr>
-                    </c:forEach>
+                                <td><c:out value="${activityRecord.activityName}"/></td>
+                                <td><c:out value="${activityRecord.duration}"/></td>
+                                <td><c:out value="${activityRecord.caloriesBurnt}"/></td>
+                                <td><c:out value="${activityRecord.weightCategory.showedCategory}"/></td>
+                                <td>
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" event="edit"><s:param name="record.activityRecordId" value="${activityRecord.activityRecordId}" /><f:message key="edit"/></s:link>
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" event="delete"><s:param name="record.activityRecordId" value="${activityRecord.activityRecordId}" /><f:message key="delete"/></s:link>
+                                    </td>
+                                </tr>
+                        </c:forEach>
+                    </tbody>
                 </table>
             </c:when>
             <c:otherwise>

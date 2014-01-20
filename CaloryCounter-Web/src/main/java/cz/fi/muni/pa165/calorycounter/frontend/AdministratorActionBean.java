@@ -6,6 +6,7 @@
 package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
@@ -34,6 +35,20 @@ public class AdministratorActionBean extends BaseActionBean {
 
     private String returnBean;
     private boolean removeDeprecated;
+    private ActivityDto activity;
+    private boolean edit;
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setActivity(ActivityDto activity) {
+        this.activity = activity;
+    }
+
+    public ActivityDto getActivity() {
+        return activity;
+    }
 
     public boolean isRemoveDeprecated() {
         return removeDeprecated;
@@ -70,9 +85,50 @@ public class AdministratorActionBean extends BaseActionBean {
         return new ForwardResolution("/administrator/message.jsp");
     }
 
-    public Resolution cancelUpdateActivities() {
-        log.debug("cancelUpdateActivities()");
+    public Resolution cancelOperationActivity() {
+        log.debug("cancel()");
+        edit = false;
         return new RedirectResolution(ActivitiesActionBean.class);
     }
 
+    public Resolution createActivity() {
+        log.debug("createActivity(): " + activity);
+        return new ForwardResolution("/administrator/createActivity.jsp");
+    }
+
+    public Resolution confirmCreateActivity() {
+        log.debug("confirmCreateActivity(): " + activity);
+        activityService.create(activity);
+        this.getContext().getMessages().add(new LocalizableMessage("activity.create.success", escapeHTML(activity.getActivityName().toString())));
+        returnBean = "cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean";
+        return new ForwardResolution("/administrator/message.jsp");
+    }
+
+    public Resolution editActivity() {
+        log.debug("editActivity(): " + activity);
+        edit = true;
+        return new ForwardResolution("/administrator/editActivity.jsp");
+    }
+
+    public Resolution confirmEditActivity() {
+        log.debug("confirmEditActivity(): " + activity);
+        edit = false;
+        activityService.update(activity);
+        this.getContext().getMessages().add(new LocalizableMessage("activity.edit.success", escapeHTML(activity.getActivityName().toString())));
+        returnBean = "cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean";
+        return new ForwardResolution("/administrator/message.jsp");
+    }
+
+    public Resolution deleteActivity() {
+        log.debug("deleteActivity(): " + activity);
+        return new ForwardResolution("/administrator/deleteActivity.jsp");
+    }
+
+    public Resolution confirmDeleteActivity() {
+        log.debug("confirmDeleteActivity(): " + activity);
+        activityService.remove(activity.getActivityId());
+        this.getContext().getMessages().add(new LocalizableMessage("activity.delete.success", escapeHTML(activity.getActivityName().toString())));
+        returnBean = "cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean";
+        return new ForwardResolution("/administrator/message.jsp");
+    }
 }
