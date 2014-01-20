@@ -45,7 +45,7 @@ public class ActivityRestResource {
         log.debug("Server: getAll()");
         List<ActivityDto> activities = null;
         try {
-            activities = activityService.getAll();
+            activities = activityService.getActive();
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
                 activities = new LinkedList<>();
@@ -77,7 +77,7 @@ public class ActivityRestResource {
         }
         List<ActivityDto> activities = null;
         try {
-            activities = activityService.getAll(wc);
+            activities = activityService.getActive(wc);
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
                 activities = new LinkedList<>();

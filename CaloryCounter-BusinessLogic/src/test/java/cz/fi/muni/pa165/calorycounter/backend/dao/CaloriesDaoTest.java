@@ -36,6 +36,7 @@ public class CaloriesDaoTest {
         caloriesDao = new CaloriesDaoImplJPA(context);
         activity = new Activity();
         activity.setName("Swimming");
+        activity.setDeleted(false);
         context.getTransaction().begin();
         context.persist(activity);
         context.getTransaction().commit();

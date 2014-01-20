@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
  * @author Martin Bryndza
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.METHOD})
 public @interface RequireLogin {
 
     UserRole role() default UserRole.USER;

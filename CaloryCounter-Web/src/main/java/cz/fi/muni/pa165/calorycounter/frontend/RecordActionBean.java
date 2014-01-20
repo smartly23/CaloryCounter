@@ -72,7 +72,7 @@ public class RecordActionBean extends BaseActionBean {
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"def", "createRecord"})
     public void setUp() {
-        activities = activityService.getAll(getSessionUser().getWeightCategory());
+        activities = activityService.getActive(getSessionUser().getWeightCategory());
     }
 
     @DefaultHandler
@@ -100,7 +100,7 @@ public class RecordActionBean extends BaseActionBean {
             return;
         }
         record = activityRecordService.get(Long.parseLong(id));
-        activities = activityService.getAll(record.getWeightCategory());
+        activities = activityService.getActive(record.getWeightCategory());
     }
 
     public Resolution edit() {

@@ -9,6 +9,10 @@
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean">
             <fieldset><legend><f:message key="activities.update.areyousure"/></legend>
                 <p><f:message key="activities.update.areyousure.message"/> </p>
+                <p style="padding:20px">
+                    <s:checkbox id="i1" name="removeDeprecated" checked="false"/> <f:message key="activities.update.removeDecprecated"/>
+                </p>
+
                 <s:submit name="updateActivities"><f:message key="yes"/></s:submit>
                 <s:submit name="cancelUpdateActivities"><f:message key="no"/></s:submit>
                 </fieldset>

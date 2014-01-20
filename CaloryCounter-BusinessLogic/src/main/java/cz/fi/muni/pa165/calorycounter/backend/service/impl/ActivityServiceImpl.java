@@ -11,7 +11,6 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.dto.convert.ActivityConvert;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
@@ -101,14 +100,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityDto> getAll() {
-        List<Calories> cals = caloriesDao.getAll();
+    public List<ActivityDto> getActive() {
+        List<Calories> cals = caloriesDao.getActive();
         return getDtosFromCalories(cals);
     }
 
     @Override
-    public List<ActivityDto> getAll(WeightCategory weightCategory) {
-        List<Calories> cals = caloriesDao.getByWeightCategory(weightCategory);
+    public List<ActivityDto> getActive(WeightCategory weightCategory) {
+        List<Calories> cals = caloriesDao.getActiveByWeightCategory(weightCategory);
         return getDtosFromCalories(cals);
     }
 
@@ -128,11 +127,12 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityDto> updateFromPage() throws IOException {
+    public List<ActivityDto> updateFromPage(boolean removeDeprecated) throws IOException {
         Document doc = Jsoup.connect("http://www.nutristrategy.com/activitylist.htm").get();
         Elements activityElements = doc.select("blockquote div div table tbody tr");
         activityElements.set(0, null); // the first row is head of table
         List<ActivityDto> activities = new LinkedList<>(); // list to be returned
+        List<Activity> originalActivities = activityDao.getActive(); //at the end this list will contain activities that were not found on the page
         for (Element activityElement : activityElements) {
             if (activityElement == null) {
                 continue;
@@ -149,11 +149,17 @@ public class ActivityServiceImpl implements ActivityService {
             // try to get recent activities from DB
             try {
                 activity = activityDao.get(data.get(0));
+                if (activity.isDeleted()) {
+                    activity.setDeleted(false);
+                    activityDao.update(activity);
+                }
             } catch (IllegalArgumentException e) {
                 activity = new Activity();
                 activity.setName(data.get(0));
+                activity.setDeleted(false);
                 activity.setId(activityDao.create(activity));
             }
+            originalActivities.remove(activity);
 
             for (int i = 1; i < data.size(); i++) {
                 WeightCategory weight = WeightCategory.getCategory(i - 1);
@@ -172,7 +178,7 @@ public class ActivityServiceImpl implements ActivityService {
                     log.debug("Calories created.");
                     continue;
                 }
-                if (calory.getAmount() != amount) { // doesthe calory need to be updated?
+                if (calory.getAmount() != amount || activity.isDeleted()) { // does the calory need to be updated?
                     calory.setAmount(amount);
                     calories.add(calory);
                     log.debug("Updating calories " + calory.toString());
@@ -184,6 +190,26 @@ public class ActivityServiceImpl implements ActivityService {
             }
             activities.add(convert.fromEntitiesListToDto(calories));
         }
+
+        if (removeDeprecated) {
+            // set all remaining original activities that were not found on the page as deleted
+            for (Activity activity : originalActivities) {
+                activity.setDeleted(true);
+                activityDao.update(activity);
+            }
+        }
         return activities;
+    }
+
+    @Override
+    public List<ActivityDto> getDeleted() {
+        List<Calories> cals = caloriesDao.getDeleted();
+        return getDtosFromCalories(cals);
+    }
+
+    @Override
+    public List<ActivityDto> getAll() {
+        List<Calories> cals = caloriesDao.getAll();
+        return getDtosFromCalories(cals);
     }
 }

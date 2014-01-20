@@ -132,18 +132,31 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
     }
 
     @Override
-    public List<Calories> getByWeightCategory(WeightCategory weightCategory) {
+    public List<Calories> getActiveByWeightCategory(WeightCategory weightCategory) {
         if (weightCategory == null) {
             throw new IllegalArgumentException("Invalid weight category: null");
         }
         TypedQuery<Calories> query;
         try {
             query = em.createQuery("SELECT tbl FROM Calories tbl "
-                    + "WHERE tbl.weightCat = :weightCategory", Calories.class);
+                    + "WHERE tbl.weightCat = :weightCategory AND tbl.activity.deleted = :falseValue", Calories.class);
             query.setParameter("weightCategory", weightCategory);
+            query.setParameter("falseValue", false);
         } catch (NoResultException nrex) {
             throw new IllegalArgumentException("Invalid activity: Calories nonexistent", nrex);
         }
         return query.getResultList();
+    }
+
+    @Override
+    public List<Calories> getActive() {
+        return em.createQuery("SELECT tbl FROM Calories tbl WHERE tbl.activity.deleted = :falseValue "
+                + "ORDER BY tbl.activity.name, tbl.weightCat", Calories.class).setParameter("falseValue", false).getResultList();
+    }
+
+    @Override
+    public List<Calories> getDeleted() {
+        return em.createQuery("SELECT tbl FROM Calories tbl WHERE tbl.activity.deleted = :trueValue "
+                + "ORDER BY tbl.activity.name, tbl.weightCat", Calories.class).setParameter("trueValue", true).getResultList();
     }
 }

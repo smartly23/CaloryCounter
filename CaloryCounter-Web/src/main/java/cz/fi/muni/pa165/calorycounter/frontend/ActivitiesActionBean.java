@@ -3,7 +3,6 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
-import java.io.IOException;
 import java.util.List;
 import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.integration.spring.SpringBean;
@@ -30,7 +29,7 @@ public class ActivitiesActionBean extends BaseActionBean {
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
-        activities = activityService.getAll();
+        activities = activityService.getActive();
         return new ForwardResolution("/activities/list.jsp");
     }
 

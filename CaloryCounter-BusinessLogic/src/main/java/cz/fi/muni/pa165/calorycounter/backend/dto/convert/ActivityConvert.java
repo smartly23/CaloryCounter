@@ -33,6 +33,7 @@ public class ActivityConvert {
         Calories cal = new Calories();
         Activity activity = new Activity();
         activity.setName(dto.getActivityName());
+        activity.setDeleted(dto.isDeleted());
         activity.setId(dto.getActivityId());
         cal.setActivity(activity);
         cal.setAmount(dto.getCaloriesAmount(category));
@@ -48,6 +49,7 @@ public class ActivityConvert {
         }
         Activity activity = entities.iterator().next().getActivity();
         dto.setActivityName(activity.getName());
+        dto.setDeleted(activity.isDeleted());
         dto.setActivityId(activity.getId());
         for (Calories cal : entities) {
             if (!cal.getActivity().getName().equals(dto.getActivityName())) {

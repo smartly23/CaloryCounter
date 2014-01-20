@@ -6,6 +6,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.ActivityDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.slf4j.Logger;
@@ -86,5 +87,20 @@ public class ActivityDaoImplJPA implements ActivityDao {
             throw new IllegalArgumentException("Invalid name: nonexistent");
         }
         return em.createQuery("SELECT a FROM Activity a WHERE a.name = :name", Activity.class).setParameter("name", name).getSingleResult();
+    }
+
+    @Override
+    public List<Activity> getAll() {
+        return em.createQuery("SELECT a FROM Activity a", Activity.class).getResultList();
+    }
+
+    @Override
+    public List<Activity> getActive() {
+        return em.createQuery("SELECT a FROM Activity a WHERE a.deleted = :falseValue", Activity.class).setParameter("falseValue", false).getResultList();
+    }
+
+    @Override
+    public List<Activity> getDeleted() {
+        return em.createQuery("SELECT a FROM Activity a WHERE a.deleted = :trueValue", Activity.class).setParameter("trueValue", true).getResultList();
     }
 }

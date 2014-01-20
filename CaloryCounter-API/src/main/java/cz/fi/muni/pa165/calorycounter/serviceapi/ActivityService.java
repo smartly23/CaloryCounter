@@ -33,20 +33,36 @@ public interface ActivityService {
     ActivityDto get(String activityName);
 
     /**
-     * Find all activities with number of calories burnt per hour
+     * Find all activities with number of calories burnt per hour. The list will
+     * not contain activities that are marked as deleted.
      *
      * @return list of ActivityDto
      */
-    List<ActivityDto> getAll();
+    List<ActivityDto> getActive();
 
     /**
-     * Find all activities
+     * Find all activities. The list will not contain activities that are marked
+     * as deleted.
      *
      * @param weightCategory with number of calories burnt per hour by users in
      * given weight category
      * @return list of ActivityDto
      */
-    List<ActivityDto> getAll(WeightCategory weightCategory);
+    List<ActivityDto> getActive(WeightCategory weightCategory);
+
+    /**
+     * Find all activities that are marked as deleted.
+     *
+     * @return list of deleted activities
+     */
+    List<ActivityDto> getDeleted();
+
+    /**
+     * Find all activities that are active or deleted.
+     *
+     * @return list of active and deleted activities
+     */
+    List<ActivityDto> getAll();
 
     /**
      * Updates the list of activities based on the page
@@ -54,7 +70,8 @@ public interface ActivityService {
      * to be the same based on its name.
      *
      * @return List of the activities that were added or updated.
+     * @throws java.io.IOException When the page is not accessible.
      */
-    List<ActivityDto> updateFromPage() throws IOException;
+    List<ActivityDto> updateFromPage(boolean removeDeprecated) throws IOException;
 
 }

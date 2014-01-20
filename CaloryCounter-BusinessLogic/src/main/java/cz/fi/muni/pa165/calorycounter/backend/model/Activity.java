@@ -21,6 +21,16 @@ public class Activity implements Serializable {
     private Long id;
     @Column(columnDefinition = "VARCHAR(50)", unique = true, nullable = false)
     private String name;
+    @Column(nullable = false)
+    private Boolean deleted; //0 for active, 1 for deleted
+
+    public Boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Long getId() {
         return id;
@@ -62,6 +72,6 @@ public class Activity implements Serializable {
 
     @Override
     public String toString() {
-        return "SportActivity{ name= " + name + " }";
+        return "SportActivity{ name= " + name + ", deleted= " + deleted + " }";
     }
 }

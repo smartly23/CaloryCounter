@@ -65,6 +65,7 @@ public class ActivityDaoTest {
     public void testCreate() {
         Activity activity = new Activity();
         activity.setName("Chopping wood sloww");
+        activity.setDeleted(false);
 
         context.getTransaction().begin();
         Long activityId = activityDao.create(activity);
@@ -83,6 +84,7 @@ public class ActivityDaoTest {
     public void testGet() {
         Activity activity = new Activity();
         activity.setName("Chopping wood slow");
+        activity.setDeleted(false);
 
         Long activityId;
         try {
@@ -112,6 +114,7 @@ public class ActivityDaoTest {
     public void testUpdate() {
         Activity activity = new Activity();
         activity.setName("Chopping wood slowwww");
+        activity.setDeleted(false);
 
         Long activityId;
         try {
@@ -152,6 +155,7 @@ public class ActivityDaoTest {
     public void testRemove() {
         Activity activity = new Activity();
         activity.setName("Chopping wood slowww");
+        activity.setDeleted(false);
 
         context.getTransaction().begin();
         context.persist(activity);

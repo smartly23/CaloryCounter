@@ -137,7 +137,7 @@ public class RecordRestResource {
             record.setWeightCategory(user.getWeightCategory());
         }
         if (record.getCaloriesBurnt() == 0) {
-            List<ActivityDto>activities = activityService.getAll(record.getWeightCategory());
+            List<ActivityDto>activities = activityService.getActive(record.getWeightCategory());
             ActivityDto activity = null;
             for (ActivityDto act : activities) {
                 if (act.getActivityName().equals(record.getActivityName())) {

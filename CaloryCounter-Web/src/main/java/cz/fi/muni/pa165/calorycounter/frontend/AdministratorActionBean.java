@@ -5,11 +5,9 @@
  */
 package cz.fi.muni.pa165.calorycounter.frontend;
 
-import static cz.fi.muni.pa165.calorycounter.frontend.BaseActionBean.escapeHTML;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import java.io.IOException;
-import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.LocalizableMessage;
@@ -18,7 +16,6 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
-import net.sourceforge.stripes.validation.SimpleError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +33,15 @@ public class AdministratorActionBean extends BaseActionBean {
     protected ActivityService activityService;
 
     private String returnBean;
+    private boolean removeDeprecated;
+
+    public boolean isRemoveDeprecated() {
+        return removeDeprecated;
+    }
+
+    public void setRemoveDeprecated(boolean removeDeprecated) {
+        this.removeDeprecated = removeDeprecated;
+    }
 
     public String getReturnBean() {
         return returnBean;
@@ -55,7 +61,7 @@ public class AdministratorActionBean extends BaseActionBean {
     public Resolution updateActivities() {
         log.debug("update()");
         try {
-            activityService.updateFromPage();
+            activityService.updateFromPage(removeDeprecated);
             this.getContext().getMessages().add(new LocalizableMessage("activities.update.success"));
         } catch (IOException e) {
             this.getContext().getValidationErrors().addGlobalError(new LocalizableError("activities.update.IOError"));

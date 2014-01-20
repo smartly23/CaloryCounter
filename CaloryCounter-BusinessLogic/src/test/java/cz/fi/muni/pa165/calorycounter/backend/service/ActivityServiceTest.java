@@ -53,6 +53,7 @@ public class ActivityServiceTest {
         activity = new Activity();
         activity.setId(54L);
         activity.setName("Cutting wood");
+        activity.setDeleted(false);
 
         caloriesOfActivity = new HashMap<>();
         for (WeightCategory wc : WeightCategory.values()) {

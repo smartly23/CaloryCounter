@@ -13,6 +13,15 @@ public class ActivityDto {
     private Long activityId;
     private String activityName;
     private final Map<WeightCategory, Integer> weightCalories = new LinkedHashMap<>();
+    private boolean deleted;
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Long getActivityId() {
         return activityId;
@@ -48,6 +57,7 @@ public class ActivityDto {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ActivityDto{activityName=").append(activityName);
+        sb.append("deleted=").append(deleted);
         sb.append(" [");
         for (WeightCategory wc : weightCalories.keySet()) {
             sb.append(wc.toString()).append(":").append(weightCalories.get(wc)).append("; ");

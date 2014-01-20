@@ -38,10 +38,22 @@ public interface CaloriesDao extends Dao<Calories> {
      * @param weightCategory
      * @return calories for given weight category
      */
-    List<Calories> getByWeightCategory(WeightCategory weightCategory);
+    List<Calories> getActiveByWeightCategory(WeightCategory weightCategory);
 
     /**
      * @return all burnt calories in whatever activity
      */
     List<Calories> getAll();
+
+    /**
+     *
+     * @return All burnt calories that are not marked as deleted.
+     */
+    List<Calories> getActive();
+
+    /**
+     *
+     * @return All burnt calories, that are marked as deleted.
+     */
+    List<Calories> getDeleted();
 }

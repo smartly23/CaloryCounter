@@ -157,6 +157,7 @@ public class ActivityRecordDaoTest {
         calories = new Calories();
         Activity activity = new Activity();
         activity.setName("Plavání");
+        activity.setDeleted(false);
         context.getTransaction().begin();
         context.persist(activity);
         context.getTransaction().commit();

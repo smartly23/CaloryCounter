@@ -60,16 +60,16 @@ public class ActivityRecordConvert implements Convert<ActivityRecord, ActivityRe
             } catch (NoResultException e) {
                 log.warn("Activity with name " + dto.getActivityName() + " was not found in database. A new activity will be created.");
                 activity = new Activity();
-            activity.setName(dto.getActivityName());
-            activityDao.create(activity);
+                activity.setName(dto.getActivityName());
+                activityDao.create(activity);
             }
             try {
                 calories = caloriesDao.getByActivityWeightCat(activity, dto.getWeightCategory());
             } catch (NoResultException e) {
                 log.warn("Calories with activity " + activity.getName() + " and weight category " + dto.getWeightCategory() + " was not found in database. A new calories will be created.");
-            calories.setActivity(activity);
+                calories.setActivity(activity);
                 calories.setWeightCat(dto.getWeightCategory());
-            caloriesDao.create(calories);
+                caloriesDao.create(calories);
             }
             entity.setCalories(calories);
         }
