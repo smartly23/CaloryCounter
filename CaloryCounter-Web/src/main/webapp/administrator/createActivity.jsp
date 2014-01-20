@@ -2,15 +2,15 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 
-<s:layout-render name="/layout.jsp" titlekey="activity.create.title" currentPage="new_record">
+<s:layout-render name="/layout.jsp" titlekey="activity.create">
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" var="actionBean"/>
         <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" focus="" >
             <fieldset>
                 <legend>
-                    <f:message key="activity.create.legend"/>
+                    <f:message key="activity.create"/>
                 </legend>
-                <%@include file="form.jsp"%>
+                <%@include file="formActivity.jsp"%>
                 <s:submit name="confirmCreateActivity">
                     <f:message key="activity.create"/>
                 </s:submit>

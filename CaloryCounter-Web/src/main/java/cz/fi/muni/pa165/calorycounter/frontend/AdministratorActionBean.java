@@ -8,6 +8,7 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.io.IOException;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -17,6 +18,8 @@ import net.sourceforge.stripes.action.Resolution;
 import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,8 +38,17 @@ public class AdministratorActionBean extends BaseActionBean {
 
     private String returnBean;
     private boolean removeDeprecated;
+    @ValidateNestedProperties(value = {
+        @Validate(on = {"confirmCreateActivity", "confirmEditActivity"}, field = "activityName", required = true),
+        @Validate(on = {"confirmCreateActivity", "confirmEditActivity"}, field = "weightCalories", required = true, minvalue = 0)
+    })
     private ActivityDto activity;
     private boolean edit;
+    private final WeightCategory[] categories = WeightCategory.values();
+
+    public WeightCategory[] getCategories() {
+        return categories;
+    }
 
     public boolean isEdit() {
         return edit;

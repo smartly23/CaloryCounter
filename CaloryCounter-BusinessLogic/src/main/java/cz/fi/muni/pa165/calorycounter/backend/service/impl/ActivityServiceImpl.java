@@ -229,6 +229,7 @@ public class ActivityServiceImpl implements ActivityService {
                 Activity activity = entities.get(0).getActivity();
                 Long entityId = activityDao.create(activity);
                 for (Calories calory : entities) {
+                    calory.getActivity().setId(entityId);
                     caloriesDao.create(calory);
                 }
                 return entityId;

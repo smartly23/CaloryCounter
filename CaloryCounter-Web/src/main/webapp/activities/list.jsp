@@ -43,7 +43,7 @@
         <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
             <br />
             <p>
-                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="createActivity"><f:message key="activities.create"/></s:link><br />
+                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="createActivity"><f:message key="activity.create"/></s:link><br />
                 <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="updateActivitiesFromPage"><f:message key="activities.update"/></s:link>
                 </p>
         </c:if>
