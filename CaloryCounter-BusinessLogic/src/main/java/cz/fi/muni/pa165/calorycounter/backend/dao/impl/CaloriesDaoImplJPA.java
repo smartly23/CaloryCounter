@@ -3,8 +3,10 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 import cz.fi.muni.pa165.calorycounter.backend.dao.CaloriesDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
+import cz.fi.muni.pa165.calorycounter.backend.model.CaloriesPK;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -56,58 +58,74 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
     }
 
     @Override
-    public Long create(Calories calories) {
+    public CaloriesPK create(Calories calories) {
         if (validate(calories)) {
             throw new IllegalArgumentException("Invalid user: null or null username of user");
         }
         System.out.println("Creating " + calories.toString());
         log.debug("Creating " + calories.toString());
-        Calories createdCalories = em.merge(calories);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
-        // vyhradenych CRUD operacii - to nechceme
-        Long id = createdCalories.getId();
-        log.debug("Created " + calories.toString() + ". Assigned ID: " + id);
-        return id;
+        try {
+            em.persist(calories);
+        } catch (EntityExistsException e) {
+            return null;
+        }
+        log.debug("Created " + calories.toString());
+        CaloriesPK pk = new CaloriesPK();
+        pk.setActivity(calories.getActivity());
+        pk.setWeightCat(calories.getWeightCat());
+        return pk;
     }
 
     @Override
-    public Calories get(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Invalid id: null");
-        } else if (em.createQuery("SELECT tbl.id FROM Calories tbl WHERE tbl.id = "
-                + ":givenId", Long.class).setParameter("givenId", id).getResultList().size() < 1) {
-            throw new IllegalArgumentException("Invalid id: nonexistent");
+    public Calories get(CaloriesPK pk) {
+        if (validatePk(pk)) {
+            throw new IllegalArgumentException("Invalid primary key: " + pk);
+        } else if (em.createQuery("SELECT tbl.amount FROM Calories tbl WHERE tbl.activity = :activity "
+                + "AND tbl.weightCat = :weightCat", Integer.class)
+                .setParameter("activity", pk.getActivity())
+                .setParameter("weightCat", pk.getWeightCat())
+                .getResultList().size() < 1) {
+            throw new IllegalArgumentException("Invalid composit id: nonexistent");
         }
         return em.createQuery("SELECT tbl FROM Calories tbl "
-                + "WHERE tbl.id = :givenId", Calories.class).setParameter("givenId", id).getSingleResult();
-        // nechceme vracat manazovanu entitu (return em.find(AuthUser.class, id)), treba vyuzivat CRUD metody
+                + "WHERE tbl.activity = :activity AND tbl.weightCat = :weightCat", Calories.class)
+                .setParameter("activity", pk.getActivity())
+                .setParameter("weightCat", pk.getWeightCat())
+                .getSingleResult();
     }
 
     @Override
     public void update(Calories calories) {
-        if (validate(calories) || calories.getId() == null) {
-            throw new IllegalArgumentException("Invalid calories: null or with no id.");
-        } else if (em.createQuery("SELECT tbl.id FROM Calories tbl WHERE tbl.id = "
-                + ":givenId", Long.class).setParameter("givenId", calories.getId()).getResultList().size() < 1) {
+        if (validate(calories)) {
+            throw new IllegalArgumentException("Invalid calories: null or part of id missing: " + calories);
+        } else if (em.createQuery("SELECT tbl.amount FROM Calories tbl WHERE tbl.activity = :activity "
+                + "AND tbl.weightCat = :weightCat", Integer.class)
+                .setParameter("activity", calories.getActivity())
+                .setParameter("weightCat", calories.getWeightCat())
+                .getResultList().size() < 1) {
             throw new IllegalArgumentException("Invalid calories: nonexistent");
         }
         em.merge(calories);
     }
 
     @Override
-    public void remove(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Invalid calories: null or with no id.");
+    public void remove(CaloriesPK pk) {
+        if (validatePk(pk)) {
+            throw new IllegalArgumentException("Invalid calories primary key: " + pk);
         }
-        Calories foundCalories = em.find(Calories.class, id);
+        Calories foundCalories = em.find(Calories.class, pk);
         if (foundCalories == null) {
             log.error("Calories is not in DB");
         }
-        em.remove(foundCalories); // em.find je nutne, remove zmaze iba manazovanu entitu
-        // je potrebne pri inverznej zavislosti osetrit pre-removal
+        em.remove(foundCalories);
     }
 
     private boolean validate(Calories calories) {
         return (calories == null || calories.getWeightCat() == null || calories.getActivity() == null);
+    }
+
+    private boolean validatePk(CaloriesPK pk) {
+        return (pk == null || pk.getWeightCat() == null || pk.getActivity() == null);
     }
 
     @Override

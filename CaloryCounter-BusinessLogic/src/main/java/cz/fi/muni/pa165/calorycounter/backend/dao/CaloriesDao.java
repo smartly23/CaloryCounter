@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao;
 
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
+import cz.fi.muni.pa165.calorycounter.backend.model.CaloriesPK;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author Jak Kucera (Greld)
  */
-public interface CaloriesDao extends Dao<Calories> {
+public interface CaloriesDao extends Dao<Calories, CaloriesPK> {
 
     /**
      * Finds calories for given sport activity and weight category.

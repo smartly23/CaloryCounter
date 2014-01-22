@@ -24,6 +24,12 @@
                     var activTable = $('#activities').dataTable({
                         "aaSorting": [[0, "desc"]]
                     });
+                    var activTableAdmin = $('#activitiesAdmin').dataTable({
+                        "aaSorting": [[0, "desc"]],
+                        "aoColumnDefs": [
+                            {"bSortable": false, "aTargets": [5]}
+                        ]
+                    });
                     var recordsTable = $('#records').dataTable({
                         "aaSorting": [[0, "desc"]],
                         "bFilter": false
@@ -34,7 +40,7 @@
                         ],
                         "aaSorting": [[2, "desc"]]
                     });
-                    var tables = [activTable, recordsTable, ladderTable];
+                    var tables = [activTable, recordsTable, ladderTable, activTableAdmin];
                     tables.forEach($('td').hover(function() {
                         $(this.parentNode).addClass('highlighted');
                     }, function() {

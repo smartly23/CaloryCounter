@@ -6,8 +6,19 @@
 <s:layout-render name="/layout.jsp" titlekey="activities.list.title" pagename="activities" currentPage="activities">
     <s:layout-component name="body">
         <h2><f:message key="activities.list.title"/></h2>
+        <c:set var="tableId" value="activities"/>
+        <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
+            <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean" action="switchView" >
+                <s:select name="showDeleted">
+                    <s:option value="false" ><f:message key="activities.active"/></s:option>
+                    <s:option value="true"><f:message key="activities.deleted"/></s:option>
+                </s:select>
+                <s:submit name="switchView"><f:message key="activities.switchView"/></s:submit>
+            </s:form>
+            <c:set var="tableId" value="activitiesAdmin"/>
+        </c:if>
 
-        <table id="activities" class="basic">
+        <table id="${tableId}" class="basic">
             <thead>
                 <tr>
                     <th rowspan="2" class="col1"><f:message key="activity.name"/></th>
@@ -32,9 +43,16 @@
                         </c:forEach>
                         <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
                             <td>
-                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="editActivity"><s:param name="activity" value="${activity}" /><f:message key="edit"/></s:link>
-                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="deleteActivity"><s:param name="activity" value="${activity}" /><f:message key="delete"/></s:link>
-                                </td>
+                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="edit"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="edit"/></s:link>
+                                <c:choose>
+                                    <c:when test="${actionBean.showDeleted==true}">
+                                        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="restore"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="restore"/></s:link>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="delete"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="delete"/></s:link>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
                         </c:if>
                     </tr>
                 </c:forEach>
@@ -43,8 +61,8 @@
         <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
             <br />
             <p>
-                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="createActivity"><f:message key="activity.create"/></s:link><br />
-                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" event="updateActivitiesFromPage"><f:message key="activities.update"/></s:link>
+                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="create"><f:message key="activity.create"/></s:link><br />
+                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="updateFromPage"><f:message key="activities.update"/></s:link>
                 </p>
         </c:if>
     </s:layout-component>

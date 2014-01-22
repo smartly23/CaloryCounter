@@ -11,7 +11,7 @@
 <table>
     <tr>
         <th><s:label for="activityName" name="activity.name"/></th>
-        <td><s:text id="activityName" name="activity.activityName" disabled="${actionBean.edit}"/></td>
+        <td><s:text id="activityName" name="activity.activityName" disabled="${actionBean.delete}"/></td>
     </tr>
     <tr>
         <td>
@@ -20,18 +20,18 @@
     </tr>
     <tr>
         <th><s:label for="130" name="activity.weightCat_130_"/></th>
-        <td><s:text id="130" name="activity.weightCalories[${actionBean.categories[0]}]" size="4"/></td>
+        <td><s:text id="130" name="activity.weightCalories[${actionBean.categories[0]}]" size="4" disabled="${actionBean.delete}"/></td>
     </tr>
     <tr>
         <th><s:label for="155" name="activity.weightCat_155_"/></th>
-        <td><s:text id="155" name="activity.weightCalories[${actionBean.categories[1]}]" size="4"/></td>
+        <td><s:text id="155" name="activity.weightCalories[${actionBean.categories[1]}]" size="4" disabled="${actionBean.delete}"/></td>
     </tr>
     <tr>
         <th><s:label for="180" name="activity.weightCat_180_"/></th>
-        <td><s:text id="180" name="activity.weightCalories[${actionBean.categories[2]}]" size="4"/></td>
+        <td><s:text id="180" name="activity.weightCalories[${actionBean.categories[2]}]" size="4" disabled="${actionBean.delete}"/></td>
     </tr>
     <tr>
         <th><s:label for="205" name="activity.weightCat_205_"/></th>
-        <td><s:text id="205" name="activity.weightCalories[${actionBean.categories[3]}]" size="4"/></td>
+        <td><s:text id="205" name="activity.weightCalories[${actionBean.categories[3]}]" size="4" disabled="${actionBean.delete}"/></td>
     </tr>
 </table>

@@ -25,11 +25,36 @@ public class ActivitiesActionBean extends BaseActionBean {
     //--- part for showing a list of records ----
     private List<ActivityDto> activities;
 
+    private String showDeleted;
+
+    public void setShowDeleted(String value) {
+        this.showDeleted = value;
+    }
+
+    public String getShowDeleted() {
+        return showDeleted;
+    }
+
     // some login user
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
+        showDeleted = "false";
         activities = activityService.getActive();
+        return new ForwardResolution("/activities/list.jsp");
+    }
+
+    @HandlesEvent(value = "switchView")
+    public Resolution switchView() {
+        log.debug("switchView");
+        if (showDeleted == null) {
+            showDeleted = "false";
+        }
+        if (showDeleted.equals("true")) {
+            activities = activityService.getDeleted();
+        } else {
+            activities = activityService.getActive();
+        }
         return new ForwardResolution("/activities/list.jsp");
     }
 

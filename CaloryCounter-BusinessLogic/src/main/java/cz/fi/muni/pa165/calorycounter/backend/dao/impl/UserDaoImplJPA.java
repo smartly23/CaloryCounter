@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -80,12 +79,12 @@ public class UserDaoImplJPA implements UserDao {
         }
         String currentPass;
         try {
-        currentPass = em.createQuery("SELECT tbl.password FROM AuthUser tbl WHERE tbl.id = "
-                + ":givenId", String.class).setParameter("givenId", user.getId()).getSingleResult();
-        } catch (NoResultException e){
+            currentPass = em.createQuery("SELECT tbl.password FROM AuthUser tbl WHERE tbl.id = "
+                    + ":givenId", String.class).setParameter("givenId", user.getId()).getSingleResult();
+        } catch (NoResultException e) {
             throw new IllegalArgumentException("Invalid user: nonexistent");
         }
-        if (user.getPassword()==null || user.getPassword().isEmpty()){
+        if (user.getPassword() == null || user.getPassword().isEmpty()) {
             user.setPassword(currentPass);
         }
         em.merge(user);

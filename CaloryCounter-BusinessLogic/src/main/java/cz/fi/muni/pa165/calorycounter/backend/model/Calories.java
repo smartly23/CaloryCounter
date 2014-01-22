@@ -3,40 +3,29 @@ package cz.fi.muni.pa165.calorycounter.backend.model;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 
 /**
- * This entity represents activity with calories for specific weigth category.
+ * This entity represents activity with calories for specific weight category.
  *
  * @author Jak Kucera (Greld)
  */
 @Entity
+@IdClass(value = CaloriesPK.class)
 public class Calories implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private int amount;
+    @Id
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
+    @Id
     @ManyToOne(optional = false)
     private Activity activity;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public int getAmount() {
         return amount;
@@ -64,8 +53,9 @@ public class Calories implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 31 * hash + Objects.hashCode(this.id);
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.weightCat);
+        hash = 73 * hash + Objects.hashCode(this.activity);
         return hash;
     }
 
@@ -78,7 +68,10 @@ public class Calories implements Serializable {
             return false;
         }
         final Calories other = (Calories) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        if (this.weightCat != other.weightCat) {
+            return false;
+        }
+        if (!Objects.equals(this.activity, other.activity)) {
             return false;
         }
         return true;

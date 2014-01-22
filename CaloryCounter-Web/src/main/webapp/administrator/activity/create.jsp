@@ -4,14 +4,14 @@
 
 <s:layout-render name="/layout.jsp" titlekey="activity.create">
     <s:layout-component name="body">
-        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" var="actionBean"/>
-        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" focus="" >
+        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" var="actionBean"/>
+        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" focus="" >
             <fieldset>
                 <legend>
                     <f:message key="activity.create"/>
                 </legend>
-                <%@include file="formActivity.jsp"%>
-                <s:submit name="confirmCreateActivity">
+                <%@include file="form.jsp"%>
+                <s:submit name="confirmCreate">
                     <f:message key="activity.create"/>
                 </s:submit>
             </fieldset>

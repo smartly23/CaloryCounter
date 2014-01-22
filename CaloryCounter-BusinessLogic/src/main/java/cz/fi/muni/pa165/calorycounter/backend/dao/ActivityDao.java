@@ -12,7 +12,9 @@ import java.util.List;
  *
  * @author Martin Bryndza (martin.bryndza)
  */
-public interface ActivityDao extends Dao<Activity> {
+public interface ActivityDao extends Dao<Activity, Long> {
+
+    void restore(Long id);
 
     Activity get(String name);
 

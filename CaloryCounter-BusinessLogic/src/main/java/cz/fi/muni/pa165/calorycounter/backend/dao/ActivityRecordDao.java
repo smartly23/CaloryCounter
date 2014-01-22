@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Zdenek Lastuvka
  */
-public interface ActivityRecordDao extends Dao<ActivityRecord> {
+public interface ActivityRecordDao extends Dao<ActivityRecord, Long> {
 
     /**
      * Find all user's records of activities

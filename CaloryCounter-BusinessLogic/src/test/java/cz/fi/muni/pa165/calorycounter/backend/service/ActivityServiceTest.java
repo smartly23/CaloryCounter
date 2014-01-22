@@ -48,8 +48,6 @@ public class ActivityServiceTest {
 
     @Before
     public void setUp() {
-        Long time = new java.util.Date().getTime();
-
         activity = new Activity();
         activity.setId(54L);
         activity.setName("Cutting wood");
@@ -61,7 +59,6 @@ public class ActivityServiceTest {
             cal.setActivity(activity);
             cal.setWeightCat(wc);
             cal.setAmount((wc.ordinal() + 1) * 10);
-            cal.setId((long) wc.ordinal() * 10);
             caloriesOfActivity.put(wc, cal);
         }
 

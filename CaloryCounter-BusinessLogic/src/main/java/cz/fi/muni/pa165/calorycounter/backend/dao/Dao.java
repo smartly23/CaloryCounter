@@ -8,17 +8,17 @@ package cz.fi.muni.pa165.calorycounter.backend.dao;
  *
  * @param <T> Generic type of entity
  */
-public interface Dao<T> {
+public interface Dao<T, U> {
 
     /*  Create the enatity
      * @throws IllegalArgumentException if parameter is null or invalid
      */
-    Long create(T entity);
+    U create(T entity);
 
     /* Return the entity
      * @throws IllegalArgumentException if parameter is null or invalid
      */
-    T get(Long id);
+    T get(U pk);
 
     /* Update the entity
      * @throws IllegalArgumentException if parameter is null, invalid or non-existent in the DB
@@ -27,7 +27,7 @@ public interface Dao<T> {
 
     /* Remove the entity
      * @throws IllegalArgumentException if parameter is null or invalid. Does not throw this exception if
-     * parameter is valid but given entity is nonexistent. 
+     * parameter is valid but given entity is nonexistent.
      */
-    void remove(Long id);
+    void remove(U pk);
 }

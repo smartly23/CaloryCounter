@@ -3,14 +3,13 @@ package cz.fi.muni.pa165.calorycounter.backend.dao;
 import cz.fi.muni.pa165.calorycounter.backend.dao.impl.CaloriesDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;
+import cz.fi.muni.pa165.calorycounter.backend.model.CaloriesPK;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.slf4j.Logger;
@@ -63,9 +62,9 @@ public class CaloriesDaoTest {
         calories.setActivity(activity);
 
         context.getTransaction().begin();
-        Long caloriesId = caloriesDao.create(calories);
+        CaloriesPK caloriesPk = caloriesDao.create(calories);
         context.getTransaction().commit();
-        assertFalse("Calories was not created.", caloriesId == null);
+        assertFalse("Calories was not created.", caloriesPk == null);
 
         try {
             caloriesDao.create(null);
@@ -83,20 +82,21 @@ public class CaloriesDaoTest {
         calories.setAmount(150);
         calories.setActivity(activity);
 
-        Long caloriesId;
+        CaloriesPK caloriesPk = new CaloriesPK();
         try {
             context.getTransaction().begin();
             context.persist(calories);
             context.getTransaction().commit();
-            caloriesId = calories.getId();
+            caloriesPk.setActivity(calories.getActivity());
+            caloriesPk.setWeightCat(calories.getWeightCat());
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
         }
-        assertNotNull("ID is null", caloriesId);
-        assertFalse("ID is 0", caloriesId == 0);
+        assertNotNull("activity is null", caloriesPk.getActivity());
+        assertNotNull("weight category is null", caloriesPk.getWeightCat());
 
-        Calories calories2 = caloriesDao.get(caloriesId);
-        assertNotNull("Calories was not received by id", calories2);
+        Calories calories2 = caloriesDao.get(caloriesPk);
+        assertNotNull("Calories was not received by pk", calories2);
     }
 
     @Test
@@ -106,17 +106,18 @@ public class CaloriesDaoTest {
         calories.setAmount(150);
         calories.setActivity(activity);
 
-        Long caloriesId;
+        CaloriesPK caloriesPk = new CaloriesPK();
         try {
             context.getTransaction().begin();
             context.persist(calories);
             context.getTransaction().commit();
-            assertNotNull("internal integrity error", calories.getId());
+            caloriesPk.setActivity(calories.getActivity());
+            caloriesPk.setWeightCat(calories.getWeightCat());
+            assertNotNull("internal integrity error", calories.getActivity());
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
         }
 
-        calories.setWeightCat(WeightCategory._205_);
         calories.setAmount(50);
 
         context.getTransaction().begin();
@@ -124,24 +125,9 @@ public class CaloriesDaoTest {
         context.getTransaction().commit();
 
         context.clear();
-        Calories calories2 = context.find(Calories.class, calories.getId());
+        Calories calories2 = context.find(Calories.class, caloriesPk);
 
         assertEquals(calories2.getAmount(), calories.getAmount());
-
-        calories.setId(calories.getId() + 1);
-        try {
-            context.getTransaction().begin();
-            caloriesDao.update(calories);
-            context.getTransaction().commit();
-            fail("Should throw exception when non-existent id is entered.");
-        } catch (IllegalArgumentException iae) {
-            try {
-                caloriesDao.update(null);
-                fail("Should throw exception when null argument is entered.");
-            } catch (IllegalArgumentException iaex) {
-            }
-        }
-
     }
 
     @Test
@@ -157,16 +143,19 @@ public class CaloriesDaoTest {
 
         context.clear();
 
-        Calories calories2 = context.find(Calories.class, calories.getId());
+        CaloriesPK pk = new CaloriesPK();
+        pk.setActivity(calories.getActivity());
+        pk.setWeightCat(calories.getWeightCat());
+        Calories calories2 = context.find(Calories.class, pk);
         // veryfying, that it is indeed in the database now:
         assertNotNull(calories2);
 
         context.getTransaction().begin();
-        caloriesDao.remove(calories2.getId());
+        caloriesDao.remove(pk);
         context.getTransaction().commit();
 
         context.clear();
-        assertNull(context.find(Calories.class, calories.getId()));
+        assertNull(context.find(Calories.class, pk));
     }
 
     /**
@@ -179,17 +168,18 @@ public class CaloriesDaoTest {
         calories.setAmount(150);
         calories.setActivity(activity);
 
-        Long caloriesId;
+        CaloriesPK caloriesPk = new CaloriesPK();
         try {
             context.getTransaction().begin();
             context.persist(calories);
             context.getTransaction().commit();
-            caloriesId = calories.getId();
+            caloriesPk.setActivity(calories.getActivity());
+            caloriesPk.setWeightCat(calories.getWeightCat());
         } catch (Exception ex) {
             throw new RuntimeException("internal integrity error", ex);
         }
-        assertNotNull("ID is null", caloriesId);
-        assertFalse("ID is 0", caloriesId == 0);
+        assertNotNull("activity is null", caloriesPk.getActivity());
+        assertNotNull("weight category is null", caloriesPk.getWeightCat());
 
         Calories calories2 = caloriesDao.getByActivityWeightCat(activity, WeightCategory._130_);
         assertNotNull("Calories was not received by act. and WeightCategory", calories2);

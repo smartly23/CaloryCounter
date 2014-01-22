@@ -172,6 +172,6 @@ public class ActivityDaoTest {
         context.getTransaction().commit();
 
         another_context.clear();                    // preco nefunguje aj em2.flush (obalene v transakcii)?
-        assertNull(another_context.find(Activity.class, activity.getId()));
+        assertFalse(!another_context.find(Activity.class, activity.getId()).isDeleted());
     }
 }

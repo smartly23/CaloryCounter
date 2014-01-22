@@ -4,8 +4,8 @@
 
 <s:layout-render name="/layout.jsp" titlekey="activities.update">
     <s:layout-component name="body">
-        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" var="actionBean"/>
         <s:errors/>
-        <s:link beanclass="${actionBean.returnBean}"><f:message key="return"/></s:link>
+        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean"><f:message key="ok"/></s:link>
     </s:layout-component>
 </s:layout-render>
