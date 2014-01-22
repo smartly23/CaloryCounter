@@ -22,6 +22,8 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
+import net.sourceforge.stripes.validation.ValidationErrors;
+import net.sourceforge.stripes.validation.ValidationMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,8 +42,7 @@ public class ActivitiesAdministrationActionBean extends BaseActionBean {
 
     private boolean removeDeprecated;
     @ValidateNestedProperties(value = {
-        @Validate(on = {"confirmCreateActivity", "confirmEditActivity"}, field = "activityName", required = true),
-        @Validate(on = {"confirmCreateActivity", "confirmEditActivity"}, field = "weightCalories", required = true, minvalue = 0)
+        @Validate(on = {"confirmCreateActivity", "confirmEditActivity"}, field = "activityName", required = true)
     })
     private ActivityDto activity;
     private boolean delete;
@@ -69,6 +70,15 @@ public class ActivitiesAdministrationActionBean extends BaseActionBean {
 
     public void setRemoveDeprecated(boolean removeDeprecated) {
         this.removeDeprecated = removeDeprecated;
+    }
+
+    public void validateWeightCalories() {
+        for (WeightCategory category : WeightCategory.values()) {
+            Integer amount = activity.getWeightCalories().get(category);
+            if (amount == null || amount < 0) {
+                activity.setCaloriesAmount(category, 0);
+            }
+        }
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "delete", "restore"})
@@ -116,6 +126,7 @@ public class ActivitiesAdministrationActionBean extends BaseActionBean {
 
     public Resolution confirmCreate() {
         log.debug("confirmCreate(): " + activity);
+        validateWeightCalories();
         activityService.create(activity);
         this.getContext().getMessages().add(new LocalizableMessage("activity.create.success", escapeHTML(activity.getActivityName().toString())));
         return new RedirectResolution("/administrator/activity/create.jsp");
@@ -129,6 +140,7 @@ public class ActivitiesAdministrationActionBean extends BaseActionBean {
 
     public Resolution confirmEdit() {
         log.debug("confirmEdit(): " + activity);
+        validateWeightCalories();
         activityService.update(activity);
         this.getContext().getMessages().add(new LocalizableMessage("activity.edit.success", escapeHTML(activity.getActivityName().toString())));
         return new ForwardResolution("/administrator/activity/message.jsp");

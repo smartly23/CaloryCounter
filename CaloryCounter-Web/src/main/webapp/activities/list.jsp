@@ -43,13 +43,13 @@
                         </c:forEach>
                         <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
                             <td>
-                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="edit"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="edit"/></s:link>
+                                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="edit" class="button"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="edit"/></s:link>
                                 <c:choose>
                                     <c:when test="${actionBean.showDeleted==true}">
-                                        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="restore"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="restore"/></s:link>
+                                        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="restore" class="button"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="restore"/></s:link>
                                     </c:when>
                                     <c:otherwise>
-                                        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="delete"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="delete"/></s:link>
+                                        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="delete" class="button"><s:param name="activity.activityId" value="${activity.activityId}" /><f:message key="delete"/></s:link>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
@@ -61,8 +61,8 @@
         <c:if test="${sessionScope.user!=null && sessionScope.user.role==actionBean.adminRole}">
             <br />
             <p>
-                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="create"><f:message key="activity.create"/></s:link><br />
-                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="updateFromPage"><f:message key="activities.update"/></s:link>
+                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="create" class="button"><f:message key="activity.create"/></s:link><br />
+                <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" event="updateFromPage" class="button"><f:message key="activities.update"/></s:link>
                 </p>
         </c:if>
     </s:layout-component>

@@ -65,7 +65,7 @@ public class CaloriesDaoImplJPA implements CaloriesDao {
         System.out.println("Creating " + calories.toString());
         log.debug("Creating " + calories.toString());
         try {
-            em.persist(calories);
+            em.merge(calories);
         } catch (EntityExistsException e) {
             return null;
         }

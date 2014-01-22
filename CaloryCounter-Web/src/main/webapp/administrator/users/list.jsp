@@ -30,7 +30,7 @@
                                 <td><c:out value="${user.age}"/></td>
                                 <td><c:out value="${user.weightCategory}"/></td>
                                 <td>
-                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean" event="delete"><s:param name="user.userId" value="${user.userId}" /><f:message key="delete"/></s:link>
+                                    <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean" event="delete" class="button"><s:param name="user.userId" value="${user.userId}" /><f:message key="delete"/></s:link>
                                     </td>
                                 </tr>
                         </c:forEach>

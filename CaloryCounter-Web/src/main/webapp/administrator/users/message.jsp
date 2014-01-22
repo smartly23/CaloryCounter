@@ -6,6 +6,6 @@
     <s:layout-component name="body">
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean" var="actionBean"/>
         <s:errors/>
-        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean"><f:message key="ok"/></s:link>
+        <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean" class="button"><f:message key="ok"/></s:link>
     </s:layout-component>
 </s:layout-render>
