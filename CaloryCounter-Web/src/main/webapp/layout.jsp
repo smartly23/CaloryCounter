@@ -86,9 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="green_box">
-                    <s:messages/>
-                </div>
+                <s:messages/>
 
                 <div id="main_content">
                     <s:layout-component name="body"/>

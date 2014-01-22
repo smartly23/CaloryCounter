@@ -135,6 +135,9 @@ img.box_img{
     float:left;
     padding:20px 0 0 0;
 }
+div.messages{
+    font-size: 13px;
+}
 
 /*--------------------------main_content-------------------*/
 #main_content{
