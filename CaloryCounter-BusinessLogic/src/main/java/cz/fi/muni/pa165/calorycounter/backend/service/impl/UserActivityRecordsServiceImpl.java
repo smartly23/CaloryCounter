@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserActivityRecordsServiceImpl implements UserActivityRecordsService {
 
     @Autowired
+    AuthUserConvert userConvert;
+    @Autowired
     ActivityRecordConvert activityRecordConvert;
     @Autowired
     private ActivityRecordDao activityRecordDao;
@@ -38,7 +40,7 @@ public class UserActivityRecordsServiceImpl implements UserActivityRecordsServic
         if (authUserDto == null) {
             throw new IllegalArgumentException("authUserDto is null");
         }
-        AuthUser authUser = AuthUserConvert.fromDtoToEntity(authUserDto, null);
+        AuthUser authUser = userConvert.fromDtoToEntity(authUserDto, null);
         if (authUser.getName() == null) {
             throw new IllegalArgumentException("authUser's name is null.");
         }

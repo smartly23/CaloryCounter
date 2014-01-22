@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.backend.dao.impl;
 
 import cz.fi.muni.pa165.calorycounter.backend.dao.UserDao;
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -110,7 +111,6 @@ public class UserDaoImplJPA implements UserDao {
     @Override
     public boolean existsUsername(String username) throws NoResultException {
         TypedQuery<Long> query;
-        AuthUser returnedUser;
         query = em.createQuery("SELECT COUNT(tbl.username) FROM AuthUser tbl "
                 + " WHERE tbl.username = :uname", Long.class);
         query.setParameter("uname", username);
@@ -136,5 +136,10 @@ public class UserDaoImplJPA implements UserDao {
         query.setParameter("pword", password);
         returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
         return returnedUser;
+    }
+
+    @Override
+    public List<AuthUser> getAll() {
+        return em.createQuery("SELECT tbl FROM AuthUser tbl", AuthUser.class).getResultList();
     }
 }

@@ -13,6 +13,7 @@ import cz.fi.muni.pa165.calorycounter.backend.service.common.DataAccessException
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,5 +213,15 @@ public class UserServiceImpl implements UserService {
                 return user;
             }
         }.tryMethod();
+    }
+
+    @Override
+    public List<AuthUserDto> getAllUsers() {
+        List<AuthUser> users = userDao.getAll();
+        List<AuthUserDto> result = new LinkedList<>();
+        for (AuthUser user : users) {
+            result.add(AuthUserConvert.fromEntityToDto(user));
+        }
+        return result;
     }
 }

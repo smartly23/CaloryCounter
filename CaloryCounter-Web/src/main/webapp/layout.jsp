@@ -40,7 +40,13 @@
                         ],
                         "aaSorting": [[2, "desc"]]
                     });
-                    var tables = [activTable, recordsTable, ladderTable, activTableAdmin];
+                    var usersTable = $('#users').dataTable({
+                        "aaSorting": [[0, "asc"]],
+                        "aoColumnDefs": [
+                            {"bSortable": false, "aTargets": [5]}
+                        ]
+                    });
+                    var tables = [activTable, recordsTable, ladderTable, activTableAdmin, usersTable];
                     tables.forEach($('td').hover(function() {
                         $(this.parentNode).addClass('highlighted');
                     }, function() {
@@ -75,11 +81,12 @@
                             <c:if test="${sessionScope.user!=null}"><li><s:link id="nav_my_records" beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean"><f:message key="navigation.my_records"/></s:link></li></c:if>
                             <li><s:link id="nav_global_ladder" beanclass="cz.fi.muni.pa165.calorycounter.frontend.StatsActionBean"><f:message key="navigation.global_ladder"/></s:link></li>
                             <li><s:link id="nav_activities" beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesActionBean"><f:message key="navigation.activities"/></s:link></li>
-                            </ul>
+                            <c:if test="${sessionScope.user!=null && sessionScope.user.role=='ADMIN'}"><li><s:link id="nav_users" beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean"><f:message key="navigation.users"/></s:link></li></c:if>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="green_box">
+                        <div class="green_box">
                     <s:messages/>
                 </div>
 

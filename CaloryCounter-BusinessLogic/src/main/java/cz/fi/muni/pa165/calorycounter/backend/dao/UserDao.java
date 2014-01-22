@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.calorycounter.backend.dao;
 
 import cz.fi.muni.pa165.calorycounter.backend.model.AuthUser;
+import java.util.List;
 
 /**
  * DAO interface - for operations on the persistence layer on User entities.
@@ -33,5 +34,12 @@ public interface UserDao extends Dao<AuthUser, Long> {
      * @return true if username exists, false if it does not exist
      */
     boolean existsUsername(String username);
+
+    /**
+     * Get all users.
+     *
+     * @return users currently present in DB
+     */
+    List<AuthUser> getAll();
 
 }

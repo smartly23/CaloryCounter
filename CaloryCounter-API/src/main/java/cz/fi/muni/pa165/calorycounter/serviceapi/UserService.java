@@ -74,4 +74,11 @@ public interface UserService {
      * @return All users with their stats
      */
     List<UserStatsDto> getAllUserStats();
+
+    /**
+     * Returns all users
+     *
+     * @return all users
+     */
+    List<AuthUserDto> getAllUsers();
 }

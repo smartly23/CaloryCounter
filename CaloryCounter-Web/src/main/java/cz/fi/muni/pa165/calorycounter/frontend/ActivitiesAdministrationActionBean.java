@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Martin
+ * @author Martin Bryndza
  */
 @RequireLogin(role = UserRole.ADMIN)
 @UrlBinding("/admin/activities/{$event}/{$activity.activityId}")
