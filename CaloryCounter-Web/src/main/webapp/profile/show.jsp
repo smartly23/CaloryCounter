@@ -17,7 +17,10 @@
             <f:message key="profile.weight"/><strong><c:out value=" ${actionBean.user.weightCategory.showedCategory}"/></strong>
             <br>
             <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" event="edit" class="button">
-                <s:param name="user.username" value="${actionBean.user.username}"/><f:message key="profile.edit"/>
+                <f:message key="profile.edit"/>
+            </s:link>
+            <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" event="changePassword" class="button">
+                <f:message key="profile.changePassword"/>
             </s:link>
         </div>
     </s:layout-component>

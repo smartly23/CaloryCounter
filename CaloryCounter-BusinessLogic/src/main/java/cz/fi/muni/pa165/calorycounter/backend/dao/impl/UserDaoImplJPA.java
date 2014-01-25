@@ -134,7 +134,11 @@ public class UserDaoImplJPA implements UserDao {
                 + " WHERE tbl.username = :uname and tbl.password = :pword", AuthUser.class);
         query.setParameter("uname", username);
         query.setParameter("pword", password);
-        returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
+        try {
+            returnedUser = query.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }// getSingleResult hadze NoResultException
         return returnedUser;
     }
 
