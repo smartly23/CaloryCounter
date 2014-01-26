@@ -25,7 +25,7 @@
                         <c:forEach items="${actionBean.uards.activityRecords}" var="activityRecord">
                             <tr>
                                 <td>
-                                    <f:formatDate pattern="dd.MM. yyyy" value="${activityRecord.activityDate}" />
+                                    <f:formatDate pattern="${dateFormat}" value="${activityRecord.activityDate}" />
                                 </td>
                                 <td><c:out value="${activityRecord.activityName}"/></td>
                                 <td><c:out value="${activityRecord.duration}"/></td>

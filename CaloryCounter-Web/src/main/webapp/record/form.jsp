@@ -4,6 +4,15 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script>
+        $.datepicker.setDefaults({
+            showOn: "both",
+            dateFormat: "<f:message key="date.format.datepicker"/>"
+        });
+        $(function() {
+            $("#activityDate").datepicker();
+        });
+    </script>
 </s:layout-component>
 <s:errors/>
 <s:hidden name="record.userId" value="${actionBean.user.userId}"/>
@@ -19,11 +28,6 @@
     </tr>
     <tr>
         <th><s:label for="activityDate" name="record.date"/></th>
-        <td><s:text id="activityDate" name="record.activityDate"/></td>
+        <td><s:text id="activityDate" name="record.activityDate" formatPattern="${dateFormat}"/></td>
     </tr>
 </table>
-<script>
-    $(function() {
-        $("#activityDate").datepicker();
-    });
-</script>

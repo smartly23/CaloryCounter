@@ -55,12 +55,13 @@
                 });
             </script>
             <s:layout-component name="header"/>
-        </head>
+            <c:set var="dateFormat" scope="session"><f:message key="date.format.jstl"/></c:set>
+            </head>
 
-        <body>
-            <div id="main_container">
-                <div id="header">
-                    <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>
+            <body>
+                <div id="main_container">
+                    <div id="header">
+                        <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>
                     <h1 id="topTitle"><s:link href="/index.jsp"><f:message key="topTitle"/></s:link></h1>
                         <div id="profile"><p>
                             <c:if test="${sessionScope.user!=null}"><f:message key="profile.as"/> <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean">${sessionScope.user.name}</s:link><br /></c:if>
@@ -90,7 +91,6 @@
 
                 <div id="main_content">
                     <s:layout-component name="body"/>
-
                     <div style=" clear:both;"></div>
                 </div><!--end of main content-->
 
