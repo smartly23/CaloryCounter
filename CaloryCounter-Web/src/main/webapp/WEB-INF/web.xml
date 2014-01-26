@@ -86,10 +86,6 @@
 
 
     <!--Deployment of a JAX-RS application using web.xml with Servlet 3.0-->
-
-    <!-- Servlet declaration can be omitted in which case
-    it would be automatically added by Jersey -->
-
     <servlet>
         <display-name>CaloryCounter JAX-RS Servlet</display-name>
         <servlet-name>RS</servlet-name>
@@ -99,7 +95,6 @@
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>cz.fi.muni.pa165.calorycounter.frontend.restserver.ConfigApplication</param-value>
-            <!--<param-value>cz.fi.muni.pa165.calorycounter.frontend.restserver.MyApplication</param-value>-->
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

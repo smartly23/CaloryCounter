@@ -96,7 +96,7 @@ public class ActivitiesAdministrationActionBean extends BaseActionBean {
 
     public Resolution updateFromPage() {
         log.debug("updateFromPage");
-        return new ForwardResolution("/administrator/activity/updateFromPage.jsp");
+        return new ForwardResolution("/administrator/activity/update.jsp");
     }
 
     public Resolution update() {
