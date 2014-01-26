@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.List;
 import net.sourceforge.stripes.action.*;
 import net.sourceforge.stripes.integration.spring.SpringBean;
@@ -33,6 +34,10 @@ public class ActivitiesActionBean extends BaseActionBean {
 
     public String getShowDeleted() {
         return showDeleted;
+    }
+
+    public WeightCategory[] getWeightCategories() {
+        return WeightCategory.values();
     }
 
     // some login user

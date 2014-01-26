@@ -26,9 +26,9 @@
                             <tr>
                                 <td><c:out value="${user.username}"/></td>
                                 <td><c:out value="${user.name}"/></td>
-                                <td><c:out value="${user.sex}"/></td>
+                                <td><f:message key="gender.${user.sex}"/></td>
                                 <td><c:out value="${user.age}"/></td>
-                                <td><c:out value="${user.weightCategory}"/></td>
+                                <td><f:message key="weightCat${user.weightCategory.name}"/></td>
                                 <td>
                                     <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.UsersAdministrationActionBean" event="delete" class="button"><s:param name="user.userId" value="${user.userId}" /><f:message key="delete"/></s:link>
                                     </td>

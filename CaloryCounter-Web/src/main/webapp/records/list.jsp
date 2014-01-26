@@ -30,7 +30,7 @@
                                 <td><c:out value="${activityRecord.activityName}"/></td>
                                 <td><c:out value="${activityRecord.duration}"/></td>
                                 <td><c:out value="${activityRecord.caloriesBurnt}"/></td>
-                                <td><c:out value="${activityRecord.weightCategory.showedCategory}"/></td>
+                                <td><f:message key="weightCat${activityRecord.weightCategory.name}"/></td>
                                 <td>
                                     <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" event="edit" class="button"><s:param name="record.activityRecordId" value="${activityRecord.activityRecordId}" /><f:message key="edit"/></s:link>
                                     <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordActionBean" event="delete" class="button"><s:param name="record.activityRecordId" value="${activityRecord.activityRecordId}" /><f:message key="delete"/></s:link>

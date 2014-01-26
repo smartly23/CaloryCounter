@@ -26,14 +26,16 @@
                         <th><s:label for="i3" name="profile.sex"/></th>
                         <td>
                             <c:forEach items="${actionBean.genders}" var="gender">
-                                <s:radio id="i3" name="user.sex" value="${gender}"/>${gender}
+                                <s:radio id="i3" name="user.sex" value="${gender}"/><f:message key="gender.${gender.name}"/>
                             </c:forEach>
                         </td>
                     </tr>
                     <tr>
                         <th><s:label for="i4" name="profile.weight"/></th>
                         <td><s:select id="i4" name="user.weightCategory" >
-                                <s:options-enumeration enum="cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory" label="showedCategory"/>
+                                <c:forEach items="${actionBean.weightCategories}" var="category">
+                                    <s:option value="${category}"><f:message key="weightCat${category.name}"/></s:option>
+                                </c:forEach>
                             </s:select></td>
                     </tr>
                 </table>

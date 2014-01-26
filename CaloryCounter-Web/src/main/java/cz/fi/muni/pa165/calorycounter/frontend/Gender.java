@@ -2,21 +2,19 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 public enum Gender {
 
-    Male("Male"),
-    Female("Female"),
-    Other("Other");
-    private String gender;
+    Male,
+    Female,
+    Other;
 
-    private Gender(String stringedGender) {
-        gender = stringedGender;
+    private Gender() {
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public String getName() {
+        return this.name();
     }
 
     @Override
     public String toString() {
-        return gender;
+        return this.name();
     }
 }

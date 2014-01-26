@@ -22,6 +22,10 @@ public enum WeightCategory {
         return showedCategory;
     }
 
+    public String getName() {
+        return this.name();
+    }
+
     public static WeightCategory getCategory(int index) {
         switch (index) {
             case 0:

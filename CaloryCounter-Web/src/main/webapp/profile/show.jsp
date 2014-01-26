@@ -13,8 +13,8 @@
             <f:message key="profile.username"/><strong><c:out value=" ${actionBean.user.username}"/></strong><br>
             <f:message key="profile.name"/><strong><c:out value=" ${actionBean.user.name}"/></strong><br>
             <f:message key="profile.age"/><strong><c:out value=" ${actionBean.user.age}"/></strong><br>
-            <f:message key="profile.sex"/><strong><c:out value=" ${actionBean.user.sex}"/></strong><br>
-            <f:message key="profile.weight"/><strong><c:out value=" ${actionBean.user.weightCategory.showedCategory}"/></strong>
+            <f:message key="profile.sex"/><strong> <f:message key="gender.${actionBean.user.sex}"/></strong><br>
+            <f:message key="profile.weight"/><strong> <f:message key="weightCat${actionBean.user.weightCategory.name}"/></strong>
             <br>
             <s:link beanclass="cz.fi.muni.pa165.calorycounter.frontend.ProfileActionBean" event="edit" class="button">
                 <f:message key="profile.edit"/>

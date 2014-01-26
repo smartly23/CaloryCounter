@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
@@ -42,6 +43,10 @@ public class ProfileActionBean extends BaseActionBean {
     @SpringBean //Spring can inject even to private and protected fields
     private UserService userService;
     final static Logger log = LoggerFactory.getLogger(ProfileActionBean.class);
+
+    public WeightCategory[] getWeightCategories() {
+        return WeightCategory.values();
+    }
 
     public void setOldPassword(String oldPassword) {
         this.oldPassword = oldPassword;

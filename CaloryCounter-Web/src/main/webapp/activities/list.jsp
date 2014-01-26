@@ -28,10 +28,9 @@
                         </c:if>
                 </tr>
                 <tr>
-                    <th><f:message key="activity.weightCat_130_"/></th>
-                    <th><f:message key="activity.weightCat_155_"/></th>
-                    <th><f:message key="activity.weightCat_180_"/></th>
-                    <th><f:message key="activity.weightCat_205_"/></th>
+                    <c:forEach items="${actionBean.weightCategories}" var="category">
+                        <th><f:message key="weightCat${category.name}"/></th>
+                        </c:forEach>
                 </tr>
             </thead>
             <tbody>
