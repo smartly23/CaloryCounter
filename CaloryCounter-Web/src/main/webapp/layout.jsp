@@ -19,7 +19,28 @@
                 $(document).ready(function() {
                     $.extend($.fn.dataTable.defaults, {
                         "bStateSave": true,
-                        "sPaginationType": "two_button"
+                        "sPaginationType": "two_button",
+                        "oLanguage": {
+                            "sProcessing": "<f:message key="dataTables.processing"/>",
+                            "sLengthMenu": "<f:message key="dataTables.lengthMenu"/>",
+                            "sZeroRecords": "<f:message key="dataTables.zeroRecords"/>",
+                            "sInfo": "<f:message key="dataTables.info"/>",
+                            "sInfoEmpty": "<f:message key="dataTables.infoEmpty"/>",
+                            "sInfoFiltered": "<f:message key="dataTables.infoFiltered"/>",
+                            "sInfoPostFix": "",
+                            "sSearch": "<f:message key="dataTables.search"/>",
+                            "sUrl": "",
+                            "oPaginate": {
+                                "sFirst": "<f:message key="dataTables.first"/>",
+                                "sPrevious": "<f:message key="dataTables.previous"/>",
+                                "sNext": "<f:message key="dataTables.next"/>",
+                                "sLast": "<f:message key="dataTables.laset"/>"
+                            },
+                            "oAria": {
+                                "sSortAscending": "<f:message key="dataTables.sortAscending"/>",
+                                "sSortDescending": "<f:message key="dataTables.sortDescending"/>"
+                            }
+                        }
                     });
                     var activTable = $('#activities').dataTable({
                         "aaSorting": [[0, "desc"]]
