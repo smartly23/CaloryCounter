@@ -52,9 +52,7 @@ public class UserDaoImplJPA implements UserDao {
         if (validate(user) || user.getUsername() == null) {
             throw new IllegalArgumentException("Invalid user: null or null username of user");
         }
-        AuthUser createdUser = em.merge(user);     // nechceme mu vratit manazovanu entitu, t.j. aby mohol robit zmeny mimo
-        // vyhradenych CRUD operacii - to nechceme
-        // tuna v ramci EAGER fetchingu zaroven LEFT-JOINuje ActivityRecords - premysliet ci treba
+        AuthUser createdUser = em.merge(user);
         return createdUser.getId();
 
     }
@@ -100,8 +98,7 @@ public class UserDaoImplJPA implements UserDao {
         if (authUser == null) {
             log.error("Given user with id " + id + " is not in DB.");
         }
-        em.remove(authUser);  // em.find je nutne, remove zmaze iba manazovanu entitu
-        // je potrebne pri inverznej zavislosti osetrit pre-removal
+        em.remove(authUser);
     }
 
     private boolean validate(Object obj) {
@@ -138,7 +135,7 @@ public class UserDaoImplJPA implements UserDao {
             returnedUser = query.getSingleResult();
         } catch (NoResultException ex) {
             return null;
-        }// getSingleResult hadze NoResultException
+        }
         return returnedUser;
     }
 

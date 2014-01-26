@@ -1,5 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/pa165"/>
-<!--There is now way to set context path in Tomcat 7 different then the war name without configuring in 
-<catalina_home>/conf! See http://stackoverflow.com/questions/7276989/howto-set-the-context-path-of-a-web-application-in-tomcat-7-0?rq=1
-    and http://stackoverflow.com/questions/9617036/how-to-specify-path-in-meta-inf-context-xml-for-tomcat-->

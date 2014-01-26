@@ -20,8 +20,8 @@ public class ActivityRecord implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private int duration; //duration unit is minute
-    private Date activityDate; //date is reserved by sql
+    private int duration;
+    private Date activityDate;
     private int caloriesBurnt;
 
     @ManyToOne

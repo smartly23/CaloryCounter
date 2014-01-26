@@ -72,13 +72,6 @@
             <version>3.0</version>
         </dependency>
 
-        <!--JSON processor-->
-        <!--        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.2.3</version>
-        </dependency>-->
-
         <!--servlet, JSP, JSTL-->
         <dependency>
             <groupId>javax</groupId>
@@ -123,8 +116,6 @@
     </dependencies>
 
     <build>
-        <!-- Defaultne je nazov .war-ka v tvare artifactId-version (napr. CaloryCounter-Web-1.0.war),
-        tu mu mozme nastavit vlastny nazov, napr. to iste ale bez version number -->
         <finalName>CaloryCounter-Web</finalName>
     </build>
 </project>

@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
-import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import javax.servlet.http.HttpSession;
 import net.sourceforge.stripes.action.ActionBean;
 import net.sourceforge.stripes.action.Before;

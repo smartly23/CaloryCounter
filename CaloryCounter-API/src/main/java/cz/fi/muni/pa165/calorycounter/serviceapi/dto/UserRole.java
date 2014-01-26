@@ -7,7 +7,7 @@ package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 
 /**
  *
- * @author Martin
+ * @author Martin Bryndza
  */
 public enum UserRole {
 

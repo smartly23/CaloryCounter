@@ -53,7 +53,6 @@ public class ActivityRecordDaoImplJPA implements ActivityRecordDao {
         }
         return em.createQuery("SELECT tbl FROM ActivityRecord tbl "
                 + "WHERE tbl.id = :givenId", ActivityRecord.class).setParameter("givenId", id).getSingleResult();
-        // nechceme vracat manazovanu entitu (return em.find(AuthUser.class, id)), treba vyuzivat CRUD metody
     }
 
     @Override

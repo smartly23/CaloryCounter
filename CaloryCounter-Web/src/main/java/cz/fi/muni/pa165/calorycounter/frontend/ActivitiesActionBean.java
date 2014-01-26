@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.calorycounter.frontend;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.ActivityService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
-import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserRole;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.util.List;
 import net.sourceforge.stripes.action.*;
@@ -23,7 +22,6 @@ public class ActivitiesActionBean extends BaseActionBean {
     @SpringBean //Spring can inject even to private and protected fields
     protected ActivityService activityService;
 
-    //--- part for showing a list of records ----
     private List<ActivityDto> activities;
 
     private String showDeleted;
@@ -40,7 +38,6 @@ public class ActivitiesActionBean extends BaseActionBean {
         return WeightCategory.values();
     }
 
-    // some login user
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");

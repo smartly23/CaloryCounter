@@ -22,8 +22,6 @@ import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.LocalizableError;
 import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
-import net.sourceforge.stripes.validation.ValidationErrors;
-import net.sourceforge.stripes.validation.ValidationMethod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

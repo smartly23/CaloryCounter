@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.calorycounter.backend.dto.convert;
 
-import cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserDaoImplJPA;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.backend.model.Activity;
 import cz.fi.muni.pa165.calorycounter.backend.model.Calories;

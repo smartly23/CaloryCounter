@@ -11,7 +11,7 @@ import java.util.Objects;
 
 /**
  *
- * @author Martin
+ * @author Martin Bryndza
  */
 public class CaloriesPK implements Serializable {
 

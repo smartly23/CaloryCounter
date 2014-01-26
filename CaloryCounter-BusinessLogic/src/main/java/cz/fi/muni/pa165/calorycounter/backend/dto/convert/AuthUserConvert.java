@@ -20,7 +20,7 @@ public class AuthUserConvert {
         authUser.setId(dto.getUserId());
         authUser.setAge(dto.getAge());
         authUser.setName(dto.getName());
-        authUser.setGender(dto.getSex());//proc ty renamy?
+        authUser.setGender(dto.getSex());
         authUser.setUserRole(dto.getRole());
         authUser.setWeightCat(dto.getWeightCategory());
         authUser.setUsername(dto.getUsername());

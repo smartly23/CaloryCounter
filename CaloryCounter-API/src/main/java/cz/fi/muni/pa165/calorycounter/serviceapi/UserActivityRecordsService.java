@@ -13,7 +13,6 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserActivityRecordsDto;
  * @author Zdenek Lastuvka
  */
 public interface UserActivityRecordsService {
-    // metody ako filterByDuration, date a pod.
 
     /**
      * Find records of activities for given user

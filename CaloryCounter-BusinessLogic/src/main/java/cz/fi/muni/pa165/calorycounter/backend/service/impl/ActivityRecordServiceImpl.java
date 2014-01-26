@@ -35,10 +35,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
      * @throws DataAccessException if operation failed on persistence layer. No transaction done.
      */
     @Override
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = {DataAccessException.class})
-    // to Propagation.REQUIRED je tam aj defaultne, ak nechceme nastavit inu tak to tam neni nutne
-    // rollbackFor - automaticky sa spusti rollback pre vsetky RuntimeException, ale NIE pre checked Ex-s
-    // DataAccessException je runtime, teda to tam neni nutne deklarovat
+    @Transactional(readOnly = false)
     public Long create(ActivityRecordDto dto) {
         if (dto.getActivityRecordId() != null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot create activity record that"
@@ -46,27 +43,14 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
             log.error("ActivityRecordServiceImpl.create() called on existing entity", iaex);
             throw iaex;
         }
-            return (Long) new DataAccessExceptionNonVoidTemplate(dto) {
-                @Override
-                public Long doMethod() {
-                    ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
-                    Long entityId = activityRecordDao.create(entity);
-                    /*                      !!!!!!!!!!!!!!!!!                        */
-                    // QUESTION: does it return non-null when the transaction finishes?
-                    return entityId;
-                }
-            }.tryMethod();
-        /*
-         ActivityRecord entity;
-         try {
-         entity = convert.fromDtoToEntity(dto);
-         activityRecordDao.create(entity);
-         } catch (Exception ex) {
-         throw new RecoverableDataAccessException("Operation 'create' failed." + ex.getMessage(), ex);
-         }
-         return entity.getId();
-         }
-         */
+        return (Long) new DataAccessExceptionNonVoidTemplate(dto) {
+            @Override
+            public Long doMethod() {
+                ActivityRecord entity = convert.fromDtoToEntity((ActivityRecordDto) getU());
+                Long entityId = activityRecordDao.create(entity);
+                return entityId;
+            }
+        }.tryMethod();
     }
 
     /*
@@ -87,11 +71,6 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                 return dto;
             }
         }.tryMethod();
-        /*
-         ActivityRecord entity = activityRecordDao.get(id);
-         ActivityRecordDto dto = convert.fromEntityToDto(entity);
-         return dto;
-         * */
     }
 
     /*
@@ -114,10 +93,6 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                     activityRecordDao.update(entity);
                 }
             }.tryMethod();
-            /*
-             ActivityRecord entity = convert.fromDtoToEntity(dto);
-             activityRecordDao.update(entity);
-             * */
         }
     }
 
@@ -128,7 +103,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
     @Override
     @Transactional(readOnly = false)
     public void remove(Long activityRecordId) {
-        if (activityRecordId== null) {
+        if (activityRecordId == null) {
             IllegalArgumentException iaex = new IllegalArgumentException("Cannot remove activity record that"
                     + " doesn't exist.");
             log.error("ActivityRecordServiceImpl.remove() called on non-existent entity", iaex);
@@ -140,8 +115,6 @@ public class ActivityRecordServiceImpl implements ActivityRecordService {
                     activityRecordDao.remove((Long) getU());
                 }
             }.tryMethod();
-
-            //activityRecordDao.remove(activityRecordDao.get(dto.getActivityRecordId()));
         }
     }
 

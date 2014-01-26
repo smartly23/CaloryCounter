@@ -25,7 +25,6 @@ public class AuthUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    // vytvorit DB sekvenciu pri naloadovani SQL skriptu a zmenit na Type.SEQUENCE
     private Long id;
     @Column(columnDefinition = "VARCHAR(100)", nullable = false)
     private String name;
@@ -34,17 +33,14 @@ public class AuthUser implements Serializable {
     private int age;
     @Column(unique = true, columnDefinition = "varchar(50)", nullable = false)
     private String username;
-    @Column(columnDefinition = "varchar(200)")  // sifra?
+    @Column(columnDefinition = "varchar(200)")
     private String password;
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
     @Enumerated(EnumType.STRING)
     private WeightCategory weightCat;
-    @OneToMany(mappedBy = "authUser", cascade = {CascadeType.REMOVE /*, CascadeType.MERGE*/})
-//    We dont wont merge cascading, each record should remember user state at time of its creation
+    @OneToMany(mappedBy = "authUser", cascade = {CascadeType.REMOVE})
     private List<ActivityRecord> records;
-    // staci unidirectional, keby sme zmenili na bidirectional, je dobre, aby vztah vlastnila "many" strana,
-    // t.j. uz iba pridat joincolumn do activityRecord
 
     public Long getId() {
         return id;

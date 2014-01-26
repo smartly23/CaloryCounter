@@ -45,10 +45,10 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
 
     public static class UserStats {
 
-        private long userId;
-        private String userName;
-        private int sumBurntCalories;
-        private int sumDuration;
+        private final long userId;
+        private final String userName;
+        private final int sumBurntCalories;
+        private final int sumDuration;
 
         public UserStats(long userId, String userName, long sumBurntCalories, long sumDuration) {
             this.userId = userId;

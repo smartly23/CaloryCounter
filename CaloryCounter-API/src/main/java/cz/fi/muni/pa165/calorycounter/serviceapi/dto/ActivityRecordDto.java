@@ -11,11 +11,11 @@ import java.util.Objects;
 public class ActivityRecordDto {
 
     private Long activityRecordId;
-    private Long userId;    // MUST be in every object
+    private Long userId;
     private String activityName;
     private WeightCategory weightCategory;
-    private int duration; //duration unit is minute
-    private Date activityDate; // na prezentacnej vrstve bude util.Date = treba konvertovat medzi DTO a DAO
+    private int duration;
+    private Date activityDate;
     private int caloriesBurnt;
 
     public String getActivityName() {

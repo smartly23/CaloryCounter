@@ -11,7 +11,6 @@ package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
  */
 public class UserStatsDto {
 
-    // abych mohl zvyraznit aktualniho usera
     private long userId;
     private String nameOfUser;
     private int sumBurntCalories;

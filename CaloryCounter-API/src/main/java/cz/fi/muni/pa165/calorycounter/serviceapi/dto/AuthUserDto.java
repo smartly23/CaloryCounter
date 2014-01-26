@@ -8,9 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Martin Pasko (smartly23)
  */
-// ak chceme konkretny tvar XML-ka, mozme si zadefinovat vlastnu schemu, v ktorej namespace bude rovnaky
-//ako tu @XmlRootElement(namespace = "somenamespace"), alebo je mozne definovat rovno package-namespace,
-//vid http://stackoverflow.com/questions/16584555/understanding-jaxb-xmlrootelement-annotation
 @XmlRootElement
 public class AuthUserDto {
 
