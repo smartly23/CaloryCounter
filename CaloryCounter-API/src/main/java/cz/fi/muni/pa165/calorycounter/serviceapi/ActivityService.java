@@ -8,6 +8,7 @@ import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.WeightCategory;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * User service interface for operations on Activity DTO.
@@ -74,6 +75,7 @@ public interface ActivityService extends Service<ActivityDto> {
      * @return List of the activities that were added or updated.
      * @throws java.io.IOException When the page is not accessible.
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<ActivityDto> updateFromPage(boolean removeDeprecated) throws IOException;
 
 }

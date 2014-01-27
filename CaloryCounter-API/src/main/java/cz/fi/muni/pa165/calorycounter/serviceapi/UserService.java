@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.calorycounter.serviceapi;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.UserStatsDto;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * User service interface for operations on User DTO.
@@ -50,6 +51,7 @@ public interface UserService {
      *
      * @param user
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     void remove(AuthUserDto user);
 
     /**
@@ -80,5 +82,6 @@ public interface UserService {
      *
      * @return all users
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     List<AuthUserDto> getAllUsers();
 }
