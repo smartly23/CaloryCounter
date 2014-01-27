@@ -9,8 +9,6 @@ import org.springframework.stereotype.Component;
  *
  * @author Zdenek Lastuvka
  */
-
-@Component
 public class AuthUserConvert {
 
     public static AuthUser fromDtoToEntity(AuthUserDto dto, String password) {
