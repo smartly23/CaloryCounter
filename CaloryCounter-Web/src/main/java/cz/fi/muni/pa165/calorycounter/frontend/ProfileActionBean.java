@@ -16,6 +16,7 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.RecoverableDataAccessException;
 
 /**
  * Stripes ActionBean for handling user profile operations.
@@ -109,10 +110,16 @@ public class ProfileActionBean extends BaseActionBean {
 
     public Resolution confirmChangePassword() {
         log.debug("changePassword()");
-        if (userService.login(user.getUsername(), oldPassword) == null) {
+        try {
+            AuthUserDto actualUser = userService.login(user.getUsername(), oldPassword);
+        } catch (RecoverableDataAccessException e) {
             this.getContext().getValidationErrors().addGlobalError(new LocalizableError("profile.wrongPassword"));
             return new ForwardResolution(this.getClass(), "changePassword");
         }
+//        if (userService.login(user.getUsername(), oldPassword) == null) {
+//            this.getContext().getValidationErrors().addGlobalError(new LocalizableError("profile.wrongPassword"));
+//            return new ForwardResolution(this.getClass(), "changePassword");
+//        }
         if (!newPassword.equals(confirmNewPassword)) {
             this.getContext().getValidationErrors().addGlobalError(new LocalizableError("profile.passwordsNotMatch"));
             return new ForwardResolution(this.getClass(), "changePassword");

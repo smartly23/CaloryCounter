@@ -4,9 +4,9 @@
 
 <s:layout-render name="/layout.jsp" titlekey="activities.update">
     <s:layout-component name="body">
-        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean" var="actionBean"/>
+        <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean" var="actionBean"/>
         <s:errors/>
-        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.AdministratorActionBean">
+        <s:form beanclass="cz.fi.muni.pa165.calorycounter.frontend.ActivitiesAdministrationActionBean">
             <fieldset><legend><f:message key="activities.update.areyousure"/></legend>
                 <p><f:message key="activities.update.areyousure.message"/> </p>
                 <p style="padding:20px">

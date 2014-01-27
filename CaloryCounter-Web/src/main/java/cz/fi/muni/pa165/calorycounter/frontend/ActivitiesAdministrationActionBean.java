@@ -99,7 +99,7 @@ public class ActivitiesAdministrationActionBean extends BaseActionBean {
         return new ForwardResolution("/administrator/activity/update.jsp");
     }
 
-    public Resolution update() {
+    public Resolution updateActivities() {
         log.debug("update()");
         try {
             activityService.updateFromPage(removeDeprecated);
