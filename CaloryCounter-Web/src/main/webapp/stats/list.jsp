@@ -19,7 +19,7 @@
                 <c:set var="count" value="${count + 1}" scope="page"/>
                 <tr>
                     <td>${count}</td>
-                    <td><c:out value="${userStat.nameOfUser}"/></td>
+                    <td><c:out value="${userStat.username}"/></td>
                     <td><c:out value="${userStat.sumBurntCalories}"/></td>
                     <td><c:out value="${userStat.sumDuration}"/></td>
                 </c:forEach>

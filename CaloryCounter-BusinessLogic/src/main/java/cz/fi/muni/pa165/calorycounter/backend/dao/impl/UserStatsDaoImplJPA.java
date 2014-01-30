@@ -33,9 +33,9 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
         TypedQuery<UserStats> query;
         List<UserStats> returnedUsers;
         try {
-            query = em.createQuery("SELECT new cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA$UserStats(u.id, u.name, SUM(r.caloriesBurnt), SUM(r.duration)) "
+            query = em.createQuery("SELECT new cz.fi.muni.pa165.calorycounter.backend.dao.impl.UserStatsDaoImplJPA$UserStats(u.id, u.username, SUM(r.caloriesBurnt), SUM(r.duration)) "
                     + " FROM AuthUser u LEFT JOIN u.records r WHERE u.id = r.authUser.id"
-                    + " GROUP BY u.id, u.name ORDER BY SUM(r.caloriesBurnt) DESC", UserStats.class);
+                    + " GROUP BY u.id, u.username ORDER BY SUM(r.caloriesBurnt) DESC", UserStats.class);
             returnedUsers = query.getResultList();
         } catch (NoResultException nrex) {
             throw new IllegalArgumentException("No users in DB");
@@ -46,13 +46,13 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
     public static class UserStats {
 
         private final long userId;
-        private final String userName;
+        private final String username;
         private final int sumBurntCalories;
         private final int sumDuration;
 
-        public UserStats(long userId, String userName, long sumBurntCalories, long sumDuration) {
+        public UserStats(long userId, String username, long sumBurntCalories, long sumDuration) {
             this.userId = userId;
-            this.userName = userName;
+            this.username = username;
             this.sumBurntCalories = (int) sumBurntCalories;
             this.sumDuration = (int) sumDuration;
         }
@@ -69,8 +69,8 @@ public class UserStatsDaoImplJPA implements UserStatsDao {
             return sumBurntCalories;
         }
 
-        public String getUserName() {
-            return userName;
+        public String getUsername() {
+            return username;
         }
     }
 }

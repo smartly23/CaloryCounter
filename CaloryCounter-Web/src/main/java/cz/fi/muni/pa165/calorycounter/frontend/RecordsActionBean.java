@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserActivityRecordsService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
+import cz.fi.muni.pa165.calorycounter.serviceapi.dto.ActivityRecordDto;
+import java.util.Date;
 
 /**
  * Stripes ActionBean for handling book operations.
@@ -25,17 +27,26 @@ public class RecordsActionBean extends BaseActionBean {
     @SpringBean //Spring can inject even to private and protected fields
     protected UserService userService;
     private UserActivityRecordsDto uards;
+    private int sum;
+    private double perDay;
 
     @DefaultHandler
     public Resolution list() {
         log.debug("list()");
         uards = userActivityRecordsService.getAllActivityRecords(getSessionUser());
         return new ForwardResolution("/records/list.jsp");
-
     }
 
     public UserActivityRecordsDto getUards() {
         return uards;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public double getPerDay() {
+        return perDay;
     }
 
 }

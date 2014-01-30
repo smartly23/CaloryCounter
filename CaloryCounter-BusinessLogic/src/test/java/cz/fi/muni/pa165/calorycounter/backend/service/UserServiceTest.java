@@ -76,7 +76,7 @@ public class UserServiceTest {
         userService.register(userDto, PASSWORD);
 
         UserStatsDto userStatsDto = new UserStatsDto();
-        userStatsDto.setNameOfUser(USERNAME);
+        userStatsDto.setUsername(USERNAME);
 
         UserStats userStats = new UserStats(USER_ID, USERNAME, 150, 10);
 
@@ -151,7 +151,7 @@ public class UserServiceTest {
         assertFalse("List is empty", listDto.isEmpty());
         assertTrue("List's size should be 1", listDto.size() == 1);
 
-        assertEquals("User is not in the list", USERNAME, listDto.iterator().next().getNameOfUser());
+        assertEquals("User is not in the list", USERNAME, listDto.iterator().next().getUsername());
     }
 
 }

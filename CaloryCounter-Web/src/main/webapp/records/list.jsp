@@ -8,8 +8,13 @@
         <s:useActionBean beanclass="cz.fi.muni.pa165.calorycounter.frontend.RecordsActionBean" var="actionBean"/>
 
         <h2><f:message key="records.list.title"/></h2>
-        <c:choose>
-            <c:when test="${not empty actionBean.uards.activityRecords}">
+        <p>
+            <f:message key="records.list.sum"/> <c:out value="${actionBean.uards.sumOfCalories}"/><br />
+            <f:message key="records.list.perDay"/> <c:out value="${actionBean.uards.burntPerDay}"/>
+        </p>
+        <p> <br /> </p>
+            <c:choose>
+                <c:when test="${not empty actionBean.uards.activityRecords}">
                 <table class="basic" id="records">
                     <thead>
                         <tr>

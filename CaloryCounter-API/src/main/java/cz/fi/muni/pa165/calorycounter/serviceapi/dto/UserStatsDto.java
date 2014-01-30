@@ -12,7 +12,7 @@ package cz.fi.muni.pa165.calorycounter.serviceapi.dto;
 public class UserStatsDto {
 
     private long userId;
-    private String nameOfUser;
+    private String username;
     private int sumBurntCalories;
     private int sumDuration;
 
@@ -24,12 +24,12 @@ public class UserStatsDto {
         this.userId = userId;
     }
 
-    public String getNameOfUser() {
-        return nameOfUser;
+    public String getUsername() {
+        return username;
     }
 
-    public void setNameOfUser(String nameOfUser) {
-        this.nameOfUser = nameOfUser;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getSumBurntCalories() {
@@ -50,7 +50,7 @@ public class UserStatsDto {
 
     @Override
     public String toString() {
-        return "UserStatsDto{" + "nameOfUser=" + nameOfUser + ", sumBurntCalories=" + sumBurntCalories + ", sumDuration=" + sumDuration + '}';
+        return "UserStatsDto{" + "username=" + username + ", sumBurntCalories=" + sumBurntCalories + ", sumDuration=" + sumDuration + '}';
     }
 
 }
