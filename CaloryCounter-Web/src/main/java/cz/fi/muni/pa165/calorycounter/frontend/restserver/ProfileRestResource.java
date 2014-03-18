@@ -2,6 +2,8 @@ package cz.fi.muni.pa165.calorycounter.frontend.restserver;
 
 import cz.fi.muni.pa165.calorycounter.serviceapi.UserService;
 import cz.fi.muni.pa165.calorycounter.serviceapi.dto.AuthUserDto;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -43,7 +45,6 @@ public class ProfileRestResource {
     public String getText() {
         throw new WebApplicationException(Response.Status.NOT_FOUND);
     }
-
     private String _corsHeaders;
 
     private Response makeCORS(ResponseBuilder req, String returnMethod) {
@@ -123,6 +124,60 @@ public class ProfileRestResource {
         }
         try {
             user = userService.getByUsername(username);
+        } catch (RecoverableDataAccessException ex) {
+            if (ex.getCause().getClass().equals(NoResultException.class)) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+        return Response.status(Response.Status.OK).entity(user).build();
+    }
+
+    /*
+     * Finds all users beginning with selected substring.
+     */
+    @GET
+    @Path("/getusers/{str}")
+    @Produces("text/plain")
+    public String getUsersBeginningWith(@PathParam("str") String str) {
+        log.debug("Server: get users beginning with: " + str);
+        if (str == null) {
+            return "";
+        }
+        List<AuthUserDto> users = new ArrayList<>();
+        try {
+            users = userService.getUsersBeginningWith(str);
+        } catch (RecoverableDataAccessException ex) {
+            if (ex.getCause().getClass().equals(NoResultException.class)) {
+                return "";
+            }
+            log.error("Unexpected error inside REST server API: getUsersBeginningWith.");
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+        StringBuilder suggestions = new StringBuilder();
+        for (AuthUserDto eachUser : users) {
+            suggestions.append(eachUser.getUsername()).append(", ");
+        }
+        // delete last colon and space
+        if (suggestions.length() > 2) {
+            suggestions.delete(suggestions.length() - 2, suggestions.length());
+        }
+        return suggestions.toString();
+    }
+    
+    /*
+     * Authenticates user by username and password.
+     */
+    @POST
+    @Path("/authUser")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response authUser(@QueryParam("uname") String username, @QueryParam("pwd") String password) {
+        log.debug("Server: authUser() with username: " + username);
+        if (username == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        try {
+            user = userService.login(username, password);
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();

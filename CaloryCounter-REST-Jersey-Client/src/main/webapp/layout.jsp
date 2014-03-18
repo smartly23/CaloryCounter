@@ -8,6 +8,7 @@
         <head>
             <title><f:message key="${titlekey}"/></title>
             <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style.css" />
+            <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/ukazka.css" />
             <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
             <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
             <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -24,6 +25,8 @@
                                 <li id="first"><s:link href="/index.jsp"><f:message key="navigation.home"/></s:link></li>
                             <li><s:link href="/users.jsp"><f:message key="navigation.users"/></s:link></li>
                             <li><s:link href="/records.jsp"><f:message key="navigation.records"/></s:link></li>
+                            <li><s:link href="/ukazka.jsp"><f:message key="navigation.ukazka"/></s:link></li>
+                            <li><s:link href="/ukazkaJQ.jsp"><f:message key="navigation.ukazkaJQ"/></s:link></li>
                             </ul>
                         </div>
                     </div>

@@ -59,6 +59,14 @@ public interface UserService {
      * @return user with given username.
      */
     AuthUserDto getByUsername(String username);
+    
+    /**
+     * Find all users beginning with substring.
+     *
+     * @param substr
+     * @return users beginning with given substring.
+     */
+    List<AuthUserDto> getUsersBeginningWith(String substr);
 
     /**
      * Find user by id

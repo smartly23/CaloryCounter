@@ -147,6 +147,20 @@ public class UserServiceImpl implements UserService {
             }
         }.tryMethod();
     }
+    
+    @Override
+    public List<AuthUserDto> getUsersBeginningWith(String substr) {
+        if(substr == null) {
+            return null;
+        }
+        List<AuthUser> userEntities = userDao.getByBeginningString(substr);
+        List<AuthUserDto> userDtos = new ArrayList<>();
+        for (AuthUser userEntity : userEntities) {
+            userDtos.add(AuthUserConvert.fromEntityToDto(userEntity));
+        }
+        return userDtos;
+    }
+
 
     @Override
     public AuthUserDto getById(Long id) {

@@ -46,6 +46,22 @@ public class UserDaoImplJPA implements UserDao {
         returnedUser = query.getSingleResult();     // getSingleResult hadze NoResultException
         return returnedUser;
     }
+    
+    @Override
+    public List<AuthUser> getByBeginningString(String substr) {
+        if (validate(substr)) {
+            throw new IllegalArgumentException("Invalid username: null");
+        }
+        TypedQuery<AuthUser> query;
+        List<AuthUser> returnedUsers;
+        query = em.createQuery("SELECT users FROM AuthUser users "
+                + " WHERE users.username LIKE :uname", AuthUser.class);
+        query.setParameter("uname", substr + "%");
+        returnedUsers = query.getResultList();
+        log.error("Number of returned users: " + returnedUsers.size());
+        return returnedUsers;
+    }
+
 
     @Override
     public Long create(AuthUser user) {

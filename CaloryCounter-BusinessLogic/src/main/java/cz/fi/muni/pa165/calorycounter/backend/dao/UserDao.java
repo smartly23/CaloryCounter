@@ -18,6 +18,14 @@ public interface UserDao extends Dao<AuthUser, Long> {
      * @throws IllegalArgumentException if parameter is null or invalid
      */
     AuthUser getByUsername(String username);
+    
+    /*
+     * Finds users beginning with given substring.
+     *
+     * @param substr
+     * @return all users with name beginning with given substring.
+     */
+    List<AuthUser> getByBeginningString(String substr);
 
     /**
      * Verify if user with given username and password exists

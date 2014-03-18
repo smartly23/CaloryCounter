@@ -56,3 +56,12 @@ insert into ACTIVITYRECORD (ACTIVITYDATE, CALORIESBURNT, DURATION, AUTHUSER_ID, 
 insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (31, 'Female', 'Petra Divoka', 'cfdf549989ee72e13ea6e032c9ec40dd', 'Petra', 'USER', '_180_');
 insert into ACTIVITYRECORD (ACTIVITYDATE, CALORIESBURNT, DURATION, AUTHUSER_ID, CALORIES_ACTIVITY_ID, CALORIES_WEIGHTCAT) VALUES ('2013-11-10', 50, 36, 4, 2, '_180_');
 
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (40, 'Male', 'Juraj Supka', 'ceb4f32325eda6142bd65215f4c0f371', 'juraj2', 'USER', '_155_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (27, 'Male', 'Juraj Capik', 'ceb4f32325eda6142bd65215f4c0f371', 'jurajko', 'USER', '_130_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (63, 'Male', 'Julo Hanak', 'ceb4f32325eda6142bd65215f4c0f371', 'julo', 'USER', '_155_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (15, 'Male', 'Juraj Cepek', 'ceb4f32325eda6142bd65215f4c0f371', 'juraj.cepek', 'USER', '_180_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (19, 'Female', 'Jirina Horakova', 'ceb4f32325eda6142bd65215f4c0f371', 'jirina', 'USER', '_180_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (28, 'Male', 'Jan Hrenak', 'ceb4f32325eda6142bd65215f4c0f371', 'janko', 'USER', '_180_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (33, 'Male', 'Jan Luptak', 'ceb4f32325eda6142bd65215f4c0f371', 'jan.luptak', 'USER', '_155_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (7, 'Female', 'Jaroslava Jarkova', 'ceb4f32325eda6142bd65215f4c0f371', 'jarka', 'USER', '_130_');
+insert into AUTHUSER (AGE, GENDER, "NAME", PASSWORD, USERNAME, USERROLE, WEIGHTCAT) values (25, 'Female', 'Jolana Mravcova', 'ceb4f32325eda6142bd65215f4c0f371', 'Jola', 'USER', '_130_');

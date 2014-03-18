@@ -87,6 +87,11 @@ img.box_img{
 #profile a{
     color: black;
 }
+
+#profile p {
+    text-align: right;
+}
+
 #profile a:hover{
     text-decoration: none;
 }
