@@ -39,6 +39,7 @@ public class ProfileRestResource {
     @Autowired
     private UserService userService;
     final static Logger log = LoggerFactory.getLogger(ProfileRestResource.class);
+    private static final String ALLOWED_ORIGIN = "http://localhost:8181";
 
 //    with no path after /profile given:
     @GET
@@ -48,7 +49,7 @@ public class ProfileRestResource {
     private String _corsHeaders;
 
     private Response makeCORS(ResponseBuilder req, String returnMethod) {
-        ResponseBuilder rb = req.header("Access-Control-Allow-Origin", "*")
+        ResponseBuilder rb = req.header("Access-Control-Allow-Origin", ALLOWED_ORIGIN)
                 .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
 
         if (!"".equals(returnMethod)) {
@@ -83,6 +84,13 @@ public class ProfileRestResource {
     @OPTIONS
     @Path("/removeuser/{uname}")
     public Response corsMyResource3(@HeaderParam("Access-Control-Request-Headers") String requestH) {
+        _corsHeaders = requestH;
+        return makeCORS(Response.ok(), requestH);
+    }
+    
+    @OPTIONS
+    @Path("/authUser")
+    public Response corsAuthUser(@HeaderParam("Access-Control-Request-Headers") String requestH) {
         _corsHeaders = requestH;
         return makeCORS(Response.ok(), requestH);
     }
@@ -166,6 +174,41 @@ public class ProfileRestResource {
     }
     
     /*
+     * Finds all users beginning with selected substring.
+     * This method is Same-origin policy resistant.
+     * @return Response object with neccessary headers to allow cross-origin requests from dedicated client.
+     */
+    @GET
+    @Path("/getusers_resistant/{str}")
+    @Produces("text/plain")
+    public Response getUsersBeginningWith_resistant(@PathParam("str") String str) {
+        log.debug("Server: get users beginning with: " + str);
+        if (str == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        List<AuthUserDto> users = new ArrayList<>();
+        try {
+            users = userService.getUsersBeginningWith(str);
+        } catch (RecoverableDataAccessException ex) {
+            if (ex.getCause().getClass().equals(NoResultException.class)) {
+                return Response.status(Response.Status.BAD_REQUEST).build();
+            }
+            log.error("Unexpected error inside REST server API: getUsersBeginningWith.");
+            throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
+        }
+        StringBuilder suggestions = new StringBuilder();
+        for (AuthUserDto eachUser : users) {
+            suggestions.append(eachUser.getUsername()).append(", ");
+        }
+        // delete last colon and space
+        if (suggestions.length() > 2) {
+            suggestions.delete(suggestions.length() - 2, suggestions.length());
+        }
+        
+        return makeCORS(Response.status(Response.Status.OK).entity(suggestions.toString()));
+    }
+    
+    /*
      * Authenticates user by username and password.
      */
     @POST
@@ -184,7 +227,7 @@ public class ProfileRestResource {
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return Response.status(Response.Status.OK).entity(user).build();
+        return makeCORS(Response.status(Response.Status.OK).entity(user));
     }
 
     /*

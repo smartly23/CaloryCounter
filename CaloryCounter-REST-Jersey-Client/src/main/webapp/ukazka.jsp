@@ -8,11 +8,11 @@
         <h2><f:message key="sample.title"/></h2>
 
         <form id="searchForm" action="/ukazka.jsp" method="post">
-            <label for="username"><f:message key="users.findbyusername"/>:</label>
+            <label for="searchUsername"><f:message key="users.findbyusername"/>:</label>
             <input id="searchUsername" name="searchUsername" onkeyup="suggest(this.value);" autocomplete="off"/>
             <input type="submit" name="search" value="<f:message key="users.findBtn"/>"/>
-            <div id="suggestions"></div>
         </form>
+        <div id="suggestions"></div>
 
         <br/>
         <div id="userInfo" style="display: none">
@@ -57,31 +57,31 @@
 
         <script type="text/javascript">
 
-                var xhr = new XMLHttpRequest();
-
                 function suggest(str) {
                     if (str.length === 0) {
-                        document.getElementById('suggestions').innerHtml = '';
+                        document.getElementById('suggestions').innerHTML = '';
                         return;
                     }
-                        xhr.open("GET", "http://localhost:8080/CaloryCounter-Web/resources/profile/getusers/" + escape(str), true);
-                        xhr.onreadystatechange = printSuggestion();
-                        xhr.send();
+                    var xhr = new XMLHttpRequest();
+                    xhr.open("GET", "http://localhost:8080/CaloryCounter-Web/resources/profile/getusers/" + escape(str), true);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            printSuggestion(xhr);
+                        }
+                    };
+                    xhr.send();
                 }
 
-                function printSuggestion() {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        var outerDiv = document.getElementById('suggestions');
-                        outerDiv.innerHtml = '';
-                        var namesArray = xhr.responseText.split(", ");
-                        for (i = 0; i < namesArray.length; i++) {
-                            var resultBlocks = '<div onmouseover="javascript:suggestOver(this);" ';
-                            resultBlocks += 'onmouseout="javascript:suggestOut(this);" ';
-                            resultBlocks += 'onclick="javascript:setSearch(this.innerHTML);" ';
-                            resultBlocks += 'class="link">' + namesArray[i] + '</div>';
-                            outerDiv.innerHtml += resultBlocks;
-                        }
-                        console.log(outerDiv.innerHtml);
+                function printSuggestion(xhr) {
+                    var outerDiv = document.getElementById('suggestions');
+                    outerDiv.innerHTML = '';
+                    var namesArray = xhr.responseText.split(", ");
+                    for (i = 0; i < namesArray.length; i++) {
+                        var resultBlocks = '<div onmouseover="javascript:suggestOver(this);" ';
+                        resultBlocks += 'onmouseout="javascript:suggestOut(this);" ';
+                        resultBlocks += 'onclick="javascript:setSearch(this.innerHTML);" ';
+                        resultBlocks += 'class="link">' + namesArray[i] + '</div>';
+                        outerDiv.innerHTML += resultBlocks;
                     }
                 }
 
@@ -95,7 +95,7 @@
 
                 function setSearch(element_value) {
                     document.getElementById('searchUsername').value = element_value;
-                    document.getElementById('suggestions').innerHtml = '';
+                    document.getElementById('suggestions').innerHTML = '';
                 }
 
                 $("#searchForm").submit(function(event) {
