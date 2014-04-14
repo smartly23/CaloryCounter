@@ -6,73 +6,75 @@
     <s:layout-component name="body">
 
         <div id="profile">
-            <p><div id="welcome"></div><a id="login" class="link_" href="#"><f:message key="navigation.login"/></a></p>
-    </div>
-    <h2><f:message key="sample.title"/></h2>
+            <a id="login" href=""><f:message key="navigation.login"/></a>
+        </div>
+        <h2><f:message key="sample.title"/></h2>
 
-    <form id="searchForm" action="/ukazkaJQ.jsp" method="post">
-        <label for="searchUsername"><f:message key="users.findbyusername"/>:</label>
-        <input id="searchUsername" name="searchUsername" onkeyup="suggestJQResistant(this.value);" autocomplete="off"/>
-        <input type="submit" name="search" value="<f:message key="users.findBtn"/>"/>
-    </form>
-    <div id="suggestions"></div>
+        <div id="loginForm"> 
+            <form id="loginUserForm" action="" method="post">
+                <!--nechce sa mi robit vsetky tie bundle, takze rovno v kode-->
+                <center>Username:</center>       
+                <center><input name="username" size="25" /></center>
+                <center>Password:</center>
+                <center><input name="password" type="password" size="25" /></center>
+                <center><input type="submit" name="submit" value="Login" /></center>
+                <div id="loginStatus"></div>
+            </form>
+            <br />
+            <center><a id="closeLoginForm" href="">Close</a></center> 
+        </div> 
 
-    <br/>
-    <div id="userInfo" style="display: none">
-        <form id="userForm" action="/ukazkaJQ.jsp" method="post">
-            <div>
-                <label for="username"><f:message key="users.username"/>:</label>
-                <input id="username" name="username" value=""/>
-            </div>
-            <div>
-                <label for="name"><f:message key="users.name"/>:</label>
-                <input id="name" name="name" value=""/>
-            </div>
-            <div>
-                <label for="age"><f:message key="users.age"/>:</label>
-                <input id="age" name="age" value=""/>
-            </div>
-            <div>
-                <label for="sex"><f:message key="users.sex"/>:</label>
-                <select id="sex" name="sex">
-                    <option value="Male"><f:message key="users.sex.male"/></option>
-                    <option value="Female"><f:message key="users.sex.female"/></option>
-                    <option value="Other"><f:message key="users.sex.other"/></option>
-                </select>
-            </div>
-            <div>
-                <label for="weightCategory"><f:message key="users.weightCategory"/>:</label>
-                <select id="weightCategory" name="weightCategory">
-                    <option value="_130_"><f:message key="users.weightCat._130_"/></option>
-                    <option value="_155_"><f:message key="users.weightCat._155_"/></option>
-                    <option value="_180_"><f:message key="users.weightCat._180_"/></option>
-                    <option value="_205_"><f:message key="users.weightCat._205_"/></option>
-                </select>
-            </div>
-            <div id="buttons">
-                <input type="hidden" id="userId" name="userId" value=""/>
-                <input type="hidden" id="usernameKey" name="usernameKey" value=""/>
-                <input type="submit" name="edit" value="<f:message key="users.editBtn"/>"/>
-                <input type="submit" name="delete" value="<f:message key="users.deleteBtn"/>"/>
-            </div>
+        <form id="searchForm" action="/ukazkaJQ.jsp" method="post">
+            <label for="searchUsername"><f:message key="users.findbyusername"/>:</label>
+            <input id="searchUsername" name="searchUsername" onkeyup="suggestJQResistant(this.value);" autocomplete="off"/>
+            <input type="submit" name="search" value="<f:message key="users.findBtn"/>"/>
         </form>
-    </div>
+        <div id="suggestions"></div>
 
-    <div id="loginForm"> 
-        <form name="login" action="" method="post">
-            <center>Username:</center>
-            <center><input name="username" size="14" /></center>
-            <center>Password:</center>
-            <center><input name="password" type="password" size="14" /></center>
-            <center><input type="submit" name="submit" value="Login" /></center>
-            <div id="loginStatus"></div>
-        </form>
-        <br />
-        <center><a id="closeLoginForm" href="">close</a></center> 
-    </div> 
+        <br/>
+        <div id="userInfo" style="display: none">
+            <form id="userForm" action="/ukazkaJQ.jsp" method="post">
+                <div>
+                    <label for="username"><f:message key="users.username"/>:</label>
+                    <input id="username" name="username" value=""/>
+                </div>
+                <div>
+                    <label for="name"><f:message key="users.name"/>:</label>
+                    <input id="name" name="name" value=""/>
+                </div>
+                <div>
+                    <label for="age"><f:message key="users.age"/>:</label>
+                    <input id="age" name="age" value=""/>
+                </div>
+                <div>
+                    <label for="sex"><f:message key="users.sex"/>:</label>
+                    <select id="sex" name="sex">
+                        <option value="Male"><f:message key="users.sex.male"/></option>
+                        <option value="Female"><f:message key="users.sex.female"/></option>
+                        <option value="Other"><f:message key="users.sex.other"/></option>
+                    </select>
+                </div>
+                <div>
+                    <label for="weightCategory"><f:message key="users.weightCategory"/>:</label>
+                    <select id="weightCategory" name="weightCategory">
+                        <option value="_130_"><f:message key="users.weightCat._130_"/></option>
+                        <option value="_155_"><f:message key="users.weightCat._155_"/></option>
+                        <option value="_180_"><f:message key="users.weightCat._180_"/></option>
+                        <option value="_205_"><f:message key="users.weightCat._205_"/></option>
+                    </select>
+                </div>
+                <div id="buttons">
+                    <input type="hidden" id="userId" name="userId" value=""/>
+                    <input type="hidden" id="usernameKey" name="usernameKey" value=""/>
+                    <input type="submit" name="edit" value="<f:message key="users.editBtn"/>"/>
+                    <input type="submit" name="delete" value="<f:message key="users.deleteBtn"/>"/>
+                </div>
+            </form>
+        </div>
 
-    <script type="text/javascript">
+        <script type="text/javascript">
 
+            //SEARCHBAR SUGGESTIONS
             function suggestJQ(str) {
                 if (str.length === 0) {
                     $("#suggestions").html("");
@@ -145,51 +147,41 @@
                     $("#suggestions").hide();
                     $("#suggestions").html("");
                 });
-            }authUser
+            }
 
+            //LOGIN
             $('#login').hover(
-                    function() {
-                        $(this).removeClass("link_");
-                        $(this).addClass("link_over");
-                    },
-                    function() {
-                        $(this).removeClass("link_over");
-                        $(this).addClass("link_");
-                    });
-//            $("#login").mouseover(function() {
-//                $("#login").addClass("link_over");
-//                $("#login").removeClass("link_");
-//            }
-//            );
-//            $("#login").mouseout(function() {
-//                $("#login").removeClass("link_over");
-//                $("#login").addClass("link_");
-//            });
-
-            $("#login").click(function() {
-                $("#loginForm").css("visibility", "visible");
+            function() {
+                $(this).removeClass("link_");
+                $(this).addClass("link_over");
+            },
+            function() {
+                $(this).removeClass("link_over");
+                $(this).addClass("link_");
             });
 
-            $("#closeLoginForm").click(closeLoginForm());
+            $("#login").click(function(event) {
+                event.preventDefault();
+                $("#loginForm").css("visibility", "visible");
+                $(".transparentWall").css("visibility", "visible");
+                $("#loginStatus").text("");
+            });
 
-            $("#loginForm").submit(processForm());
-
-            function closeLoginForm() {
+            $("#closeLoginForm").click(function(event) {
+                event.preventDefault();
                 $("#loginForm").css("visibility", "hidden");
-            }
+                $(".transparentWall").css("visibility", "hidden");
+            });
 
-            function failLogin(status) {
-                $("#loginStatus").text("Login failed: " + status);
-            }
-
-            function successLogin() {
-                closeLoginForm();
-                $("#welcome").text("Welcome, ");
-            }
+            $("#loginUserForm input[name=submit]").click(function(event) { 
+                event.preventDefault();
+                $("loginUserForm").submit(); 
+                processForm()
+            });
 
             function processForm() {
-                var data = '{"uname" : "' + $("#loginForm input[name=username]").val() + '", ' +
-                        '"pwd" : "' + $("#loginForm input[type=password]").val() + '" }';
+                var data = '{"username" : "' + $("#loginUserForm input[name=username]").val() + '", ' +
+                    '"password" : "' + $("#loginUserForm input[type=password]").val() + '" }';
                 var request = $.ajax({
                     url: "http://localhost:8080/CaloryCounter-Web/resources/profile/authUser",
                     type: "POST",
@@ -200,10 +192,31 @@
                     success: successLogin
                 });
                 request.fail(function(jqXHR, textStatus) {
-                    failLogin(textStatus);
+                    $("#loginForm").css("visibility", "visible");
+                    $("#loginStatus").text("Login failed: " + textStatus);
                 });
             }
+            
+            function successLogin(data) {
+                $("#loginForm").css("visibility", "hidden");
+                $(".transparentWall").css("visibility", "hidden");
+                $("#profile").children("a").remove(); 
+                $("#profile").prepend("<span id='myName'></span>");
+                $("#profile").append("<a id='logout' href=''>Log out</a>");
+                $("#myName").text(data.name);
+                console.log("Adding " + data.username + " to session.")
+                //                work with his session
+            }
+            
+            $("#logout").click(function(event) {
+                event.preventDefault();
+                console.log("Removing " + data.username + " from session.")
+                //                remove him from session
+                $("<a href=''></a>").click();
+            });
 
+
+            //SEARCHFORM
             $("#searchForm").submit(function(event) {
                 if ($("#searchForm input[type=submit][clicked=true]").attr("name") == "search") {
                     var request = $.ajax({
@@ -219,7 +232,7 @@
                 }
                 event.preventDefault();
             }
-            );
+        );
             function getUserSuccess(data) {
                 $("#userForm input[name='edit']").show();
                 $("#userForm input[name='delete']").show();
@@ -241,12 +254,12 @@
                 if ($("#username").val() == "") {
                 } else if ($("#userForm input[type=submit][clicked=true]").attr("name") == "edit") {
                     var data = '{ "username" : "' + $("#username").val() + '", ' +
-                            '"userId" : "' + $("#userId").val() + '", ' +
-                            '"password" : "' + $("#password").val() + '", ' +
-                            '"name" : "' + $("#name").val() + '", ' +
-                            '"sex" : "' + $("#sex").val() + '", ' +
-                            '"weightCategory" : "' + $("#weightCategory").val() + '", ' +
-                            '"age" : "' + $("#age").val() + '" }';
+                        '"userId" : "' + $("#userId").val() + '", ' +
+                        '"password" : "' + $("#password").val() + '", ' +
+                        '"name" : "' + $("#name").val() + '", ' +
+                        '"sex" : "' + $("#sex").val() + '", ' +
+                        '"weightCategory" : "' + $("#weightCategory").val() + '", ' +
+                        '"age" : "' + $("#age").val() + '" }';
                     var request = $.ajax({
                         url: "http://localhost:8080/CaloryCounter-Web/resources/profile/updateuser",
                         type: "PUT",
@@ -290,7 +303,7 @@
                 $(this).attr("clicked", "true");
             });
 
-    </script>
+        </script>
 
-</s:layout-component>
+    </s:layout-component>
 </s:layout-render>

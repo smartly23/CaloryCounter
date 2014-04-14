@@ -16,6 +16,7 @@
         </head>
 
         <body>
+            <div class="transparentWall"></div>
             <div id="main_container">
                 <div id="header">
                     <div id="logo"><s:link href="/index.jsp"><img src="${pageContext.request.contextPath}/images/logo.png" alt="logo" title="${topTitle}"/></s:link></div>

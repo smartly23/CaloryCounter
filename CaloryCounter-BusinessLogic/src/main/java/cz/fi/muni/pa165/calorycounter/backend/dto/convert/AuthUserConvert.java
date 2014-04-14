@@ -39,6 +39,7 @@ public class AuthUserConvert {
         authUserDto.setRole(entity.getUserRole());
         authUserDto.setWeightCategory(entity.getWeightCat());
         authUserDto.setUsername(entity.getUsername());
+        // password is one-way encoded, so its useless to put it into DTO; only new password may be generated
         return authUserDto;
     }
 }

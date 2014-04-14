@@ -213,21 +213,24 @@ public class ProfileRestResource {
      */
     @POST
     @Path("/authUser")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response authUser(@QueryParam("uname") String username, @QueryParam("pwd") String password) {
-        log.debug("Server: authUser() with username: " + username);
-        if (username == null) {
+    public Response authUser(AuthUserDto loggedUser) {
+        if (loggedUser == null || loggedUser.getUsername() == null || loggedUser.getPassword() == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        log.debug("Server: authUser() with username: " + loggedUser.getUsername());
         try {
-            user = userService.login(username, password);
+            user = userService.login(loggedUser.getUsername(), loggedUser.getPassword());
         } catch (RecoverableDataAccessException ex) {
             if (ex.getCause().getClass().equals(NoResultException.class)) {
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
             throw new WebApplicationException(ex, Response.Status.INTERNAL_SERVER_ERROR);
         }
-        return makeCORS(Response.status(Response.Status.OK).entity(user));
+        Response.ResponseBuilder builder = Response.status(Response.Status.OK);
+        builder.entity(user);
+        return makeCORS(builder);
     }
 
     /*

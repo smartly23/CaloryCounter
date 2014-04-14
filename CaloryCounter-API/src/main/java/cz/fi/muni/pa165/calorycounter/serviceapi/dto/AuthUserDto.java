@@ -13,6 +13,7 @@ public class AuthUserDto {
 
     private Long userId;
     private String username;
+    private String password;
     private String name;
     private String sex;
     private int age;
@@ -73,6 +74,14 @@ public class AuthUserDto {
 
     public void setWeightCategory(WeightCategory weightCategory) {
         this.weightCategory = weightCategory;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
